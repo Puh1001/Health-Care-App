@@ -4,6 +4,6 @@
 Mr.Phạm Ngọc Hưng
 
 # Menber
-Hoàng Văn Phú
-Nguyễn Thế Toại
-Nguyễn Xuân 
+Hoàng Văn Phú  
+Nguyễn Thế Toại  
+Nguyễn Xuân Khánh
