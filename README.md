@@ -3,7 +3,7 @@
 # Teacher
 Mr.Phạm Ngọc Hưng
 
-# Menber
+# Member
 Hoàng Văn Phú  
 Nguyễn Thế Toại  
 Nguyễn Xuân Khánh
