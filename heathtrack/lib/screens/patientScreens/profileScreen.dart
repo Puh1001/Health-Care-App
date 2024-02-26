@@ -38,7 +38,7 @@ class ProfileScreen extends StatelessWidget {
                     Infor('Name', "${patient.name}",onTouch: (value){patient.updateName(value);},),
                     Infor('Date of Birth', "${DateFormat('dd/MM/yyyy').format(patient.dateOfBirth)}",
                       onTouch: (value){ patient.updateDateOfBirth(value);},),
-                    Infor('Sex', "${patient.sex}",
+                    Infor('Gender', "${patient.sex}",
                       onTouch: (value){ patient.updateSex(value);},)
                   ]),
                   InforBar('Group Name', [

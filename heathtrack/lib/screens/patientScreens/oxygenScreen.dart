@@ -1,11 +1,28 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-class OxygenScreen extends StatelessWidget {
-  const OxygenScreen({super.key});
+class OxygenScreen extends StatefulWidget {
+
+   OxygenScreen({super.key});
 
   @override
+  State<OxygenScreen> createState() => _OxygenScreenState();
+}
+
+class _OxygenScreenState extends State<OxygenScreen> {
+  List <List<double>> listData = [
+  ];
+  addData(List<double> data){
+    setState(() {
+      listData.add(data);
+    });
+  }
+  double time = 0;
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(title: const Text('Oxygen saturation'),),
       backgroundColor: const Color(0xffe0f7fc),
@@ -17,7 +34,7 @@ class OxygenScreen extends StatelessWidget {
                 borderRadius: BorderRadius.only(bottomRight:Radius.circular(20) ,bottomLeft: Radius.circular(20))
             ),
 
-            child: const Column(
+            child:  Column(
                 children:[
                   SizedBox(height: 20,),
                   Row(children: [
@@ -32,20 +49,10 @@ class OxygenScreen extends StatelessWidget {
                   //   aspectRatio: 2,
                   //   child: TemperatureBarChart(),
                   // ),
-                  OxygenChart(),]
+                 OxygenChart(listData: listData),]
             ),
           ),
-          // const SizedBox(height: 20,),
-          // const Row(children: [
-          //   Icon(Icons.thermostat,color: Colors.red,size: 80,),
-          //   Text("37.3",style: TextStyle(fontSize: 45,color: Colors.blueGrey,fontWeight: FontWeight.bold),)
-          // ],),
-          // const SizedBox(height: 10,),
-          // // const AspectRatio(
-          // //   aspectRatio: 2,
-          // //   child: TemperatureBarChart(),
-          // // ),
-          // TemperatureChart(),
+
           const SizedBox(height: 20,),
           const OxygenInfo(name: 'Current oxygen saturation',value: '98.5',),
           const OxygenInfo(name: 'Average oxygen saturation',value: '98.1',),
@@ -54,7 +61,12 @@ class OxygenScreen extends StatelessWidget {
           const SizedBox(height: 50),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor:Colors.blueAccent ),
-            onPressed: (){},
+            onPressed: (){
+              Random ran = Random();
+              addData([time,double.parse((90 + ran.nextInt(11)).toString())]);
+              time +=1;
+              if(time>24) time =0;
+            },
             child: const Padding(
               padding: EdgeInsets.all(15),
               child: Text('Connect to device',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white)),
@@ -64,11 +76,15 @@ class OxygenScreen extends StatelessWidget {
     );
   }
 }
-class OxygenChart extends StatelessWidget {
-  const OxygenChart({super.key});
+class OxygenChart extends StatefulWidget {
+  List <List<double>> listData ;
+  OxygenChart({required this.listData});
+  @override
+  State<OxygenChart> createState() => _OxygenChartState();
+}
 
-  //List<FlSpot> tdata;
-  // TemperatureChart({super.key, required this.tdata});
+class _OxygenChartState extends State<OxygenChart> {
+
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -82,20 +98,10 @@ class OxygenChart extends StatelessWidget {
             minY: 90,
             maxY: 100,
             backgroundColor: Colors.white,
-            lineBarsData: [
+            lineBarsData:
+            [
               LineChartBarData(
-                spots: [
-                  FlSpot(0, 98),
-                  FlSpot(1, 98),
-                  FlSpot(2, 98.6),
-                  FlSpot(4, 99),
-                  FlSpot(8, 98.5),
-                  FlSpot(10, 98.1),
-                  FlSpot(16, 98.2),
-                  FlSpot(18, 97.8),
-                  FlSpot(20, 97.1),
-                  FlSpot(24, 98.5),
-                ],
+                spots: widget.listData.map((e) => FlSpot(e[0], e[1])).toList(),
                 isCurved: false,
                 color: Colors.pink,
                 dotData: const FlDotData(show: false),

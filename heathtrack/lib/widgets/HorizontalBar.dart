@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 class HorizontalBar extends StatelessWidget {
   final String label;
   final Icon icon;
-  HorizontalBar(this.icon,this.label);
+  final Function ontap;
+  HorizontalBar(this.icon,this.label, {required this.ontap});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){},
+      onTap: (){ ontap();},
         child: Container(
           height: 60,
           margin: const EdgeInsets.only(top:15, left: 15, right:15),
