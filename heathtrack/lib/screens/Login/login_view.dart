@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:heathtrack/screens/patientScreens/patientControlScreen.dart';
+import 'package:heathtrack/screens/watcherScreen/watcherHomeScreen.dart';
 import 'register_view.dart';
 
 class LoginView extends StatelessWidget {
@@ -145,7 +147,16 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                     borderRadius: BorderRadius.circular(20)),
                 child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if(_dropdownValue == "Watchers"){
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context)=>WatcherHomeScreen()));
+                      }
+                      if(_dropdownValue == "Patients"){
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context)=>PatientControlScreen()));
+                      }
+                    },
                     child: const Text(
                       'LOGIN',
                       style: TextStyle(

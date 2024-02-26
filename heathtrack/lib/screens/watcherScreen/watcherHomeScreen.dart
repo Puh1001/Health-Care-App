@@ -10,7 +10,7 @@ class WatcherHomeScreen extends StatefulWidget {
 }
 
 class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
-  bool mySwitch = false;
+  bool mySwitch = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
