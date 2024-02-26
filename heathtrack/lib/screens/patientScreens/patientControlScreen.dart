@@ -21,10 +21,7 @@ class _PatientControlScreenState extends State<PatientControlScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      //home: WatcherHomeScreen()
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: const Color(0xfff7f7f7),
         body: _children[selectedIndex],
         bottomNavigationBar: Container(
@@ -60,7 +57,6 @@ class _PatientControlScreenState extends State<PatientControlScreen> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

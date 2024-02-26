@@ -2,15 +2,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heathtrack/widgets/chart.dart';
-class TemperatureScreen extends StatefulWidget {
+class BloodPressureScreen extends StatefulWidget {
 
-  const TemperatureScreen({super.key});
+  const BloodPressureScreen({super.key});
 
   @override
-  State<TemperatureScreen> createState() => _TemperatureScreenState();
+  State<BloodPressureScreen> createState() => _BloodPressureScreenState();
 }
 
-class _TemperatureScreenState extends State<TemperatureScreen> {
+class _BloodPressureScreenState extends State<BloodPressureScreen> {
   List <double> listData = [];
 
   addData(double data){
@@ -30,7 +30,7 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
     minValue = listData.isEmpty?0:listData.reduce(min);
     average = listData.isEmpty?0:(listData.reduce((a, b) => a + b) / listData.length);
     return Scaffold(
-      appBar: AppBar(title: const Text('Body temperature'),),
+      appBar: AppBar(title: const Text('Blood pressure'),),
       backgroundColor: const Color(0xffF0E6E0),
       body: Column(
         children: [
@@ -46,9 +46,9 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
                   Row(children: [
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Icon(FontAwesomeIcons.temperatureFull,color: Colors.red,size: 60,),
+                      child: Icon(FontAwesomeIcons.droplet,color: Colors.red,size: 60,),
                     ),
-                    Text("$currentValue °C",style: const TextStyle(fontSize: 45,color: Colors.blueGrey,fontWeight: FontWeight.bold),)
+                    Text("$currentValue mmHg",style: const TextStyle(fontSize: 45,color: Colors.blueGrey,fontWeight: FontWeight.bold),)
                   ],),
                   const SizedBox(height: 10,),
                   Chart(listData: listData,max:maxValue),]
@@ -56,10 +56,10 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
           ),
 
           const SizedBox(height: 20,),
-          DataBar(name: 'Current temperature',value: '$currentValue',),
-          DataBar(name: 'Average temperature',value: '${(average * pow(10, 1)).round() / pow(10, 1)}',),
-          DataBar(name: 'Max temperature',value: '$maxValue',),
-          DataBar(name: 'Min temperature',value: '$minValue',),
+          DataBar(name: 'Current Blood pressure',value: '$currentValue',),
+          DataBar(name: 'Average Blood pressure',value: '${(average * pow(10, 1)).round() / pow(10, 1)}',),
+          DataBar(name: 'Max Blood pressure',value: '$maxValue',),
+          DataBar(name: 'Min Blood pressure',value: '$minValue',),
           const SizedBox(height: 50),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor:Colors.red ),

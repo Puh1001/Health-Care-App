@@ -1,28 +1,34 @@
 import 'dart:math';
-
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:heathtrack/widgets/chart.dart';
 class OxygenScreen extends StatefulWidget {
 
-   OxygenScreen({super.key});
+   const OxygenScreen({super.key});
 
   @override
   State<OxygenScreen> createState() => _OxygenScreenState();
 }
 
 class _OxygenScreenState extends State<OxygenScreen> {
-  List <List<double>> listData = [
-  ];
-  addData(List<double> data){
+  List <double> listData = [];
+
+  addData(double data){
     setState(() {
       listData.add(data);
     });
   }
-  double time = 0;
+  double time = DateTime.now().hour.toDouble() +  DateTime.now().minute.toDouble()/60;
+  double? currentValue ;
+  double? maxValue ;
+  double? minValue;
+  double?  average ;
   @override
   Widget build(BuildContext context) {
-
+    currentValue = listData.isEmpty?0:listData[listData.length-1];
+    maxValue = listData.isEmpty?0:listData.reduce(max);
+    minValue = listData.isEmpty?0:listData.reduce(min);
+    average = listData.isEmpty?0:(listData.reduce((a, b) => a + b) / listData.length);
     return Scaffold(
       appBar: AppBar(title: const Text('Oxygen saturation'),),
       backgroundColor: const Color(0xffe0f7fc),
@@ -36,36 +42,30 @@ class _OxygenScreenState extends State<OxygenScreen> {
 
             child:  Column(
                 children:[
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Row(children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.0),
                       child: Icon(FontAwesomeIcons.o,color: Colors.blueAccent,size: 60,),
                     ),
-                    Text("98.5 %",style: TextStyle(fontSize: 45,color: Colors.blueGrey,fontWeight: FontWeight.bold),)
+                    Text("$currentValue %",style: const TextStyle(fontSize: 45,color: Colors.blueGrey,fontWeight: FontWeight.bold),)
                   ],),
-                  SizedBox(height: 10,),
-                  // const AspectRatio(
-                  //   aspectRatio: 2,
-                  //   child: TemperatureBarChart(),
-                  // ),
-                 OxygenChart(listData: listData),]
+                  const SizedBox(height: 10,),
+                 Chart(listData: listData),]
             ),
           ),
 
           const SizedBox(height: 20,),
-          const OxygenInfo(name: 'Current oxygen saturation',value: '98.5',),
-          const OxygenInfo(name: 'Average oxygen saturation',value: '98.1',),
-          const OxygenInfo(name: 'Max oxygen saturation',value: '99.0',),
-          const OxygenInfo(name: 'Min oxygen saturation',value: '97.1',),
+          DataBar(name: 'Current oxygen saturation',value: '$currentValue',),
+          DataBar(name: 'Average oxygen saturation',value: '${(average! * pow(10, 1)).round() / pow(10, 1)}',),
+          DataBar(name: 'Max oxygen saturation',value: '$maxValue',),
+          DataBar(name: 'Min oxygen saturation',value: '$minValue',),
           const SizedBox(height: 50),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor:Colors.blueAccent ),
             onPressed: (){
               Random ran = Random();
-              addData([time,double.parse((90 + ran.nextInt(11)).toString())]);
-              time +=1;
-              if(time>24) time =0;
+              addData((90 + ran.nextInt(11)).toDouble());
             },
             child: const Padding(
               padding: EdgeInsets.all(15),
@@ -76,77 +76,6 @@ class _OxygenScreenState extends State<OxygenScreen> {
     );
   }
 }
-class OxygenChart extends StatefulWidget {
-  List <List<double>> listData ;
-  OxygenChart({required this.listData});
-  @override
-  State<OxygenChart> createState() => _OxygenChartState();
-}
 
-class _OxygenChartState extends State<OxygenChart> {
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 2,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        child: LineChart(
-          LineChartData(
-            minX: 0,
-            maxX: 24,
-            minY: 90,
-            maxY: 100,
-            backgroundColor: Colors.white,
-            lineBarsData:
-            [
-              LineChartBarData(
-                spots: widget.listData.map((e) => FlSpot(e[0], e[1])).toList(),
-                isCurved: false,
-                color: Colors.pink,
-                dotData: const FlDotData(show: false),
-              ),
-            ],
-            titlesData: const FlTitlesData(
-              bottomTitles: AxisTitles(sideTitles: SideTitles(
-                showTitles: true,
-              ),),
-              topTitles: AxisTitles(sideTitles: SideTitles(
-                showTitles: false,
-              ),),
-            ),
-            gridData: const FlGridData(show: false),
-            borderData: FlBorderData(show: false),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class OxygenInfo extends StatelessWidget {
-  const OxygenInfo({super.key, required this.name,required this.value});
-  final String name;
-  final String value;
-  @override
-  Widget build(BuildContext context) {
-
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
-      margin: const EdgeInsets.only(right: 20,left: 20,top:10),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10)
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(name,style: const TextStyle(fontSize: 18),),
-          Text(value,style: const TextStyle(fontSize: 18),)
-        ],
-      ),
-    );
-  }
-}
 
 

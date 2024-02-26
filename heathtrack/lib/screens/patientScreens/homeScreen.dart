@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:heathtrack/screens/patientScreens/bloodPressureScreen.dart';
+import 'package:heathtrack/screens/patientScreens/glucoseLevelScreen.dart';
+import 'package:heathtrack/screens/patientScreens/heartRateScreen.dart';
 import 'package:heathtrack/screens/patientScreens/oxygenScreen.dart';
 import 'package:heathtrack/screens/patientScreens/sosScreen.dart';
 import 'package:heathtrack/screens/patientScreens/temperatureScreen.dart';
@@ -61,7 +64,9 @@ class HomeScreen extends StatelessWidget {
                               "101",
                               'bpm',
                               background: Color(0xffD4F4DC),
-                              ontap: (){},),
+                              ontap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>  HeartRateScreen()));
+                              },),
                             const SizedBox(width: 15,),
                             Metrics(const Icon(
                               FontAwesomeIcons.droplet ,
@@ -71,7 +76,9 @@ class HomeScreen extends StatelessWidget {
                               "125",
                               'mmHg',
                               background: Color(0xffF7CECD),
-                              ontap: (){},),
+                              ontap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>  BloodPressureScreen()));
+                              },),
                           ],
                         ),
                         const SizedBox(height: 15,),
@@ -100,7 +107,7 @@ class HomeScreen extends StatelessWidget {
                               '°C',
                               background:Color(0xffF4EDD4),
                               ontap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> const TemperatureScreen()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> TemperatureScreen()));
                               },
                             ),
                           ],
@@ -114,7 +121,9 @@ class HomeScreen extends StatelessWidget {
                               "138",
                               'mg/DL',
                               background: Color(0xffDAD4F4),
-                              ontap: (){},),
+                              ontap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>  GlucoseLevelScreen()));
+                              },),
                             const SizedBox(width: 15,),
                             Metrics(
                               const Icon(FontAwesomeIcons.personRunning,color: Colors.white,size: 50,),

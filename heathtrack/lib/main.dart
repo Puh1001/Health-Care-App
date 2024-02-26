@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:heathtrack/screens/Login/loginScreen.dart';
+import 'package:heathtrack/screens/Login/login_view.dart';
 import 'package:heathtrack/screens/patientScreens/homeScreen.dart';
 import 'package:heathtrack/screens/patientScreens/patientControlScreen.dart';
 import 'package:heathtrack/screens/patientScreens/profileScreen.dart';
@@ -24,7 +24,7 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
       create: (context)=> Patient(name: "Khanh", sex: 'female', dateOfBirth: DateTime(2000,4,3)),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-          home: LoginScreen()
+          home: LoginView()
       )
     );
   }

@@ -20,7 +20,7 @@ class _SummaryWGState extends State<SummaryWG> {
         'api.openweathermap.org',
         '/data/2.5/weather',
         {
-          'q' : 'hà nội',
+          'q' : 'hà đông',
           'units' : 'metric',
           'appid' : 'e0ea7c2430957c0b90c7a6375a5f8cba',
           //'lang' : 'vi'

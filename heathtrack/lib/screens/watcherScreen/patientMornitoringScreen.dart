@@ -119,7 +119,7 @@ class PatientMornitoringScreen extends StatelessWidget {
                         '°C',
                         background:Color(0xffF4EDD4),
                         ontap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const TemperatureScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> TemperatureScreen()));
                         },
                       ),
                     ],

@@ -66,7 +66,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 TextField(
                   controller: passwordController,
-                  obscureText: true,
+                  obscureText: !_passwordVisible,
                   // keyboardType: TextInputType.,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.lock),

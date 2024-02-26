@@ -16,7 +16,6 @@ class Metrics extends StatelessWidget {
       flex: 1,
       child: GestureDetector(
         onTap: (){
-          print("tap ${label}");
           ontap!();
           },
         child: Container(

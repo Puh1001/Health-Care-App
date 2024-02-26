@@ -2,15 +2,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heathtrack/widgets/chart.dart';
-class TemperatureScreen extends StatefulWidget {
+class GlucoseLevelScreen extends StatefulWidget {
 
-  const TemperatureScreen({super.key});
+  const GlucoseLevelScreen({super.key});
 
   @override
-  State<TemperatureScreen> createState() => _TemperatureScreenState();
+  State<GlucoseLevelScreen> createState() => _GlucoseLevelScreenState();
 }
 
-class _TemperatureScreenState extends State<TemperatureScreen> {
+class _GlucoseLevelScreenState extends State<GlucoseLevelScreen> {
   List <double> listData = [];
 
   addData(double data){
@@ -30,8 +30,8 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
     minValue = listData.isEmpty?0:listData.reduce(min);
     average = listData.isEmpty?0:(listData.reduce((a, b) => a + b) / listData.length);
     return Scaffold(
-      appBar: AppBar(title: const Text('Body temperature'),),
-      backgroundColor: const Color(0xffF0E6E0),
+      appBar: AppBar(title: const Text('Glucose level'),),
+      backgroundColor: const Color(0xffd8d2f3),
       body: Column(
         children: [
           Container(
@@ -46,9 +46,9 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
                   Row(children: [
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Icon(FontAwesomeIcons.temperatureFull,color: Colors.red,size: 60,),
+                      child: Icon(FontAwesomeIcons.g,color: Colors.purpleAccent,size: 60,),
                     ),
-                    Text("$currentValue °C",style: const TextStyle(fontSize: 45,color: Colors.blueGrey,fontWeight: FontWeight.bold),)
+                    Text("$currentValue mg/DL",style: const TextStyle(fontSize: 45,color: Colors.blueGrey,fontWeight: FontWeight.bold),)
                   ],),
                   const SizedBox(height: 10,),
                   Chart(listData: listData,max:maxValue),]
@@ -56,13 +56,13 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
           ),
 
           const SizedBox(height: 20,),
-          DataBar(name: 'Current temperature',value: '$currentValue',),
-          DataBar(name: 'Average temperature',value: '${(average * pow(10, 1)).round() / pow(10, 1)}',),
-          DataBar(name: 'Max temperature',value: '$maxValue',),
-          DataBar(name: 'Min temperature',value: '$minValue',),
+          DataBar(name: 'Current Glucose level',value: '$currentValue',),
+          DataBar(name: 'Average Glucose level',value: '${(average * pow(10, 1)).round() / pow(10, 1)}',),
+          DataBar(name: 'Max Glucose level',value: '$maxValue',),
+          DataBar(name: 'Min Glucose level',value: '$minValue',),
           const SizedBox(height: 50),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor:Colors.red ),
+            style: ElevatedButton.styleFrom(backgroundColor:Colors.purpleAccent ),
             onPressed: (){
               Random ran = Random();
               addData((35 + ran.nextInt(6)).toDouble());
