@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heathtrack/screens/patientScreens/patientControlScreen.dart';
-import 'package:heathtrack/screens/watcherScreen/watcherHomeScreen.dart';
+import '../watcherScreen/watcherControlScreen.dart';
 import 'register_view.dart';
 
 class LoginView extends StatelessWidget {
@@ -150,11 +150,11 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: () {
                       if(_dropdownValue == "Watchers"){
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context)=>WatcherHomeScreen()));
+                            MaterialPageRoute(builder: (context)=>const WatcherControlScreen()));
                       }
                       if(_dropdownValue == "Patients"){
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context)=>PatientControlScreen()));
+                            MaterialPageRoute(builder: (context)=>const PatientControlScreen()));
                       }
                     },
                     child: const Text(

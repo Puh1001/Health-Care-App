@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 class Patient with ChangeNotifier{
   String name;
-  DateTime dateOfBirth;
-  String sex;
+  String id;
+  DateTime? dateOfBirth;
+  String? sex = 'No information';
 
   String? address;
   String? phoneNumber;
@@ -17,10 +18,13 @@ class Patient with ChangeNotifier{
   double? oxygenSaturation =0;
   int? bloodGlucoseLevel =0;
 
+  String diagnose;
   Patient({
     required this.name,
-    required this.dateOfBirth,
-    required this.sex,
+    this.id = '',
+    this.dateOfBirth,
+    this.sex,
+    this.diagnose = 'No information',
     this.address,
     this.phoneNumber,
     this.email,

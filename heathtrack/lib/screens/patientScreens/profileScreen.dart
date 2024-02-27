@@ -16,14 +16,12 @@ class ProfileScreen extends StatelessWidget {
     (BuildContext context,patient,child){
       return Stack(
         children: [
-
           SingleChildScrollView(
             child: Container(
-              color: Color(0xfff7f7f7),
+              color: const Color(0xfff7f7f7),
               padding: const EdgeInsets.only(top: 100),
               child: Column(
                 children: [
-
                   Container(
                     margin: const EdgeInsets.only(bottom:10),
                     height: 100,
@@ -32,11 +30,11 @@ class ProfileScreen extends StatelessWidget {
                       color: Colors.grey,
                     ),
                   ),
-                  Text("${shortenName("${patient.name}")}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
+                  Text(shortenName("${patient.name}"),style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
                   const SizedBox(height: 10,),
                   InforBar('Main Infomations', [
-                    Infor('Name', "${patient.name}",onTouch: (value){patient.updateName(value);},),
-                    Infor('Date of Birth', "${DateFormat('dd/MM/yyyy').format(patient.dateOfBirth)}",
+                    Infor('Name', patient.name,onTouch: (value){patient.updateName(value);},),
+                    Infor('Date of Birth', (patient.dateOfBirth == null)?'No information':DateFormat('dd/MM/yyyy').format(patient.dateOfBirth!),
                       onTouch: (value){ patient.updateDateOfBirth(value);},),
                     Infor('Gender', "${patient.sex}",
                       onTouch: (value){ patient.updateSex(value);},)
@@ -60,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           Container(
             height: 85,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xfff7f7f7),
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30)),
             ),),
@@ -78,7 +76,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text('Edit',style: TextStyle(fontSize: 18,color: Colors.blueAccent),),)),
+                child: const Text('Edit',style: TextStyle(fontSize: 18,color: Colors.blueAccent),),)),
         ],
       );
     }

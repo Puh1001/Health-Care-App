@@ -1,24 +1,23 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
-import '../screens/watcherScreen/patientMornitoringScreen.dart';
 class PatientCard extends StatelessWidget {
-  const PatientCard({super.key});
-
+  PatientCard({super.key, required this.name, this.age,required this.diagnose, required this.ontap});
+  String name;
+  int? age;
+  String diagnose;
+  final Function ontap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context)=>PatientMornitoringScreen()));
+        ontap();
       },
       child: Container(
-        margin: EdgeInsets.only(top:30),
-        padding: EdgeInsets.all(20),
+        margin: const EdgeInsets.only(top:20),
+        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
         decoration: BoxDecoration(
             boxShadow: [BoxShadow(
-              offset: Offset(0,4),
+              offset: const Offset(0,4),
               blurRadius: 10,
               color: Colors.grey.shade300
             )],
@@ -28,23 +27,26 @@ class PatientCard extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              flex: 1,
-              child: Container(
-                height: 30,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
+              flex: 2,
+              child: AspectRatio(
+                aspectRatio: 1/1.2,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
             ),
             const SizedBox(width: 10,),
-            const Expanded(
-              flex: 3,
+             Expanded(
+              flex: 7,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Patient\'s name', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                    Text('Age: 55',style: TextStyle(fontSize: 16),),
-                    Text('Diagnose: Normal',style: TextStyle(fontSize: 16),)
+                    Text(name, style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                    Text((age == null)?'Age: No information':'Age: $age',style: const TextStyle(fontSize: 16),),
+                    Text('Diagnose: $diagnose',style: const TextStyle(fontSize: 16),)
               ],
             ))
           ],
