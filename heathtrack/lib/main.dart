@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:heathtrack/screens/Login/login_view.dart';
 import 'package:provider/provider.dart';
 import 'objects/patient.dart';
 
-main () => runApp(const HeathTrackApp());
+main() => runApp(const HeathTrackApp());
 
 class HeathTrackApp extends StatefulWidget {
   const HeathTrackApp({super.key});
@@ -24,4 +23,3 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
     );
   }
 }
-
