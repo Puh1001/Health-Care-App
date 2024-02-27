@@ -13,43 +13,45 @@ class _SosScreenState extends State<SosScreen> {
     showModalBottomSheet(context: context,
         elevation: 5,
         isScrollControlled: true,
-        builder: (_)=>Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-              topRight: Radius.circular(20),
-              topLeft: Radius.circular(20),
-            )
-          ),
-          width: MediaQuery.sizeOf(context).width,
-          height: 270,
-          child: Column(
-            children: [
-              Text('New emergency contact', style: TextStyle(
-                fontSize: 20,
-              ),),
-              TextField(
-                decoration: InputDecoration(
-                  label: Text('Contact name'),
-                ),
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  label: Text('Phone number'),
-                ),
-              ),
-              const SizedBox(height: 20,),
-              ElevatedButton(
-                  onPressed: (){}, 
-                  child: Text('Add new'),
-                  style: ButtonStyle(
-                    padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 30,vertical: 10)),
-                    backgroundColor: MaterialStatePropertyAll(Colors.red),
-                    foregroundColor: MaterialStatePropertyAll(Colors.white)
+        builder: (_)=>SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(top:20, left: 20,right: 20,
+                bottom: MediaQuery.of(context).viewInsets.bottom+ 20),
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20),
+                topLeft: Radius.circular(20),
+              )
+            ),
+            width: MediaQuery.sizeOf(context).width,
+            child: Column(
+              children: [
+                Text('New emergency contact', style: TextStyle(
+                  fontSize: 20,
+                ),),
+                TextField(
+                  decoration: InputDecoration(
+                    label: Text('Contact name'),
                   ),
-              ),
-            ],
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    label: Text('Phone number'),
+                  ),
+                ),
+                const SizedBox(height: 20,),
+                ElevatedButton(
+                    onPressed: (){},
+                    style: const ButtonStyle(
+                      padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 30,vertical: 10)),
+                      backgroundColor: MaterialStatePropertyAll(Colors.red),
+                      foregroundColor: MaterialStatePropertyAll(Colors.white)
+                    ),
+                    child: const Text('Add new'),
+                ),
+              ],
+            ),
           ),
         ));
   }

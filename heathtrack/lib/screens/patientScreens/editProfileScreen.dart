@@ -11,7 +11,7 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  late DateTime date = Provider.of<Patient>(context, listen: false).dateOfBirth;
+  late DateTime? date = Provider.of<Patient>(context, listen: false).dateOfBirth;
   @override
   Widget build(BuildContext context) {
     return Consumer<Patient>(
@@ -73,7 +73,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   }
                 },
                   child:
-                  Text("${DateFormat('dd/MM/yyyy').format(date)}",
+                  Text("${DateFormat('dd/MM/yyyy').format(date!)}",
                     style: TextStyle(fontSize: 18,color: Colors.blueGrey),
                   ),
                 ),
