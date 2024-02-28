@@ -9,7 +9,7 @@ const authRouter = express.Router();
 // REGISTER
 authRouter.post("/api/register", async (req, res) => {
   try {
-    const { name, email, password, familyCode } = req.body;
+    const { name, email, password, familyCode, type } = req.body;
 
     const existingUser = await User.findOne({
       email,
@@ -22,7 +22,10 @@ authRouter.post("/api/register", async (req, res) => {
     const existingFamilyCode = await User.findOne({
       familyCode,
     });
-    if (existingFamilyCode) {
+    const existingType = await User.findOne({
+      type,
+    });
+    if (existingFamilyCode && existingType == "watcher") {
       return res
         .status(400)
         .json({ msg: "User with same family code already exists!" });
@@ -35,6 +38,7 @@ authRouter.post("/api/register", async (req, res) => {
       password: hashedPassword,
       name,
       familyCode,
+      type,
     });
 
     user = await user.save();
@@ -55,6 +59,12 @@ authRouter.post("/api/login", async (req, res) => {
       return res
         .status(400)
         .json({ msg: "User with this email does not exist!!" });
+    }
+    const fCode = await User.findOne({ familyCode });
+    if (!fCode) {
+      return res
+        .status(400)
+        .json({ msg: "Family code with this email wrong!!" });
     }
     const isMatch = await bcryptjs.compare(password, user.password);
     if (!isMatch) {

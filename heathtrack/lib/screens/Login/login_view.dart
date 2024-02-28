@@ -119,14 +119,14 @@ class _LoginFormState extends State<LoginForm> {
             ),
             const Padding(
               padding: EdgeInsets.only(left: 16.0, top: 10),
-              child: Text('Family name'),
+              child: Text('Family Code'),
             ),
             TextField(
               controller: familyCodeController,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.home),
-                hintText: 'Type your family name',
+                hintText: 'Type your family code',
                 border: UnderlineInputBorder(),
                 // labelText: "Username"
               ),
