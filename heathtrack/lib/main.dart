@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/router.dart';
 import 'package:heathtrack/screens/Login/login_view.dart';
+import 'package:heathtrack/screens/patientScreens/patientControlScreen.dart';
+import 'package:heathtrack/screens/watcherScreen/watcherControlScreen.dart';
 import 'package:heathtrack/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'objects/patient.dart';
@@ -20,6 +22,13 @@ class HeathTrackApp extends StatefulWidget {
 
 class _HeathTrackAppState extends State<HeathTrackApp> {
   final AuthService authService = AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+    authService.getUserData(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -32,6 +41,10 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             onGenerateRoute: (settings) => generateRoute(settings),
-            home: const LoginView()));
+            home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+                ? Provider.of<UserProvider>(context).user.type == 'user'
+                    ? const WatcherControlScreen()
+                    : const PatientControlScreen()
+                : const LoginView()));
   }
 }
