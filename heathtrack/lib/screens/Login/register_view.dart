@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:heathtrack/services/authService.dart';
 
 class RegisterView extends StatelessWidget {
+  static const String routeName = '/register';
   const RegisterView({super.key});
 
   @override
@@ -30,10 +31,12 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   AuthService authService = AuthService();
-  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordCheckController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController familyCodeController = TextEditingController();
+
   bool _passwordVisible = false;
   bool _repeatPasswordVisible = false;
 
@@ -42,7 +45,8 @@ class _RegisterFormState extends State<RegisterForm> {
         context: context,
         email: emailController.text,
         password: passwordController.text,
-        name: userNameController.text);
+        name: userNameController.text,
+        familyCode: familyCodeController.text);
   }
 
   @override

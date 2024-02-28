@@ -23,6 +23,14 @@ const userSchema = mongoose.Schema({
     require: true,
     type: String,
   },
+  familyCode: {
+    require: true,
+    type: String,
+  },
+  role: {
+    type: String,
+    default: "Watcher",
+  },
   address: {
     type: String,
     default: "",
