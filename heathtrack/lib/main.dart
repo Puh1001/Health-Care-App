@@ -41,13 +41,11 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             onGenerateRoute: (settings) => generateRoute(settings),
-            home: const WatcherControlScreen()
-            // home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-            //     ? Provider.of<UserProvider>(context).user.type == 'user'
-            //         ? const WatcherControlScreen()
-            //         : const PatientControlScreen()
-            //     : const LoginView()
-        )
-    );
+            // home: const LoginView()));
+            home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+                ? Provider.of<UserProvider>(context).user.type == 'watcher'
+                    ? const WatcherControlScreen()
+                    : const PatientControlScreen()
+                : const LoginView()));
   }
 }

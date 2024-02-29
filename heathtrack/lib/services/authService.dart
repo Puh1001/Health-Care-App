@@ -46,7 +46,7 @@ class AuthService {
         response: res,
         context: context,
         onSucess: () {
-          showSnackBar(context, 'Accout created!');
+          showSnackBar(context, 'Account created!');
         },
       );
     } catch (e) {
