@@ -7,6 +7,7 @@ import 'package:heathtrack/screens/watcherScreen/watcherControlScreen.dart';
 import 'package:heathtrack/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'objects/patient.dart';
+import 'package:heathtrack/widgets/updateInfoView.dart';
 
 main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(
@@ -16,6 +17,7 @@ main() => runApp(MultiProvider(providers: [
 
 class HeathTrackApp extends StatefulWidget {
   const HeathTrackApp({super.key});
+
   @override
   State<HeathTrackApp> createState() => _HeathTrackAppState();
 }
