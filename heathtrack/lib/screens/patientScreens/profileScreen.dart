@@ -38,23 +38,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   image != null
                       ? Container(
-                          child: Image.file(image!, fit: BoxFit.cover),
+                          child: Image.file(
+                            image!,
+                            fit: BoxFit.cover,
+                          ),
                         )
                       : GestureDetector(
-                          onTap: selectImage,
+                          onTap: () async {
+                            File? pickedImage = await pickImage();
+                            if (pickedImage != null) {
+                              setState(() {
+                                image = pickedImage;
+                              });
+                            }
+                          },
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 10),
                             height: 100,
+                            width: 100,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.grey,
+                            ),
+                            child: Icon(
+                              Icons.add_a_photo,
+                              color: Colors.white,
+                              size: 40,
                             ),
                           ),
                         ),
                   Text(
                     shortenName("${patient.name}"),
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 30),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    ),
                   ),
                   const SizedBox(
                     height: 10,
