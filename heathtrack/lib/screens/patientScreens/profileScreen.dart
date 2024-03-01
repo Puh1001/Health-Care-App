@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/objects/patient.dart';
 import 'package:heathtrack/screens/patientScreens/editProfileScreen.dart';
+import 'package:heathtrack/services/watcherService.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +26,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  final WatcherService watcherService = WatcherService();
+
+  void addPatientProfile(){
+    watcherService.addPatientProfile(context: context, name: name, dateOfBirth: dateOfBirth, gender: gender, phoneNumber: phoneNumber, email: email, height: height, weight: weight, bmi: bmi, image: image)
+  }
   @override
   Widget build(BuildContext context) {
     return Consumer<Patient>(builder: (BuildContext context, patient, child) {
