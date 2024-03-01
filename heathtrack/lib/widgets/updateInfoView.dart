@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class UpdateInfoView extends StatelessWidget {
   const UpdateInfoView({super.key});
@@ -37,6 +38,8 @@ class _InputFormState extends State<InputForm> {
   String? selectedBlood = 'A';
   List<String> sexItems = ['Male', 'Female', 'Other'];
   String? selectedSex = 'Male';
+  DateTime? dateTime;
+  String? formatDate;
   @override
 
   Widget build(BuildContext context) {
@@ -112,34 +115,16 @@ class _InputFormState extends State<InputForm> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
-          child: Text('Your choose: ${_dateTime.toString()}',
-            style: TextStyle(
+          child: Text('Your choose: ${formatDate ?? ' ' }',
+            style: const TextStyle(
               fontSize: 15
             ),
           ),
         ),
       ],
     );
-    // return TextFormField(
-    //   controller: doBController,
-    //   decoration: InputDecoration(
-    //       border: const OutlineInputBorder(),
-    //       hintText: "Choose your date of birth",
-    //       labelText: 'Date of birth',
-    //       suffixIcon: IconButton(
-    //         onPressed: () {
-    //           _showDatePicker();
-    //         },
-    //         icon: const Icon(Icons.calendar_month),
-    //       )
-    //
-    //   ),
-    //   validator: (value){
-    //     return (value!.isEmpty) ? 'Date of birth is required' : null;
-    //   },
-    // );
   }
-  DateTime _dateTime = DateTime.now();
+  //bảng chọn lịch
   void _showDatePicker(){
     showDatePicker(
         context: context,
@@ -147,7 +132,8 @@ class _InputFormState extends State<InputForm> {
         lastDate: DateTime.now()
     ).then((value) {
       setState(() {
-        _dateTime = value!;
+        dateTime = value!;
+        formatDate = DateFormat('dd/MM/yyyy').format(dateTime!);
       });
     });
   }
@@ -244,6 +230,7 @@ class _InputFormState extends State<InputForm> {
       ],
     );
   }
+  //xây dựng nút hủy cập nhật và nút lưu
   Widget buildButton(){
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -277,7 +264,7 @@ class _InputFormState extends State<InputForm> {
           child: TextButton(
               onPressed: (){
                 String name = nameController.text;
-                String doB = _dateTime.toString();
+                String doB = dateTime.toString();
                 String height = heightController.text;
                 String weight = weightController.text;
                 String sex = sexController.text;
