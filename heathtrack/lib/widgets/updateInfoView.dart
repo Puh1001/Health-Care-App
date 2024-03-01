@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+//giao diện cập nhật thông tin người dùng
 class UpdateInfoView extends StatelessWidget {
   const UpdateInfoView({super.key});
 

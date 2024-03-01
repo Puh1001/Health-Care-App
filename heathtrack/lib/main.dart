@@ -7,7 +7,6 @@ import 'package:heathtrack/screens/watcherScreen/watcherControlScreen.dart';
 import 'package:heathtrack/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'objects/patient.dart';
-import 'package:heathtrack/widgets/updateInfoView.dart';
 
 main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(
@@ -48,6 +47,8 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
                 ? Provider.of<UserProvider>(context).user.type == 'watcher'
                     ? const PatientControlScreen()
                     : const PatientControlScreen()
-                : const LoginView()));
+                : const LoginView()
+        )
+    );
   }
 }

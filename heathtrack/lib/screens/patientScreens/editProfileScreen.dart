@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +27,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text('Edit infomation'),
+            title: const Text('Edit information'),
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
             actions: [
@@ -43,7 +41,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     );
                     Navigator.pop(context);
                   },
-                  child: Text(
+                  child: const Text(
                     'Done',
                     style: TextStyle(color: Colors.blueAccent, fontSize: 20),
                   )),
@@ -54,7 +52,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
           body: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,10 +70,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       //border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
-                  Text(
+                  const Text(
                     'Date of birth',
                     style: TextStyle(fontSize: 14),
                   ),
@@ -95,8 +93,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       }
                     },
                     child: Text(
-                      "${DateFormat('dd/MM/yyyy').format(date!)}",
-                      style: TextStyle(fontSize: 18, color: Colors.blueGrey),
+                      DateFormat('dd/MM/yyyy').format(date!),
+                      style: const TextStyle(fontSize: 18, color: Colors.blueGrey),
                     ),
                   ),
                   Container(
@@ -108,7 +106,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   TextField(
                     controller: phoneNumberController,
-                    style: TextStyle(fontSize: 20, color: Colors.blueGrey),
+                    style: const TextStyle(fontSize: 20, color: Colors.blueGrey),
                     decoration: const InputDecoration(
                       label: Text(
                         'Phone number',
