@@ -18,18 +18,31 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  File? image;
-  void selectImage() async {
-    var res = await pickImage();
-    setState() {
-      image = res;
-    }
-  }
+  File image = File('images/avatar.png');
 
   final WatcherService watcherService = WatcherService();
 
-  void addPatientProfile(){
-    watcherService.addPatientProfile(context: context, name: name, dateOfBirth: dateOfBirth, gender: gender, phoneNumber: phoneNumber, email: email, height: height, weight: weight, bmi: bmi, image: image)
+  // void addPatientProfile(){
+  //   watcherService.addPatientProfile(
+  //       context: context,
+  //       name: name,
+  //       dateOfBirth: dateOfBirth,
+  //       gender: gender,
+  //       phoneNumber: phoneNumber,
+  //       email: email,
+  //       height: height,
+  //       weight: weight,
+  //       bmi: bmi,
+  //       image: image
+  //   )
+  // }
+  void changeImage() async{
+    File? pickedImage = await pickImage();
+    if (pickedImage != null) {
+      setState(() {
+        image = pickedImage;
+      });
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -42,39 +55,86 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.only(top: 100),
               child: Column(
                 children: [
-                  image != null
-                      ? Container(
-                          child: Image.file(
-                            image!,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : GestureDetector(
-                          onTap: () async {
-                            File? pickedImage = await pickImage();
-                            if (pickedImage != null) {
-                              setState(() {
-                                image = pickedImage;
-                              });
-                            }
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            height: 100,
-                            width: 100,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.grey,
-                            ),
-                            child: Icon(
-                              Icons.add_a_photo,
-                              color: Colors.white,
-                              size: 40,
+                  CircleAvatar(
+                    radius: 80,
+                    child: CircleAvatar(
+                      radius: 75,
+                      backgroundColor: Colors.white,
+                      child: Stack(
+                        children: [
+                          SizedBox(
+                            height: 150,
+                            width: 150,
+                            child: ClipOval(
+                              child: Image.file(
+                                image,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                        ),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black.withOpacity(0.5),
+                              child: IconButton(
+                                onPressed: () { changeImage(); },
+                                icon: const Icon(
+                                  Icons.camera_alt,
+                                  size: 25,
+                                ),
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // image != null
+                  //     ? GestureDetector(
+                  //       onTap: (){
+                  //         changeImage();
+                  //       },
+                  //       child: Container(
+                  //           height: 150,
+                  //           width: 150,
+                  //           decoration: const BoxDecoration(
+                  //             shape: BoxShape.circle,
+                  //           ),
+                  //           child: ClipOval(
+                  //             child: Image.file(
+                  //               image!,
+                  //               fit: BoxFit.cover,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //     )
+                  //     : GestureDetector(
+                  //         onTap: () async {
+                  //           File? pickedImage = await pickImage();
+                  //           if (pickedImage != null) {
+                  //             setState(() {
+                  //               image = pickedImage;
+                  //             });
+                  //           }
+                  //         },
+                  //         child: Container(
+                  //           margin: const EdgeInsets.only(bottom: 10),
+                  //           height: 150,
+                  //           width: 150,
+                  //           decoration: const BoxDecoration(
+                  //             shape: BoxShape.circle,
+                  //             color: Colors.grey,
+                  //           ),
+                  //           child: Icon(
+                  //             Icons.add_a_photo,
+                  //             color: Colors.white,
+                  //             size: 40,
+                  //           ),
+                  //         ),
+                  //       ),
                   Text(
-                    shortenName("${patient.name}"),
+                    shortenName(patient.name),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
@@ -83,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  InforBar('Main Infomations', [
+                  InforBar('Main Information', [
                     Infor(
                       'Name',
                       patient.name,
@@ -160,27 +220,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   bottomRight: Radius.circular(30)),
             ),
           ),
-          Positioned(
-              top: 50,
-              right: 20,
-              child: TextButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(
-                        Colors.blueGrey.withOpacity(0.3)),
-                    padding: const MaterialStatePropertyAll(EdgeInsets.all(0))),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditProfileScreen(),
-                    ),
-                  );
-                },
-                child: const Text(
-                  'Edit',
-                  style: TextStyle(fontSize: 18, color: Colors.blueAccent),
-                ),
-              )),
+          // Positioned(
+          //     top: 50,
+          //     right: 20,
+          //     child: TextButton(
+          //       style: ButtonStyle(
+          //           backgroundColor: MaterialStatePropertyAll(
+          //               Colors.blueGrey.withOpacity(0.3)),
+          //           padding: const MaterialStatePropertyAll(EdgeInsets.all(0))),
+          //       onPressed: () {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //             builder: (context) => EditProfileScreen(),
+          //           ),
+          //         );
+          //       },
+          //       child: const Text(
+          //         'Edit',
+          //         style: TextStyle(fontSize: 18, color: Colors.blueAccent),
+          //       ),
+          //     )),
         ],
       );
     });
