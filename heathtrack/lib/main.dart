@@ -44,7 +44,7 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
             // home: const LoginView()));
             home: Provider.of<UserProvider>(context).user.token.isNotEmpty
                 ? Provider.of<UserProvider>(context).user.type == 'watcher'
-                    ? const WatcherControlScreen()
+                    ? const PatientControlScreen()
                     : const PatientControlScreen()
                 : const LoginView()));
   }
