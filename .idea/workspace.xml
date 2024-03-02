@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8529954-71b8-494c-b893-f2d442ac2252" name="Changes" comment="change format code">
-      <change beforePath="$PROJECT_DIR$/.idea/Health-Care-App.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Health-Care-App.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+    <list default="true" id="e8529954-71b8-494c-b893-f2d442ac2252" name="Changes" comment="change view profile for patient view">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/heathtrack/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heathtrack/lib/screens/patientScreens/editProfileScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/screens/patientScreens/editProfileScreen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/heathtrack/lib/screens/patientScreens/profileScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/screens/patientScreens/profileScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/widgets/updateInfoView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/widgets/updateInfoView.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +89,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709304540856</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="change view profile for patient view">
+      <option name="closed" value="true" />
+      <created>1709312115891</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1709312115891</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -110,6 +116,7 @@
     <MESSAGE value="upload page update infomation" />
     <MESSAGE value="upload page update information" />
     <MESSAGE value="change format code" />
-    <option name="LAST_COMMIT_MESSAGE" value="change format code" />
+    <MESSAGE value="change view profile for patient view" />
+    <option name="LAST_COMMIT_MESSAGE" value="change view profile for patient view" />
   </component>
 </project>

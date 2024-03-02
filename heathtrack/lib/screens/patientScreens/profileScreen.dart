@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/objects/patient.dart';
@@ -90,49 +89,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
-                  // image != null
-                  //     ? GestureDetector(
-                  //       onTap: (){
-                  //         changeImage();
-                  //       },
-                  //       child: Container(
-                  //           height: 150,
-                  //           width: 150,
-                  //           decoration: const BoxDecoration(
-                  //             shape: BoxShape.circle,
-                  //           ),
-                  //           child: ClipOval(
-                  //             child: Image.file(
-                  //               image!,
-                  //               fit: BoxFit.cover,
-                  //             ),
-                  //           ),
-                  //         ),
-                  //     )
-                  //     : GestureDetector(
-                  //         onTap: () async {
-                  //           File? pickedImage = await pickImage();
-                  //           if (pickedImage != null) {
-                  //             setState(() {
-                  //               image = pickedImage;
-                  //             });
-                  //           }
-                  //         },
-                  //         child: Container(
-                  //           margin: const EdgeInsets.only(bottom: 10),
-                  //           height: 150,
-                  //           width: 150,
-                  //           decoration: const BoxDecoration(
-                  //             shape: BoxShape.circle,
-                  //             color: Colors.grey,
-                  //           ),
-                  //           child: Icon(
-                  //             Icons.add_a_photo,
-                  //             color: Colors.white,
-                  //             size: 40,
-                  //           ),
-                  //         ),
-                  //       ),
                   Text(
                     shortenName(patient.name),
                     style: const TextStyle(
