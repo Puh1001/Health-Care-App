@@ -29,6 +29,7 @@ class InputForm extends StatefulWidget {
 
 class _InputFormState extends State<InputForm> {
   final _formKey = GlobalKey<FormState>();
+  String formatDate = '';
   TextEditingController nameController = TextEditingController();
   TextEditingController doBController = TextEditingController();
   TextEditingController heightController = TextEditingController();
@@ -42,7 +43,7 @@ class _InputFormState extends State<InputForm> {
   List<String> sexItems = ['Male', 'Female', 'Other'];
   String? selectedSex = 'Male';
   DateTime? dateTime;
-  String? formatDate;
+
   void changeImage() async{
     File? pickedImage = await pickImage();
     if (pickedImage != null) {
@@ -115,7 +116,45 @@ class _InputFormState extends State<InputForm> {
       ),
     );
   }
-
+  void _showDatePicker() {
+    showDatePicker(
+        context: context,
+        firstDate: DateTime(1930),
+        lastDate: DateTime.now())
+        .then((value) {
+      setState(() {
+        dateTime = value!;
+        formatDate = DateFormat('dd/MM/yyyy').format(dateTime!);
+        doBController.text = formatDate;
+      });
+    });
+  }
+  Widget buildTextField90Width(
+      TextEditingController controller,
+      String hint,
+      String label,
+      String valid,
+      TextInputType keyboard
+      ){
+    return SizedBox(
+      width: MediaQuery.of(context).size.width*0.9,
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          hintText: "Type patient $hint here",
+          labelText: label,
+        ),
+        keyboardType: keyboard,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return '$valid is required';
+          }
+          return null;
+        },
+      ),
+    );
+  }
   Widget buildAvatar(){
     return CircleAvatar(
       radius: 80,
@@ -153,85 +192,66 @@ class _InputFormState extends State<InputForm> {
       ),
     );
   }
-  Widget buildTextField90Width(
-      TextEditingController controller,
-      String hint,
-      String label,
-      String valid,
-      TextInputType keyboard
-      ){
-    return SizedBox(
-      width: MediaQuery.of(context).size.width*0.9,
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          hintText: "Type patient $hint here",
-          labelText: label,
-        ),
-        keyboardType: keyboard,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return '$valid is required';
-          }
-          return null;
-        },
-      ),
-    );
-  }
 
   Widget buildDoB() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width*0.9,
-          height: 60,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  formatDate ?? 'Choose date of birth (tap the icon)',
-                  style: const TextStyle(
-                      fontSize: 16
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  onPressed: () {
-                    _showDatePicker();
-                  },
-                  icon: const Icon(Icons.calendar_month_outlined),
-
-                ),
-              )
-            ],
-          ),
-        ),
-      ],
+    return TextFormField(
+      controller: doBController,
+      decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: 'Date of birth',
+          hintText: 'Tap the icon to choose',
+          suffixIcon: IconButton(
+              onPressed: (){
+                _showDatePicker();
+              },
+              icon: const Icon(Icons.calendar_month_outlined)
+          )
+      ),
+      validator: (value){
+          if (value == null || value.isEmpty) {
+            return 'Date of birth is required';
+          }
+          return null;
+      },
+      readOnly: true,
+      enabled: true,
     );
-  }
-
-  //bảng chọn lịch
-  void _showDatePicker() {
-    showDatePicker(
-        context: context,
-        firstDate: DateTime(1930),
-        lastDate: DateTime.now())
-        .then((value) {
-      setState(() {
-        dateTime = value!;
-        formatDate = DateFormat('dd/MM/yyyy').format(dateTime!);
-      });
-    });
+      // Column(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      // children: [
+        // Container(
+        //   width: MediaQuery.of(context).size.width*0.9,
+        //   height: 60,
+        //   decoration: BoxDecoration(
+        //     border: Border.all(color: Colors.black),
+        //     borderRadius: BorderRadius.circular(5),
+        //   ),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //     children: [
+        //       Padding(
+        //         padding: const EdgeInsets.only(left: 8.0),
+        //         child: Text(
+        //           formatDate ?? 'Choose date of birth (tap the icon)',
+        //           style: const TextStyle(
+        //               fontSize: 16
+        //           ),
+        //         ),
+        //       ),
+        //       Align(
+        //         alignment: Alignment.centerRight,
+        //         child: IconButton(
+        //           onPressed: () {
+        //             _showDatePicker();
+        //           },
+        //           icon: const Icon(Icons.calendar_month_outlined),
+        //         ),
+        //       )
+        //     ],
+        //   ),
+        // ),
+    //   ],
+    // );
   }
 
   Widget buildHeightAndWeight() {
@@ -364,17 +384,13 @@ class _InputFormState extends State<InputForm> {
           child: TextButton(
               onPressed: () {
                 String name = nameController.text;
-                String doB = formatDate!;
+                // String doB = formatDate!;
+                String doB = doBController.text;
                 String phoneNumber = phoneNumberController.text;
                 String email = emailController.text;
                 String height = heightController.text;
                 String weight = weightController.text;
                 String sex = sexController.text;
-                // if (formatDate == null) {
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     const SnackBar(content: Text('Date of birth is required')),
-                //   );
-                // }
                 if (_formKey.currentState!.validate()) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Processing Data')),

@@ -45,12 +45,13 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
             debugShowCheckedModeBanner: false,
             onGenerateRoute: (settings) => generateRoute(settings),
             // home: const LoginView()));
-            // home: UpdateInfoView(),
-            home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-                ? Provider.of<UserProvider>(context).user.type == 'watcher'
-                    ? const PatientControlScreen()
-                    : const PatientControlScreen()
-                : const LoginView()
+            home: UpdateInfoView(),
+          //   home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+            //                 ? Provider.of<UserProvider>(context).user.type == 'watcher'
+            //                     ? const PatientControlScreen()
+            //                     : const PatientControlScreen()
+            //                 : const LoginView()
+
         )
     );
   }
