@@ -18,6 +18,12 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   File image = File('images/avatar.png');
+  // void selectImage() async {
+  //   var res = await pickImage();
+  //   setState() {
+  //     image = res!;
+  //   }
+  // }
 
   final WatcherService watcherService = WatcherService();
 
@@ -57,8 +63,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: CircleAvatar(
                               backgroundColor: Colors.black.withOpacity(0.5),
                               child: IconButton(
-                                onPressed: () {
-                                  changeImage();
+                                onPressed: () async {
+                                  File? pickedImage = await pickImage();
+                                  if (pickedImage != null) {
+                                    setState(() {
+                                      image = pickedImage;
+                                    });
+                                  }
                                 },
                                 icon: const Icon(
                                   Icons.camera_alt,
