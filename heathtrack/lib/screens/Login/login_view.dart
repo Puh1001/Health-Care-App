@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:heathtrack/screens/patientScreens/patientControlScreen.dart';
 import '../watcherScreen/watcherControlScreen.dart';
 import 'register_view.dart';
+import 'package:heathtrack/services/authService.dart';
 
 class LoginView extends StatelessWidget {
+  static const String routeName = '/login';
+
   const LoginView({super.key});
 
   @override
@@ -35,11 +38,22 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  TextEditingController userNameController = TextEditingController();
+  AuthService authService = AuthService();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController familyNameController = TextEditingController();
+  TextEditingController familyCodeController = TextEditingController();
   bool _passwordVisible = false;
   String _dropdownValue = "Patients";
+
+  void loginUser() {
+    authService.loginUser(
+      context: context,
+      email: emailController.text,
+      password: passwordController.text,
+      familyCode: familyCodeController.text,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -70,7 +84,7 @@ class _LoginFormState extends State<LoginForm> {
               child: Text('Username'),
             ),
             TextField(
-              controller: userNameController,
+              controller: emailController,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.account_circle),
@@ -105,14 +119,14 @@ class _LoginFormState extends State<LoginForm> {
             ),
             const Padding(
               padding: EdgeInsets.only(left: 16.0, top: 10),
-              child: Text('Family name'),
+              child: Text('Family Code'),
             ),
             TextField(
-              controller: familyNameController,
+              controller: familyCodeController,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.home),
-                hintText: 'Type your family name',
+                hintText: 'Type your family code',
                 border: UnderlineInputBorder(),
                 // labelText: "Username"
               ),
@@ -148,14 +162,21 @@ class _LoginFormState extends State<LoginForm> {
                     borderRadius: BorderRadius.circular(20)),
                 child: TextButton(
                     onPressed: () {
-                      if(_dropdownValue == "Watchers"){
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context)=>const WatcherControlScreen()));
-                      }
-                      if(_dropdownValue == "Patients"){
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context)=>const PatientControlScreen()));
-                      }
+                      // if (_dropdownValue == "Watchers") {
+                      //   Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) =>
+                      //               const WatcherControlScreen()));
+                      // }
+                      // if (_dropdownValue == "Patients") {
+                      //   Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) =>
+                      //               const PatientControlScreen()));
+                      // }
+                      loginUser();
                     },
                     child: const Text(
                       'LOGIN',

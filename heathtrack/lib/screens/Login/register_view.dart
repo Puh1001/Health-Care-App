@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:heathtrack/services/authService.dart';
 
 class RegisterView extends StatelessWidget {
+  static const String routeName = '/register';
   const RegisterView({super.key});
 
   @override
@@ -30,10 +31,12 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   AuthService authService = AuthService();
-  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordCheckController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController familyCodeController = TextEditingController();
+
   bool _passwordVisible = false;
   bool _repeatPasswordVisible = false;
 
@@ -42,7 +45,8 @@ class _RegisterFormState extends State<RegisterForm> {
         context: context,
         email: emailController.text,
         password: passwordController.text,
-        name: userNameController.text);
+        name: userNameController.text,
+        familyCode: familyCodeController.text);
   }
 
   @override
@@ -118,6 +122,20 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
             const Padding(
               padding: EdgeInsets.only(left: 16.0, top: 10),
+              child: Text('Family name'),
+            ),
+            TextField(
+              controller: familyCodeController,
+              keyboardType: TextInputType.name,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.mail),
+                hintText: 'Type your family name',
+                border: UnderlineInputBorder(),
+                // labelText: "Username"
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 16.0, top: 10),
               child: Text('Email'),
             ),
             TextField(
@@ -156,59 +174,6 @@ class _RegisterFormState extends State<RegisterForm> {
                     )),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.only(top: 16.0, bottom: 16),
-            //   child: Row(
-            //     children: [
-            //       Expanded(
-            //           child: Divider(
-            //             thickness: 1,
-            //             color: Colors.grey[400],
-            //           )
-            //       ),
-            //       Padding(
-            //         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            //         child: Text(
-            //           'Or sign up using',
-            //           style: TextStyle(
-            //               color: Colors.grey[700]
-            //           ),
-            //         ),
-            //       ),
-            //       Expanded(
-            //           child: Divider(
-            //             thickness: 1,
-            //             color: Colors.grey[400],
-            //           )
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     TextButton(
-            //       style: TextButton.styleFrom(
-            //         shape:  const CircleBorder(),
-            //       ),
-            //       onPressed: (){},
-            //       child: Image.asset(
-            //           'images/googleBtn.png',
-            //           height: 32
-            //       ),
-            //     ),
-            //     TextButton(
-            //       style: TextButton.styleFrom(
-            //         shape:  const CircleBorder(),
-            //       ),
-            //       onPressed: (){},
-            //       child: Image.asset(
-            //           'images/facebookBtn.png',
-            //           height: 32
-            //       ),
-            //     ),
-            //   ],
-            // ),
           ],
         ),
       ),

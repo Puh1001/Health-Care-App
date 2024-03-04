@@ -6,6 +6,7 @@ class User {
   final String name;
   final String email;
   final String password;
+  final String familyCode;
   final String address;
   final String type;
   final String token;
@@ -14,6 +15,7 @@ class User {
     required this.name,
     required this.email,
     required this.password,
+    required this.familyCode,
     required this.address,
     required this.type,
     required this.token,
@@ -25,6 +27,7 @@ class User {
       'name': name,
       'email': email,
       'password': password,
+      'familyCode': familyCode,
       'address': address,
       'type': type,
       'token': token,
@@ -33,10 +36,11 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'] as String,
+      id: map['_id'] as String,
       name: map['name'] as String,
       email: map['email'] as String,
       password: map['password'] as String,
+      familyCode: map['familyCode'] as String,
       address: map['address'] as String,
       type: map['type'] as String,
       token: map['token'] as String,
