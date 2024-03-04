@@ -11,24 +11,23 @@ class TemperatureScreen extends StatefulWidget {
 }
 
 class _TemperatureScreenState extends State<TemperatureScreen> {
-  List <double> listData = [];
+  List <Data> listData = [];
 
-  addData(double data){
+  addData(Data data){
     setState(() {
       listData.add(data);
     });
   }
-  double time = DateTime.now().hour.toDouble() +  DateTime.now().minute.toDouble()/60;
-  double currentValue =0;
-  double maxValue =0;
-  double minValue =0;
-  double  average =0;
+  double? currentValue ;
+  double? maxValue ;
+  double? minValue;
+  double?  average ;
   @override
   Widget build(BuildContext context) {
-    currentValue = listData.isEmpty?0:listData[listData.length-1];
-    maxValue = listData.isEmpty?0:listData.reduce(max);
-    minValue = listData.isEmpty?0:listData.reduce(min);
-    average = listData.isEmpty?0:(listData.reduce((a, b) => a + b) / listData.length);
+    currentValue = listData.isEmpty?0:listData[listData.length-1].value;
+    maxValue = listData.isEmpty?0:listData.reduce((curr, next) => curr.value > next.value ? curr : next).value;
+    minValue = listData.isEmpty?0:listData.reduce((curr, next) => curr.value < next.value ? curr : next).value;
+    average = listData.isEmpty?0:(listData.map((data) => data.value).reduce((a, b) => a + b)/ listData.length);
     return Scaffold(
       appBar: AppBar(title: const Text('Body temperature'),),
       backgroundColor: const Color(0xffF0E6E0),
@@ -51,13 +50,13 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
                     Text("$currentValue °C",style: const TextStyle(fontSize: 45,color: Colors.blueGrey,fontWeight: FontWeight.bold),)
                   ],),
                   const SizedBox(height: 10,),
-                  Chart(listData: listData,max:maxValue),]
+                  Chart(listData: listData),]
             ),
           ),
 
           const SizedBox(height: 20,),
           DataBar(name: 'Current temperature',value: '$currentValue',),
-          DataBar(name: 'Average temperature',value: '${(average * pow(10, 1)).round() / pow(10, 1)}',),
+          DataBar(name: 'Average temperature',value: '${(average! * pow(10, 1)).round() / pow(10, 1)}',),
           DataBar(name: 'Max temperature',value: '$maxValue',),
           DataBar(name: 'Min temperature',value: '$minValue',),
           const SizedBox(height: 50),
@@ -65,7 +64,8 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
             style: ElevatedButton.styleFrom(backgroundColor:Colors.red ),
             onPressed: (){
               Random ran = Random();
-              addData((35 + ran.nextInt(6)).toDouble());
+              //addData(Data(value:(90 + ran.nextInt(11)).toDouble(),time:DateTime.now().hour.toDouble() +DateTime.now().minute.toDouble().toDouble()/60));
+              addData(Data(value:(90 + ran.nextInt(11)).toDouble(),time:DateTime.now().second.toDouble()));
             },
             child: const Padding(
               padding: EdgeInsets.all(15),

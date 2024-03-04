@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.heathtrack"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 33//flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {

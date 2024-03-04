@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:heathtrack/k_services/weatherAndLocation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 class SummaryWG extends StatefulWidget {
@@ -14,31 +15,13 @@ class _SummaryWGState extends State<SummaryWG> {
   var _temp;
   var _des;
   String weatherImage = 'images/cloudy.png';
-
-  void getData() async {
-    var url = Uri.https(
-        'api.openweathermap.org',
-        '/data/2.5/weather',
-        {
-          'q' : 'hà đông',
-          'units' : 'metric',
-          'appid' : 'e0ea7c2430957c0b90c7a6375a5f8cba',
-          //'lang' : 'vi'
-        }
-    );
-
-    var response = await http.get(url);
-
+  WeatherAndLocationService myService = WeatherAndLocationService();
+  Future getData() async {
+    var decodeData = await myService.getWeatherData();
     setState(() {
-      if (response.statusCode == 200) {
-        String data = response.body;
-        var decodeData = jsonDecode(data);
-        _temp = decodeData['main']['temp'];
-        _des = decodeData['weather'][0]['description'];
-        weatherImage = getImageForWeatherCondition();
-      }else{
-        weatherImage = 'images/cloudy.png';
-      }
+      _temp = decodeData['main']['temp'];
+      _des = decodeData['weather'][0]['description'];
+      weatherImage = getImageForWeatherCondition();
     });
   }
   String getImageForWeatherCondition() {
@@ -60,7 +43,7 @@ class _SummaryWGState extends State<SummaryWG> {
   Widget build(BuildContext context) {
     getData();
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -87,7 +70,7 @@ class _SummaryWGState extends State<SummaryWG> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text((_temp==null)?'null':'${_temp.toInt()}°C',style: const TextStyle(
+                      (_temp==null)?const Text('loading...'):Text('${_temp.toInt()}°C',style: const TextStyle(
                         fontSize: 25,
                         color: Colors.blueGrey,
                         fontWeight: FontWeight.bold
@@ -97,7 +80,7 @@ class _SummaryWGState extends State<SummaryWG> {
                         height: 50,
                         child: Image.asset(weatherImage),
                       ),
-                      Text('${_des}',
+                      Text(_des==null?'-----':'${_des}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 15,

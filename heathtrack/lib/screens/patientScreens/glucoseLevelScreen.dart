@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heathtrack/widgets/chart.dart';
+
+import 'checkGlucoseLevel.dart';
 class GlucoseLevelScreen extends StatefulWidget {
 
   const GlucoseLevelScreen({super.key});
@@ -11,24 +13,23 @@ class GlucoseLevelScreen extends StatefulWidget {
 }
 
 class _GlucoseLevelScreenState extends State<GlucoseLevelScreen> {
-  List <double> listData = [];
+  List <Data> listData = [];
 
-  addData(double data){
+  addData(Data data){
     setState(() {
       listData.add(data);
     });
   }
-  double time = DateTime.now().hour.toDouble() +  DateTime.now().minute.toDouble()/60;
-  double currentValue =0;
-  double maxValue =0;
-  double minValue =0;
-  double  average =0;
+  double? currentValue ;
+  double? maxValue ;
+  double? minValue;
+  double?  average ;
   @override
   Widget build(BuildContext context) {
-    currentValue = listData.isEmpty?0:listData[listData.length-1];
-    maxValue = listData.isEmpty?0:listData.reduce(max);
-    minValue = listData.isEmpty?0:listData.reduce(min);
-    average = listData.isEmpty?0:(listData.reduce((a, b) => a + b) / listData.length);
+    currentValue = listData.isEmpty?0:listData[listData.length-1].value;
+    maxValue = listData.isEmpty?0:listData.reduce((curr, next) => curr.value > next.value ? curr : next).value;
+    minValue = listData.isEmpty?0:listData.reduce((curr, next) => curr.value < next.value ? curr : next).value;
+    average = listData.isEmpty?0:(listData.map((data) => data.value).reduce((a, b) => a + b)/ listData.length);
     return Scaffold(
       appBar: AppBar(title: const Text('Glucose level'),),
       backgroundColor: const Color(0xffd8d2f3),
@@ -51,26 +52,26 @@ class _GlucoseLevelScreenState extends State<GlucoseLevelScreen> {
                     Text("$currentValue mg/DL",style: const TextStyle(fontSize: 45,color: Colors.blueGrey,fontWeight: FontWeight.bold),)
                   ],),
                   const SizedBox(height: 10,),
-                  Chart(listData: listData,max:maxValue),]
+                  Chart(listData: listData),]
             ),
           ),
 
           const SizedBox(height: 20,),
           DataBar(name: 'Current Glucose level',value: '$currentValue',),
-          DataBar(name: 'Average Glucose level',value: '${(average * pow(10, 1)).round() / pow(10, 1)}',),
+          DataBar(name: 'Average Glucose level',value: '${(average! * pow(10, 1)).round() / pow(10, 1)}',),
           DataBar(name: 'Max Glucose level',value: '$maxValue',),
           DataBar(name: 'Min Glucose level',value: '$minValue',),
           const SizedBox(height: 50),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor:Colors.purpleAccent ),
             onPressed: (){
-              Random ran = Random();
-              addData((35 + ran.nextInt(6)).toDouble());
+             Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckGlucoseLevel()));
             },
             child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Text('Connect to device',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white)),
+              padding: EdgeInsets.symmetric(vertical: 15,horizontal: 50),
+              child: Text('Check',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white)),
             ),),
+
         ],
       ),
     );
