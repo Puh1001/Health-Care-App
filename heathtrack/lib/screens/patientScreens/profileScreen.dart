@@ -28,9 +28,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   final WatcherService watcherService = WatcherService();
 
-  void addPatientProfile(){
-    watcherService.addPatientProfile(context: context, name: name, dateOfBirth: dateOfBirth, gender: gender, phoneNumber: phoneNumber, email: email, height: height, weight: weight, bmi: bmi, image: image)
-  }
+  // void addPatientProfile(){
+  //   watcherService.addPatientProfile(context: context, name: name, dateOfBirth: dateOfBirth, gender: gender, phoneNumber: phoneNumber, email: email, height: height, weight: weight, bmi: bmi, image: image)
+  // }
   @override
   Widget build(BuildContext context) {
     return Consumer<Patient>(builder: (BuildContext context, patient, child) {
