@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:heathtrack/constants/utils.dart';
 import 'package:intl/intl.dart';
-
+import 'dart:io';
+//giao diện cập nhật thông tin người dùng
 class UpdateInfoView extends StatelessWidget {
   const UpdateInfoView({super.key});
 
@@ -27,17 +29,29 @@ class InputForm extends StatefulWidget {
 
 class _InputFormState extends State<InputForm> {
   final _formKey = GlobalKey<FormState>();
+  String formatDate = '';
   TextEditingController nameController = TextEditingController();
   TextEditingController doBController = TextEditingController();
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController sexController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  File image = File('images/avatar.png');
   List<String> bloodItems = ['A', 'B', 'AB', 'O'];
-  String? selectedBlood = 'A';
+  String? selectedBlood = 'O';
   List<String> sexItems = ['Male', 'Female', 'Other'];
   String? selectedSex = 'Male';
   DateTime? dateTime;
-  String? formatDate;
+
+  void changeImage() async{
+    File? pickedImage = await pickImage();
+    if (pickedImage != null) {
+      setState(() {
+        image = pickedImage;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,15 +59,45 @@ class _InputFormState extends State<InputForm> {
       child: Form(
         key: _formKey,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildName(),
+              child: buildAvatar(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: buildTextField90Width(
+                  nameController,
+                  'name',
+                  'Name',
+                  'Name',
+                  TextInputType.text
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: buildDoB(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: buildTextField90Width(
+                  phoneNumberController,
+                  'phone number',
+                  'Phone number',
+                  'Phone number',
+                  TextInputType.number
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: buildTextField90Width(
+                  emailController,
+                  'email',
+                  'Email',
+                  'Email',
+                  TextInputType.text
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -72,64 +116,142 @@ class _InputFormState extends State<InputForm> {
       ),
     );
   }
-
-  Widget buildName() {
-    return TextFormField(
-      controller: nameController,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        hintText: "Type your name here",
-        labelText: 'Name',
-      ),
-      validator: (value) {
-        return (value!.isEmpty) ? 'Name is required' : null;
-      },
-    );
-  }
-
-  Widget buildDoB() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.5,
-          height: 40,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: TextButton(
-              onPressed: () {
-                _showDatePicker();
-              },
-              child: const Text(
-                'Choose your date of birth',
-                style: TextStyle(fontSize: 15, color: Colors.black),
-              )),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
-            'Your choose: ${formatDate ?? ' '}',
-            style: const TextStyle(fontSize: 15),
-          ),
-        ),
-      ],
-    );
-  }
-
-  //bảng chọn lịch
   void _showDatePicker() {
     showDatePicker(
-            context: context,
-            firstDate: DateTime(1930),
-            lastDate: DateTime.now())
+        context: context,
+        firstDate: DateTime(1930),
+        lastDate: DateTime.now())
         .then((value) {
       setState(() {
         dateTime = value!;
         formatDate = DateFormat('dd/MM/yyyy').format(dateTime!);
+        doBController.text = formatDate;
       });
     });
+  }
+  Widget buildTextField90Width(
+      TextEditingController controller,
+      String hint,
+      String label,
+      String valid,
+      TextInputType keyboard
+      ){
+    return SizedBox(
+      width: MediaQuery.of(context).size.width*0.9,
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          hintText: "Type patient $hint here",
+          labelText: label,
+        ),
+        keyboardType: keyboard,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return '$valid is required';
+          }
+          return null;
+        },
+      ),
+    );
+  }
+  Widget buildAvatar(){
+    return CircleAvatar(
+      radius: 80,
+      child: CircleAvatar(
+        radius: 75,
+        backgroundColor: Colors.white,
+        child: Stack(
+          children: [
+            SizedBox(
+              height: 150,
+              width: 150,
+              child: ClipOval(
+                child: Image.file(
+                  image,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: CircleAvatar(
+                backgroundColor: Colors.black.withOpacity(0.5),
+                child: IconButton(
+                  onPressed: () { changeImage(); },
+                  icon: const Icon(
+                    Icons.camera_alt,
+                    size: 25,
+                  ),
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildDoB() {
+    return TextFormField(
+      controller: doBController,
+      decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: 'Date of birth',
+          hintText: 'Tap the icon to choose',
+          suffixIcon: IconButton(
+              onPressed: (){
+                _showDatePicker();
+              },
+              icon: const Icon(Icons.calendar_month_outlined)
+          )
+      ),
+      validator: (value){
+          if (value == null || value.isEmpty) {
+            return 'Date of birth is required';
+          }
+          return null;
+      },
+      readOnly: true,
+      enabled: true,
+    );
+      // Column(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      // children: [
+        // Container(
+        //   width: MediaQuery.of(context).size.width*0.9,
+        //   height: 60,
+        //   decoration: BoxDecoration(
+        //     border: Border.all(color: Colors.black),
+        //     borderRadius: BorderRadius.circular(5),
+        //   ),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //     children: [
+        //       Padding(
+        //         padding: const EdgeInsets.only(left: 8.0),
+        //         child: Text(
+        //           formatDate ?? 'Choose date of birth (tap the icon)',
+        //           style: const TextStyle(
+        //               fontSize: 16
+        //           ),
+        //         ),
+        //       ),
+        //       Align(
+        //         alignment: Alignment.centerRight,
+        //         child: IconButton(
+        //           onPressed: () {
+        //             _showDatePicker();
+        //           },
+        //           icon: const Icon(Icons.calendar_month_outlined),
+        //         ),
+        //       )
+        //     ],
+        //   ),
+        // ),
+    //   ],
+    // );
   }
 
   Widget buildHeightAndWeight() {
@@ -145,8 +267,17 @@ class _InputFormState extends State<InputForm> {
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Weight',
-                      labelText: 'Weight'),
-                  keyboardType: TextInputType.number),
+                      labelText: 'Weight'
+                  ),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  }
+
+              ),
             ),
             const Padding(
               padding: EdgeInsets.only(left: 4.0),
@@ -165,6 +296,12 @@ class _InputFormState extends State<InputForm> {
                     hintText: 'Height',
                     labelText: 'Height'),
                 keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  }
               ),
             ),
             const Padding(
@@ -192,7 +329,7 @@ class _InputFormState extends State<InputForm> {
               value: selectedBlood,
               items: bloodItems
                   .map((item) =>
-                      DropdownMenuItem<String>(value: item, child: Text(item)))
+                  DropdownMenuItem<String>(value: item, child: Text(item)))
                   .toList(),
               onChanged: (item) => setState(() => selectedBlood = item)),
         ),
@@ -209,7 +346,7 @@ class _InputFormState extends State<InputForm> {
                 value: selectedSex,
                 items: sexItems
                     .map((item) => DropdownMenuItem<String>(
-                        value: item, child: Text(item)))
+                    value: item, child: Text(item)))
                     .toList(),
                 onChanged: (item) => setState(() => selectedSex = item)),
           ),
@@ -247,10 +384,18 @@ class _InputFormState extends State<InputForm> {
           child: TextButton(
               onPressed: () {
                 String name = nameController.text;
-                String doB = dateTime.toString();
+                // String doB = formatDate!;
+                String doB = doBController.text;
+                String phoneNumber = phoneNumberController.text;
+                String email = emailController.text;
                 String height = heightController.text;
                 String weight = weightController.text;
                 String sex = sexController.text;
+                if (_formKey.currentState!.validate()) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Processing Data')),
+                  );
+                }
               },
               child: const Text(
                 'Save',

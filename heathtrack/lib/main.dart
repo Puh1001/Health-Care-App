@@ -7,7 +7,9 @@ import 'package:heathtrack/screens/watcherScreen/watcherControlScreen.dart';
 import 'package:heathtrack/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'objects/patient.dart';
-import 'package:heathtrack/widgets/updateInfoView.dart';
+import 'screens/patientScreens/ProfileScreen.dart';
+import 'widgets/updateInfoView.dart';
+
 
 main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(
@@ -31,7 +33,6 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
     authService.getUserData(context);
   }
 
-  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => Patient(
@@ -44,10 +45,14 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
             debugShowCheckedModeBanner: false,
             onGenerateRoute: (settings) => generateRoute(settings),
             // home: const LoginView()));
-            home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-                ? Provider.of<UserProvider>(context).user.type == 'watcher'
-                    ? const PatientControlScreen()
-                    : const PatientControlScreen()
-                : const LoginView()));
+            home: UpdateInfoView(),
+          //   home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+            //                 ? Provider.of<UserProvider>(context).user.type == 'watcher'
+            //                     ? const PatientControlScreen()
+            //                     : const PatientControlScreen()
+            //                 : const LoginView()
+
+        )
+    );
   }
 }
