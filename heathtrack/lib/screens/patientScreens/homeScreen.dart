@@ -10,9 +10,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Patient>(
       builder: (BuildContext context, patient,child) {
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
+      return Scaffold(
           backgroundColor: const Color(0xfff7f7f7),
           body: Center(
             child:
@@ -43,14 +41,13 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>SosScreen()));
                     },),
                   HorizontalBar(const Icon(Icons.apple,color: Colors.greenAccent,),'Nutritions', ontap: (){},),
-                  HorizontalBar(const Icon(Icons.bed,color: Colors.blueAccent,),'Sleep', ontap: (){},),
+                  HorizontalBar(const Icon(Icons.spa_outlined,color: Colors.blueAccent,),'BMI', ontap: (){},),
                   const SizedBox(height: 30,)
                 ],
               ),
             ),
           ),
-        ),
-      ); },
+        ); },
     );
   }
 }

@@ -11,24 +11,25 @@ class OxygenScreen extends StatefulWidget {
 }
 
 class _OxygenScreenState extends State<OxygenScreen> {
-  List <double> listData = [];
+  List <Data> listData = [];
 
-  addData(double data){
+  addData(Data data){
     setState(() {
       listData.add(data);
     });
   }
-  double time = DateTime.now().hour.toDouble() +  DateTime.now().minute.toDouble()/60;
+  //double time = DateTime.now().hour.toDouble() +  DateTime.now().minute.toDouble()/60;
+  //double time = DateTime.now().second.toDouble() ;
   double? currentValue ;
   double? maxValue ;
   double? minValue;
   double?  average ;
   @override
   Widget build(BuildContext context) {
-    currentValue = listData.isEmpty?0:listData[listData.length-1];
-    maxValue = listData.isEmpty?0:listData.reduce(max);
-    minValue = listData.isEmpty?0:listData.reduce(min);
-    average = listData.isEmpty?0:(listData.reduce((a, b) => a + b) / listData.length);
+    currentValue = listData.isEmpty?0:listData[listData.length-1].value;
+    maxValue = listData.isEmpty?0:listData.reduce((curr, next) => curr.value > next.value ? curr : next).value;
+    minValue = listData.isEmpty?0:listData.reduce((curr, next) => curr.value < next.value ? curr : next).value;
+    average = listData.isEmpty?0:(listData.map((data) => data.value).reduce((a, b) => a + b)/ listData.length);
     return Scaffold(
       appBar: AppBar(title: const Text('Oxygen saturation'),),
       backgroundColor: const Color(0xffe0f7fc),
@@ -65,7 +66,7 @@ class _OxygenScreenState extends State<OxygenScreen> {
             style: ElevatedButton.styleFrom(backgroundColor:Colors.blueAccent ),
             onPressed: (){
               Random ran = Random();
-              addData((90 + ran.nextInt(11)).toDouble());
+              addData(Data(value:(90 + ran.nextInt(11)).toDouble(),time:DateTime.now().hour.toDouble() +DateTime.now().minute.toDouble().toDouble()/60));
             },
             child: const Padding(
               padding: EdgeInsets.all(15),

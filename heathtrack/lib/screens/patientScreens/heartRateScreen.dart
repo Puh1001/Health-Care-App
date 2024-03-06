@@ -5,6 +5,10 @@ import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/models/heathData.dart';
 import 'package:heathtrack/services/patientServices.dart';
 import 'package:heathtrack/widgets/chart.dart';
+import 'package:heathtrack/screens/patientScreens/checkBloodPressure.dart';
+import 'package:heathtrack/widgets/chart.dart';
+
+import 'checkHeartRate.dart';
 
 class HeartRateScreen extends StatefulWidget {
   const HeartRateScreen({super.key});
@@ -63,19 +67,19 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
         title: const Text('Heart rate'),
       ),
       backgroundColor: const Color(0xffD2F2DB),
-      body: Column(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-              ),
-            ),
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20))),
+              child: Column(children: [
+                const SizedBox(
+                  height: 20,
+                ),
                 Row(
                   children: [
                     const Padding(
@@ -89,36 +93,56 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
                     Text(
                       "$currentValue bpm",
                       style: const TextStyle(
-                        fontSize: 45,
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                          fontSize: 45,
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.bold),
+                    )
                   ],
                 ),
-                const SizedBox(height: 10),
-                // Chart(listData: listData, max: maxValue),
-              ],
+                const SizedBox(
+                  height: 10,
+                ),
+                Chart(listData: listData),
+              ]),
             ),
-          ),
-          const SizedBox(height: 20),
-          DataBar(
-            name: 'Current Heart rate',
-            value: '$currentValue',
-          ),
-          DataBar(
-            name: 'Average Heart rate',
-            value: '${(average * pow(10, 1)).round() / pow(10, 1)}',
-          ),
-          DataBar(
-            name: 'Max Heart rate',
-            value: '$maxValue',
-          ),
-          DataBar(
-            name: 'Min Heart rate',
-            value: '$minValue',
-          ),
-        ],
+            const SizedBox(
+              height: 20,
+            ),
+            DataBar(
+              name: 'Current Heart rate',
+              value: '$currentValue',
+            ),
+            DataBar(
+              name: 'Average Heart rate',
+              value: '${(average! * pow(10, 1)).round() / pow(10, 1)}',
+            ),
+            DataBar(
+              name: 'Max Heart rate',
+              value: '$maxValue',
+            ),
+            DataBar(
+              name: 'Min Heart rate',
+              value: '$minValue',
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CheckHeartRate()));
+              },
+              style: ButtonStyle(
+                  padding: MaterialStatePropertyAll(
+                      EdgeInsets.symmetric(horizontal: 70, vertical: 15)),
+                  backgroundColor: MaterialStatePropertyAll(Colors.green),
+                  foregroundColor: MaterialStatePropertyAll(Colors.white)),
+              child: Text('Check',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }

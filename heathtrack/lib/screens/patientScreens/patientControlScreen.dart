@@ -45,7 +45,7 @@ class _PatientControlScreenState extends State<PatientControlScreen> {
               ],
               elevation: 0,
               type: BottomNavigationBarType.fixed,
-              backgroundColor: Colors.grey.shade300,
+              backgroundColor: Colors.white,
               unselectedItemColor: Colors.black54,
               selectedItemColor: const Color(0xFF68E3B3),
               currentIndex: selectedIndex,
