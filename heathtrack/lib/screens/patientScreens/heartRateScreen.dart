@@ -2,10 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heathtrack/constants/utils.dart';
-import 'package:heathtrack/models/heathData.dart';
-import 'package:heathtrack/services/patientServices.dart';
-import 'package:heathtrack/widgets/chart.dart';
 import 'package:heathtrack/screens/patientScreens/checkBloodPressure.dart';
+import 'package:heathtrack/services/patientServices.dart';
 import 'package:heathtrack/widgets/chart.dart';
 
 import 'checkHeartRate.dart';
@@ -18,14 +16,8 @@ class HeartRateScreen extends StatefulWidget {
 }
 
 class _HeartRateScreenState extends State<HeartRateScreen> {
-  List<double>? listData;
+  List<Data> listData = [];
   final PatientServices patientServices = PatientServices();
-
-  // State variables for data metrics
-  double currentValue = 0;
-  double maxValue = 0;
-  double minValue = 0;
-  double average = 0;
 
   @override
   void initState() {
@@ -37,31 +29,37 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
     try {
       final healthDataList = await patientServices.fetchHeathData(context);
       if (healthDataList != null) {
-        // Extract heart rates
         listData = healthDataList.map((data) => data.heartRate).toList();
-        calculateMetrics();
         setState(() {});
       } else {
-        // Handle the case where health data is not available
         print("No health data found");
       }
     } catch (err) {
-      showSnackBar(
-          context, err.toString()); // Assuming showErrorSnackBar is defined
+      showSnackBar(context, err.toString());
     }
   }
 
-  void calculateMetrics() {
-    if (listData != null && listData!.isNotEmpty) {
-      currentValue = listData![listData!.length - 1];
-      maxValue = listData!.reduce(max);
-      minValue = listData!.reduce(min);
-      average = listData!.reduce((a, b) => a + b) / listData!.length;
-    }
-  }
-
+  double? currentValue;
+  double? maxValue;
+  double? minValue;
+  double? average;
   @override
   Widget build(BuildContext context) {
+    currentValue = listData.isEmpty ? 0 : listData[listData.length - 1].value;
+    maxValue = listData.isEmpty
+        ? 0
+        : listData
+            .reduce((curr, next) => curr.value > next.value ? curr : next)
+            .value;
+    minValue = listData.isEmpty
+        ? 0
+        : listData
+            .reduce((curr, next) => curr.value < next.value ? curr : next)
+            .value;
+    average = listData.isEmpty
+        ? 0
+        : (listData.map((data) => data.value).reduce((a, b) => a + b) /
+            listData.length);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Heart rate'),
