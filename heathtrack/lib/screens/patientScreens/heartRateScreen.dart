@@ -5,6 +5,7 @@ import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/screens/patientScreens/checkBloodPressure.dart';
 import 'package:heathtrack/services/patientServices.dart';
 import 'package:heathtrack/widgets/chart.dart';
+import 'package:moment_dart/moment_dart.dart';
 
 import 'checkHeartRate.dart';
 
@@ -26,18 +27,22 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
   }
 
   void fetchHealthData() async {
-    try {
-      final healthDataList = await patientServices.fetchHeathData(context);
-      if (healthDataList != null) {
-        listData = healthDataList.map((data) => data.heartRate).toList();
-        setState(() {});
-      } else {
-        print("No health data found");
-      }
-    } catch (err) {
-      showSnackBar(context, err.toString());
+  try {
+    final healthDataList = await patientServices.fetchHeathData(context);
+    if (healthDataList != null) {
+      print(healthDataList);
+      listData = healthDataList.map((data) => {
+        return Data(heartRate: data.heartRate, timestamp: data.timestamp);
+      }).toList();
+      setState(() {});
+    } else {
+      print("No health data found");
     }
+  } catch (err) {
+    showSnackBar(context, err.toString());
   }
+}
+
 
   double? currentValue;
   double? maxValue;
