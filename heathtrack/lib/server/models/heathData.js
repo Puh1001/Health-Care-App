@@ -41,6 +41,11 @@ const heathDataSchema = mongoose.Schema({
     require: true,
     ref: "User",
   },
+  timestamp: {
+    type: Date,
+    required: true,
+    trim: true,
+  },
 });
 
 const HeathData = mongoose.model("HeathData", heathDataSchema);

@@ -9,6 +9,7 @@ class HeathData {
   final double temperature;
   final int glucose;
   final int step;
+  final DateTime timestamp;
   String? id;
   String? userId;
   HeathData({
@@ -19,6 +20,7 @@ class HeathData {
     required this.temperature,
     required this.glucose,
     required this.step,
+    required this.timestamp,
     this.id,
     this.userId,
   });
@@ -32,6 +34,7 @@ class HeathData {
       'temperature': temperature,
       'glucose': glucose,
       'step': step,
+      'timestamp': timestamp.millisecondsSinceEpoch,
       'id': id,
       'userId': userId,
     };
@@ -46,7 +49,8 @@ class HeathData {
       temperature: map['temperature'] as double,
       glucose: map['glucose'] as int,
       step: map['step'] as int,
-      id: map['_id'] != null ? map['id'] as String : null,
+      timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp'] as int),
+      id: map['id'] != null ? map['id'] as String : null,
       userId: map['userId'] != null ? map['userId'] as String : null,
     );
   }

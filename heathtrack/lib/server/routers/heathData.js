@@ -6,8 +6,17 @@ const auth = require("../middlewares/auth");
 // SAVE DATA
 heathDataRouter.post("/api/heath-data", async (req, res) => {
   try {
-    const { heartRate, spb, dbp, oxygen, temperature, glucose, step, userId } =
-      req.body;
+    const {
+      heartRate,
+      spb,
+      dbp,
+      oxygen,
+      temperature,
+      glucose,
+      step,
+      userId,
+      timestamp,
+    } = req.body;
     let heathData = new HeathData({
       heartRate,
       spb,
@@ -17,6 +26,7 @@ heathDataRouter.post("/api/heath-data", async (req, res) => {
       glucose,
       step,
       userId,
+      timestamp,
     });
     heathData = await heathData.save();
     res.json(heathData);

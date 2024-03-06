@@ -20,7 +20,6 @@ app.use(express.urlencoded({ extended: true }));
 //middleware
 app.use(authRouter);
 app.use(heathDataRouter);
-
 //connection
 mongoose
   .connect(DB)

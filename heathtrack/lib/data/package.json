@@ -12,6 +12,7 @@
   "author": "puh",
   "license": "ISC",
   "dependencies": {
+    "moment-timezone": "^0.5.45",
     "node-fetch": "^3.3.2"
   }
 }

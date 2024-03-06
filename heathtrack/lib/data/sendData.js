@@ -1,5 +1,5 @@
 const fs = require("fs");
-const interval = 30 * 60 * 1000; // 30 minutes in milliseconds
+const interval = 1000; // 30 minutes in milliseconds
 
 function sendData() {
   fs.readFile("data.json", "utf8", (err, data) => {
@@ -10,6 +10,9 @@ function sendData() {
 
     const jsonData = JSON.parse(data);
     const objectToSend = jsonData.shift(); // Remove the first object from the array
+
+    // Add current timestamp to the object
+    objectToSend.timestamp = Date.now();
 
     fetch("http://localhost:8080/api/heath-data", {
       method: "POST",
