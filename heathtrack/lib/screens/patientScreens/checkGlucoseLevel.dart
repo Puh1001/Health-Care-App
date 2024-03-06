@@ -20,11 +20,12 @@ class _CheckGlucoseLevel extends State<CheckGlucoseLevel> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
+            const SizedBox(height: 50,),
             TextField(
               controller: valueController,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
-                label: Text('Systolic Range'),
+                label: Text('Glucose level'),
               ),
             ),
             const SizedBox(height: 30,),
@@ -32,12 +33,12 @@ class _CheckGlucoseLevel extends State<CheckGlucoseLevel> {
               onPressed: (){
 
                 setState(() {
-                  result = DiagnosisEngine.diagnoseHeartRateIssue(int.parse(valueController.text));
+                  result = DiagnosisEngine.diagnoseBloodGlucoseLevelIssue(double.parse(valueController.text));
                 });
               },
               style: ButtonStyle(
                 padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 50,vertical: 10)),
-                backgroundColor: MaterialStatePropertyAll(Colors.red),
+                backgroundColor: MaterialStatePropertyAll(Colors.purpleAccent),
                 foregroundColor: MaterialStatePropertyAll(Colors.white),
               ),
               child: const Text('Check',style: TextStyle(fontSize: 20),),

@@ -20,11 +20,12 @@ class _CheckHeartRate extends State<CheckHeartRate> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
+            const SizedBox(height: 50,),
             TextField(
               controller: valueController,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
-                label: Text('Systolic Range'),
+                label: Text('Enter heart rate (bpm)'),
               ),
             ),
             const SizedBox(height: 30,),
@@ -37,7 +38,7 @@ class _CheckHeartRate extends State<CheckHeartRate> {
               },
               style: ButtonStyle(
                 padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 50,vertical: 10)),
-                backgroundColor: MaterialStatePropertyAll(Colors.red),
+                backgroundColor: MaterialStatePropertyAll(Colors.green),
                 foregroundColor: MaterialStatePropertyAll(Colors.white),
               ),
               child: const Text('Check',style: TextStyle(fontSize: 20),),

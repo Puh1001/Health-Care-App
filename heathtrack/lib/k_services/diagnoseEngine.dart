@@ -1,45 +1,80 @@
+import 'package:heathtrack/providers/userProvider.dart';
+import 'package:provider/provider.dart';
+
 class DiagnosisEngine {
   // chẩn đoán vấn đề huyết áp
   static String diagnoseBloodPressureIssue(int systolic, int diastolic) {
+    if (systolic==0 && diastolic==0 ) return '';
     if (systolic < 120 && diastolic < 80) {
-      return "Huyết áp tối ưu";
+      return "Optimal blood pressure";
     } else if (systolic >= 120 && systolic < 130 && diastolic >= 80 && diastolic < 85) {
-      return "Huyết áp bình thường";
+      return "Normal blood pressure";
     } else if (systolic >= 130 && systolic < 140 && diastolic >= 85 && diastolic < 90) {
-      return "Tiền tăng huyết áp";
+      return "Prehypertension";
     } else if (systolic >= 140 && systolic < 150 && diastolic >= 90 && diastolic < 100) {
-      return "Tăng huyết áp độ 1";
+      return "Hypertension stage 1";
     } else if (systolic >= 150 && systolic < 160 && diastolic >= 100 && diastolic < 110) {
-      return "Tăng huyết áp độ 2";
+      return "Hypertension stage 2";
     } else if (systolic >= 160 && systolic < 180 && diastolic >= 110 && diastolic < 120) {
-      return "Tăng huyết áp độ 3";
+      return "Hypertension stage 3";
     } else if (systolic >= 180 && diastolic >= 120) {
-      return "Tăng huyết áp độ 3";
+      return "Hypertension stage 3";
     } else if (systolic >= 140 && diastolic < 90) {
-      return "Tăng huyết áp tâm thu đơn độc";
+      return "Isolated systolic hypertension";
     } else {
-      return "Không thể chẩn đoán huyết áp.";
+      return "Unable to diagnose blood pressure.";
     }
   }
 
+
   // chẩn đoán vấn đề nhịp tim
   static String diagnoseHeartRateIssue(int heartRate) {
-    return 'good';
+    if (heartRate==0) return '';
+    if (heartRate < 50) {
+      return 'Dangerous';
+    } else if (heartRate < 60) {
+      return 'Low heart rate';
+    } else if (heartRate > 100) {
+      return 'High heart rate';
+    } else {
+      return 'Normal heart rate';
+    }
   }
 
   // chẩn đoán vấn đề nồng độ đường huyết
   static String diagnoseBloodGlucoseLevelIssue(double bloodGlucoseLevel) {
-    return 'good';
+    if (bloodGlucoseLevel==0) return '';
+    if (bloodGlucoseLevel < 70) {
+      return 'Low blood glucose level';
+    } else if (bloodGlucoseLevel > 140) {
+      return 'High blood glucose level';
+    } else {
+      return 'Normal blood glucose level';
+    }
   }
 
-  //chẩn đoán vấn đề nhiệt độ cơ thể
+  // chẩn đoán vấn đề nhiệt độ cơ thể
   static String diagnoseTemperatureIssue(double temperature) {
-    return 'good';
+    if (temperature==0) return '';
+    if (temperature < 36.1) {
+      return 'Low body temperature';
+    } else if (temperature > 37.2) {
+      return 'High body temperature';
+    } else {
+      return 'Normal body temperature';
+    }
   }
 
-  //chẩn đoán vấn đề nồng độ o2
-  static String diagnoseOxygenSaturationIssue(double temperature) {
-    return 'good';
+  // chẩn đoán vấn đề nồng độ o2
+  static String diagnoseOxygenSaturationIssue(double oxygenSaturation) {
+    if (oxygenSaturation==0) return '';
+    if (oxygenSaturation < 90) {
+      return 'Low oxygen saturation';
+    } else if (oxygenSaturation > 100) {
+      return 'High oxygen saturation';
+    } else {
+      return 'Normal oxygen saturation';
+    }
   }
 
   //chẩn đoán chung về sức khỏe
@@ -60,17 +95,17 @@ class DiagnosisEngine {
     return diagnosis;
   }
   static double calculateBMI(double weight, double height){
-    return weight/(height*height);
+    return double.parse((weight/(height*height/10000)).toStringAsFixed(2));
   }
   static String diagnoseBMI(double bmi) {
     if (bmi < 18.5) {
-      return "Gầy";
+      return "skinny";
     } else if (bmi >= 18.5 && bmi <= 24.9) {
-      return "Bình thường";
+      return "normal";
     } else if (bmi >= 25 && bmi <= 29.9) {
-      return "Thừa cân";
+      return "overweight";
     } else {
-      return "Béo phì";
+      return "obese";
     }
   }
 }

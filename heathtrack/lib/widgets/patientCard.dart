@@ -6,12 +6,13 @@ class PatientCard extends StatelessWidget {
       required this.name,
       this.age,
       required this.diagnose,
-      required this.ontap});
+      required this.ontap,this.isWoman = false});
 
   String name;
   int? age;
   String diagnose;
   final Function ontap;
+  var isWoman = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +27,16 @@ class PatientCard extends StatelessWidget {
           BoxShadow(
               offset: const Offset(0, 4),
               blurRadius: 10,
-              color: Colors.grey.shade300)
-        ], color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              color: Colors.black.withOpacity(0.1)
+          )
+        ],
+            gradient: const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [ Color(0xFFFFFFFF),Color(0xFFFFFFFF),],
+
+            ),
+             borderRadius: BorderRadius.circular(20)),
         child: Row(
           children: [
             Expanded(
@@ -36,7 +45,8 @@ class PatientCard extends StatelessWidget {
                 aspectRatio: 1 / 1.2,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey,
+                   color: Colors.white.withOpacity(0.4),
+                    image: DecorationImage(image: AssetImage(isWoman?'images/womanAvatar.png':'images/manAvatar.png',),fit: BoxFit.cover),
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
@@ -71,8 +81,9 @@ class PatientCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(onPressed: (){}, icon: Icon(Icons.settings)),
-                  TextButton(onPressed:(){}, child: Text('Delete'))
+                  IconButton(onPressed: (){}, icon: const Icon(Icons.settings,size: 30,),color: Colors.grey.shade600,),
+                  TextButton(onPressed:(){}, child: const Text('Delete',style: TextStyle(color: Color(
+                      0xffb93939)),))
                 ],
               ),
             )

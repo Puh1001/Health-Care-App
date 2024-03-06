@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:heathtrack/k_services/weatherAndLocation.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 class SummaryWG extends StatefulWidget {
   final String diagnose;
@@ -16,14 +14,26 @@ class _SummaryWGState extends State<SummaryWG> {
   var _des;
   String weatherImage = 'images/cloudy.png';
   WeatherAndLocationService myService = WeatherAndLocationService();
-  Future getData() async {
-    var decodeData = await myService.getWeatherData();
-    setState(() {
-      _temp = decodeData['main']['temp'];
-      _des = decodeData['weather'][0]['description'];
-      weatherImage = getImageForWeatherCondition();
-    });
+
+  @override
+  void initState() {
+    super.initState();
+    getData(); // Gọi hàm getData trong initState để lấy dữ liệu khi widget được khởi tạo
   }
+
+  Future<void> getData() async {
+    try {
+      var decodeData = await myService.getWeatherData();
+      setState(() {
+        _temp = decodeData['main']['temp'];
+        _des = decodeData['weather'][0]['description'];
+        weatherImage = getImageForWeatherCondition();
+      });
+    } catch (e) {
+      print('Error fetching weather data: $e');
+    }
+  }
+
   String getImageForWeatherCondition() {
     if (_des.contains('clear')) {
       return 'images/sun.png';
@@ -41,7 +51,6 @@ class _SummaryWGState extends State<SummaryWG> {
   }
   @override
   Widget build(BuildContext context) {
-    getData();
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(

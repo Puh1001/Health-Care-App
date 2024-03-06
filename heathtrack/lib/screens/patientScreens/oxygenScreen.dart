@@ -1,7 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:heathtrack/k_services/diagnoseEngine.dart';
+import 'package:heathtrack/screens/patientScreens/checkOxygen.dart';
 import 'package:heathtrack/widgets/chart.dart';
+
+import '../../widgets/diagnoseBar.dart';
 class OxygenScreen extends StatefulWidget {
 
    const OxygenScreen({super.key});
@@ -33,46 +37,48 @@ class _OxygenScreenState extends State<OxygenScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Oxygen saturation'),),
       backgroundColor: const Color(0xffe0f7fc),
-      body: Column(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(bottomRight:Radius.circular(20) ,bottomLeft: Radius.circular(20))
-            ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(bottomRight:Radius.circular(20) ,bottomLeft: Radius.circular(20))
+              ),
 
-            child:  Column(
-                children:[
-                  const SizedBox(height: 20,),
-                  Row(children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Icon(FontAwesomeIcons.o,color: Colors.blueAccent,size: 60,),
-                    ),
-                    Text("$currentValue %",style: const TextStyle(fontSize: 45,color: Colors.blueGrey,fontWeight: FontWeight.bold),)
-                  ],),
-                  const SizedBox(height: 10,),
-                 Chart(listData: listData),]
+              child:  Column(
+                  children:[
+                    const SizedBox(height: 20,),
+                    Row(children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Icon(FontAwesomeIcons.o,color: Colors.blueAccent,size: 60,),
+                      ),
+                      Text("$currentValue %",style: const TextStyle(fontSize: 45,color: Colors.blueGrey,fontWeight: FontWeight.bold),)
+                    ],),
+                    const SizedBox(height: 10,),
+                   Chart(listData: listData),]
+              ),
             ),
-          ),
-
-          const SizedBox(height: 20,),
-          DataBar(name: 'Current oxygen saturation',value: '$currentValue',),
-          DataBar(name: 'Average oxygen saturation',value: '${(average! * pow(10, 1)).round() / pow(10, 1)}',),
-          DataBar(name: 'Max oxygen saturation',value: '$maxValue',),
-          DataBar(name: 'Min oxygen saturation',value: '$minValue',),
-          const SizedBox(height: 50),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor:Colors.blueAccent ),
-            onPressed: (){
-              Random ran = Random();
-              addData(Data(value:(90 + ran.nextInt(11)).toDouble(),time:DateTime.now().hour.toDouble() +DateTime.now().minute.toDouble().toDouble()/60));
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Text('Connect to device',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white)),
-            ),),
-        ],
+            
+            const SizedBox(height: 20,),
+            DiagnoseBar(diagnose: DiagnosisEngine.diagnoseOxygenSaturationIssue(currentValue!)),
+            DataBar(name: 'Current oxygen saturation',value: '$currentValue',),
+            DataBar(name: 'Average oxygen saturation',value: '${(average! * pow(10, 1)).round() / pow(10, 1)}',),
+            DataBar(name: 'Max oxygen saturation',value: '$maxValue',),
+            DataBar(name: 'Min oxygen saturation',value: '$minValue',),
+            const SizedBox(height: 40),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor:Colors.blueAccent ),
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckOxygen()));
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(15),
+                child: Text('Check',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white)),
+              ),),
+          ],
+        ),
       ),
     );
   }

@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heathtrack/screens/patientScreens/checkBloodPressure.dart';
 import 'package:heathtrack/widgets/chart.dart';
 
+import '../../k_services/diagnoseEngine.dart';
+import '../../widgets/diagnoseBar.dart';
 import 'checkHeartRate.dart';
 class HeartRateScreen extends StatefulWidget {
 
@@ -22,13 +24,13 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
       print(listData.length);
     });
   }
-  double? currentValue ;
+  int? currentValue ;
   double? maxValue ;
   double? minValue;
   double?  average ;
   @override
   Widget build(BuildContext context) {
-    currentValue = listData.isEmpty?0:listData[listData.length-1].value;
+    currentValue = (listData.isEmpty?0:listData[listData.length-1].value) as int?;
     maxValue = listData.isEmpty?0:listData.reduce((curr, next) => curr.value > next.value ? curr : next).value;
     minValue = listData.isEmpty?0:listData.reduce((curr, next) => curr.value < next.value ? curr : next).value;
     average = listData.isEmpty?0:(listData.map((data) => data.value).reduce((a, b) => a + b)/ listData.length);
@@ -60,7 +62,7 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
             ),
         
             const SizedBox(height: 20,),
-
+            DiagnoseBar(diagnose: DiagnosisEngine.diagnoseHeartRateIssue(currentValue!)),
             DataBar(name: 'Current Heart rate',value: '$currentValue',),
             DataBar(name: 'Average Heart rate',value: '${(average! * pow(10, 1)).round() / pow(10, 1)}',),
             DataBar(name: 'Max Heart rate',value: '$maxValue',),

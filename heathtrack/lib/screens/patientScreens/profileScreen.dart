@@ -2,11 +2,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/objects/patient.dart';
+import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/screens/patientScreens/editProfileScreen.dart';
 import 'package:heathtrack/services/watcherService.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../k_services/diagnoseEngine.dart';
 import '../../widgets/InforBar.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -18,6 +20,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   File image = File('images/avatar.png');
+
   // void selectImage() async {
   //   var res = await pickImage();
   //   setState() {
@@ -32,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // }
   @override
   Widget build(BuildContext context) {
-    return Consumer<Patient>(builder: (BuildContext context, patient, child) {
+    return Consumer<UserProvider>(builder: (BuildContext context, patient, child) {
       return Stack(
         children: [
           SingleChildScrollView(
@@ -84,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   Text(
-                    shortenName(patient.name),
+                    shortenName(patient.user.name),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
@@ -96,65 +99,146 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   InforBar('Main Information', [
                     Infor(
                       'Name',
-                      patient.name,
-                      onTouch: (value) {
-                        patient.updateName(value);
-                      },
+                      patient.user.name,
+                      // onTouch: (value) {
+                      //   patient.updateName(value);
+                      // },
+                      onTouch: (){},
+                      canEdit: false,
+                    ),
+
+                    Infor(
+                      'Gender',
+                      "${patient.user.gender}",
+                      canEdit: false, onTouch: (){},
+                      // onTouch: (value) {
+                      //   patient.updateSex(value);
+                      // },
                     ),
                     Infor(
                       'Date of Birth',
-                      (patient.dateOfBirth == null)
+                      (patient.user.dateOfBirth == null)
                           ? 'No information'
-                          : DateFormat('dd/MM/yyyy')
-                              .format(patient.dateOfBirth!),
-                      onTouch: (value) {
-                        patient.updateDateOfBirth(value);
-                      },
+                          : DateFormat('dd/MM/yyyy').format(patient.user.dateOfBirth!),
+                      onTouch: () async{
+                          final DateTime? dateTime = await showDatePicker(
+                              context: context,
+                              initialDate: patient.user.dateOfBirth ?? DateTime.now(),
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime(2025));
+
+                          if (dateTime != null) {
+                            setState(() {
+                              patient.user.updateDateOfBirth(dateTime);
+                            });
+                          }
+                        },
                     ),
-                    Infor(
-                      'Gender',
-                      "${patient.sex}",
-                      onTouch: (value) {
-                        patient.updateSex(value);
-                      },
-                    )
                   ]),
-                  InforBar('Group Name', [
+                  InforBar('Communications', [
                     Infor(
                       'Phone number',
-                      "${patient.phoneNumber}",
-                      onTouch: (value) {
-                        patient.updatePhoneNumber(value);
+                      "${patient.user.phoneNumber}",
+                      onTouch: () {
+                        showDialog(context: context,
+                            builder: (BuildContext){
+                              TextEditingController contentController = TextEditingController();
+                              contentController.text = patient.user.phoneNumber==null?'':'${patient.user.phoneNumber}';
+                              return AlertDialog(
+                                title: const Text("Edit phone number"),
+                                content: TextField(
+                                  keyboardType: TextInputType.number,
+                                  controller: contentController,
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: (){
+                                        //patient.updatePhoneNumber(contentController.text);
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("OK")),
+                                  TextButton(
+                                      onPressed: (){Navigator.of(context).pop();},
+                                      child: const Text("Cancel")),
+                                ],
+                              );
+                            });
                       },
                     ),
                     Infor(
                       'Email',
-                      "${patient.email}",
-                      onTouch: (value) {
-                        patient.updateEmail(value);
-                      },
+                      "${patient.user.email}",
+                      // onTouch: (value) {
+                      //   patient.updateEmail(value);
+                      // },
+                      canEdit: false, onTouch: (){},
                     ),
                   ]),
                   InforBar('Body indicators', [
                     Infor(
-                      'Height',
-                      '${patient.height} cm',
-                      onTouch: (value) {
-                        patient.updateHeight(double.parse(value));
+                      'Height (cm)',
+                      '${patient.user.height}',
+                      onTouch: () {
+                        showDialog(context: context,
+                            builder: (BuildContext){
+                              TextEditingController contentController = TextEditingController();
+                              contentController.text = patient.user.height==null?'':'${patient.user.height}';
+                              return AlertDialog(
+                                title: const Text("Edit height"),
+                                content: TextField(
+                                  keyboardType: TextInputType.number,
+                                  controller: contentController,
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: (){
+                                        //patient.updateHeight(double.parse(contentController.text));
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("OK")),
+                                  TextButton(
+                                      onPressed: (){Navigator.of(context).pop();},
+                                      child: const Text("Cancel")),
+                                ],
+                              );
+                            });
                       },
                     ),
                     Infor(
-                      'Weight',
-                      '${patient.weight} kg',
-                      onTouch: (value) {
-                        patient.updateWeight(double.parse(value));
+                      'Weight (kg)',
+                      '${patient.user.weight}',
+                      onTouch: () {
+                        showDialog(context: context,
+                            builder: (BuildContext){
+                              TextEditingController contentController = TextEditingController();
+                              contentController.text = patient.user.weight==null?'':'${patient.user.weight}';
+                              return AlertDialog(
+                                title: const Text("Edit weight"),
+                                content: TextField(
+                                  keyboardType: TextInputType.number,
+                                  controller: contentController,
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: (){
+                                        //patient.updateWeight(double.parse(contentController.text));
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("OK")),
+                                  TextButton(
+                                      onPressed: (){Navigator.of(context).pop();},
+                                      child: Text("Cancel")),
+                                ],
+                              );
+                            });
                       },
                     ),
                     Infor(
                       'BMI',
-                      '',
-                      onTouch: () {},
-                      canEdit: false,
+                        (patient.user.weight != null && patient.user.height != null)
+                            ? '${DiagnosisEngine.calculateBMI(patient.user.weight!, patient.user.height!)} (${DiagnosisEngine.diagnoseBMI(DiagnosisEngine.calculateBMI(patient.user.weight!, patient.user.height!))})'
+                            : 'no information',
+                      canEdit: false, onTouch: (){},
                     )
                   ])
                 ],
@@ -170,27 +254,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   bottomRight: Radius.circular(30)),
             ),
           ),
-          // Positioned(
-          //     top: 50,
-          //     right: 20,
-          //     child: TextButton(
-          //       style: ButtonStyle(
-          //           backgroundColor: MaterialStatePropertyAll(
-          //               Colors.blueGrey.withOpacity(0.3)),
-          //           padding: const MaterialStatePropertyAll(EdgeInsets.all(0))),
-          //       onPressed: () {
-          //         Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //             builder: (context) => EditProfileScreen(),
-          //           ),
-          //         );
-          //       },
-          //       child: const Text(
-          //         'Edit',
-          //         style: TextStyle(fontSize: 18, color: Colors.blueAccent),
-          //       ),
-          //     )),
         ],
       );
     });
