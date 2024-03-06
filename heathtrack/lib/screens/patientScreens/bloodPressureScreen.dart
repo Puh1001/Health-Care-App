@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heathtrack/screens/patientScreens/checkBloodPressure.dart';
 import 'package:heathtrack/widgets/chart.dart';
+
+import '../../k_services/diagnoseEngine.dart';
+import '../../widgets/diagnoseBar.dart';
 class BloodPressureScreen extends StatefulWidget {
 
   const BloodPressureScreen({super.key});
@@ -57,6 +60,7 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
             ),
         
             const SizedBox(height: 20,),
+            DiagnoseBar(diagnose: DiagnosisEngine.diagnoseBloodPressureIssue(80,50)), //<<<-------<<<-----------------------------------------
             DataBar(name: 'Current Blood pressure',value: '$currentValue',),
             DataBar(name: 'Average Blood pressure',value: '${(average! * pow(10, 1)).round() / pow(10, 1)}',),
             DataBar(name: 'Max Blood pressure',value: '$maxValue',),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heathtrack/screens/patientScreens/mapScreen.dart';
 import 'package:heathtrack/screens/patientScreens/profileScreen.dart';
 
 import 'homeScreen.dart';
@@ -13,7 +14,7 @@ class _PatientControlScreenState extends State<PatientControlScreen> {
   int selectedIndex = 0;
   final List<Widget> _children= [
     HomeScreen(),
-    Container(color: Colors.blueGrey,child: const Center(child: Text('home',))),
+    MapScreen(),
     //Container(color: Colors.green,child: const Center(child: Text('map',))),
     Container(color: Colors.pink,child: const Center(child: Text('News'),),),
     //Container(color: Colors.yellow,child: const Center(child: Text('profile',))),
@@ -41,7 +42,7 @@ class _PatientControlScreenState extends State<PatientControlScreen> {
                 BottomNavigationBarItem(icon: Icon(Icons.home_filled),label: 'Home'),
                 BottomNavigationBarItem(icon: Icon(Icons.map),label: 'Map'),
                 BottomNavigationBarItem(icon: Icon(Icons.newspaper),label: 'News'),
-                BottomNavigationBarItem(icon: Icon(Icons.person),label: 'User'),
+                BottomNavigationBarItem(icon: Icon(Icons.person),label: 'Profile'),
               ],
               elevation: 0,
               type: BottomNavigationBarType.fixed,

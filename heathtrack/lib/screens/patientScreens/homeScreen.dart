@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:heathtrack/providers/userProvider.dart';
+import 'package:heathtrack/screens/patientScreens/patientSettingScreen.dart';
 import 'package:heathtrack/screens/patientScreens/sosScreen.dart';
 import 'package:heathtrack/widgets/healthIndicators.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +10,7 @@ import '../../widgets/Summary.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<Patient>(
+    return Consumer<UserProvider>(
       builder: (BuildContext context, patient,child) {
       return Scaffold(
           backgroundColor: const Color(0xfff7f7f7),
@@ -23,6 +25,7 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         IconButton(
                             onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (contexxt)=>PatientSettingScreen()));
                             },
                             icon: const Icon(Icons.settings,size: 30,)),
                         const SizedBox(width:5)
@@ -34,7 +37,7 @@ class HomeScreen extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.all(20),
                 padding: const EdgeInsets.only(top:20),
-                child: HealthIndicators(patient: patient,),
+                child: HealthIndicators(patient: patient.user,),
               ),
                   HorizontalBar(const Icon(Icons.emergency,color: Colors.red,),'Emergency',
                     ontap: (){

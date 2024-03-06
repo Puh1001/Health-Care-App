@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:heathtrack/providers/userProvider.dart';
+import 'package:provider/provider.dart';
 import '../objects/patient.dart';
 import '../screens/patientScreens/bloodPressureScreen.dart';
 import '../screens/patientScreens/glucoseLevelScreen.dart';
@@ -11,12 +12,24 @@ import 'Metrics.dart';
 class HealthIndicators extends StatelessWidget {
   HealthIndicators({super.key, required this.patient});
   Patient patient;
+  var heartRateStatus = 0;
+  var bloodPressureStatus = 0;
+  var glucoseLevelStatus = 0;
+  var oxygenStatus = 0;
+  var temperatureStatus = 0;
+
   @override
   Widget build(BuildContext context) {
+    patient.updateStatus();
+    heartRateStatus = patient.heartRateStatus;
+    bloodPressureStatus = patient.bloodPressureStatus;
+    glucoseLevelStatus = patient.bloodGlucoseLevelStatus;
+    oxygenStatus = patient.oxygenSaturationStatus;
+    temperatureStatus = patient.bodyTemperatureStatus;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Health indicators',
+         Text(Provider.of<UserProvider>(context).lang.healthIndicator,
           style: TextStyle(
               fontWeight: FontWeight.w500,
               color: Colors.grey,
@@ -28,9 +41,10 @@ class HealthIndicators extends StatelessWidget {
               FontAwesomeIcons.heartPulse,
               color: Colors.white,
               size: 35,),
-              "Heart Rate",
+              Provider.of<UserProvider>(context).lang.heartRate,
               "${patient.heartRate}",
               'bpm',
+              problem: heartRateStatus,
               background: const Color(0xffD4F4DC),
               ontap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>  HeartRateScreen()));
@@ -41,8 +55,9 @@ class HealthIndicators extends StatelessWidget {
               color: Colors.white,
               size: 40,),
               "Blood\nPressure",
-              "${patient.bloodPressure}",
+              "${patient.systolic}/${patient.diastolic}",
               'mmHg',
+              problem: bloodPressureStatus,
               background: Color(0xffF7CECD),
               ontap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>  BloodPressureScreen()));
@@ -60,6 +75,7 @@ class HealthIndicators extends StatelessWidget {
               "Oxygen\nSaturation",
               "${patient.oxygenSaturation}",
               '%',
+              problem: oxygenStatus,
               background: Color(0xffD4E3F4),
               ontap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>  OxygenScreen()));
@@ -74,6 +90,7 @@ class HealthIndicators extends StatelessWidget {
               "Body\nTemperature",
               "${patient.bodyTemperature}",
               '°C',
+              problem: temperatureStatus,
               background:Color(0xffF4EDD4),
               ontap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> TemperatureScreen()));
@@ -89,6 +106,7 @@ class HealthIndicators extends StatelessWidget {
               "Glucose\nlevel",
               "${patient.bloodGlucoseLevel}",
               'mg/DL',
+              problem: glucoseLevelStatus,
               background: Color(0xffDAD4F4),
               ontap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>  GlucoseLevelScreen()));
@@ -96,9 +114,10 @@ class HealthIndicators extends StatelessWidget {
             const SizedBox(width: 15,),
             Metrics(
               const Icon(FontAwesomeIcons.personRunning,color: Colors.white,size: 50,),
-              "Activity",
+              Provider.of<UserProvider>(context).lang.activity,
               "1120",
               'steps',
+              problem: -1,
               background: const Color(0xffD2D8DE),
               ontap: (){},),
           ],

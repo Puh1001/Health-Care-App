@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heathtrack/providers/userProvider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../objects/patient.dart';
@@ -12,17 +13,17 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   late DateTime? date =
-      Provider.of<Patient>(context, listen: false).dateOfBirth;
+      Provider.of<UserProvider>(context, listen: false).user.dateOfBirth;
   @override
   Widget build(BuildContext context) {
-    return Consumer<Patient>(
+    return Consumer<UserProvider>(
       builder: (BuildContext context, patient, child) {
         TextEditingController nameController =
-            TextEditingController(text: patient.name);
+            TextEditingController(text: patient.user.name);
         TextEditingController phoneNumberController =
-            TextEditingController(text: patient.phoneNumber);
+            TextEditingController(text: patient.user.phoneNumber);
         TextEditingController emailController =
-            TextEditingController(text: patient.email);
+            TextEditingController(text: patient.user.email);
 
         return Scaffold(
           appBar: AppBar(
@@ -32,12 +33,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             actions: [
               TextButton(
                   onPressed: () {
-                    patient.updatePatientInfo(
-                      name: nameController.text,
-                      phoneNumber: phoneNumberController.text,
-                      email: emailController.text,
-                      dateOfBirth: date,
-                    );
+                    // patient.updatePatientInfo(
+                    //   name: nameController.text,
+                    //   phoneNumber: phoneNumberController.text,
+                    //   email: emailController.text,
+                    //   dateOfBirth: date,
+                    // );
                     Navigator.pop(context);
                   },
                   child: const Text(

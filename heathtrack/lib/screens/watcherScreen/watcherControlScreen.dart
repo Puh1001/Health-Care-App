@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/screens/watcherScreen/watcherHomeScreen.dart';
 import 'package:heathtrack/screens/watcherScreen/watcherProfileScreen.dart';
+import 'package:heathtrack/screens/watcherScreen/watcherSettingScreen.dart';
+import 'package:provider/provider.dart';
+
+import '../../objects/watcher.dart';
 
 class WatcherControlScreen extends StatefulWidget {
   static const String routeName = '/WatcherControl';
-  const WatcherControlScreen({super.key});
+  const WatcherControlScreen( {super.key});
 
   @override
   State<WatcherControlScreen> createState() => _WatcherControlScreenState();
@@ -14,19 +19,13 @@ class _WatcherControlScreenState extends State<WatcherControlScreen> {
   int selectedIndex = 0;
   final List<Widget> _children = [
     WatcherHomeScreen(),
-    Container(
-        color: Colors.blueGrey,
-        child: const Center(
-            child: Text(
-          'home',
-        ))),
-    //Container(color: Colors.green,child: const Center(child: Text('map',))),
-    WatcherProfileScreen()
+    WatcherProfileScreen(),
+    WatcherSettingScreen()
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffececed),
+      backgroundColor: Provider.of<UserProvider>(context).theme.backgroundColor1,
       body: _children[selectedIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -42,12 +41,12 @@ class _WatcherControlScreenState extends State<WatcherControlScreen> {
             items: const [
               BottomNavigationBarItem(
                   icon: Icon(Icons.home_filled), label: 'Home'),
-              BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
+              BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+              BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Setting'),
             ],
             elevation: 0,
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.white,
+            backgroundColor: Provider.of<UserProvider>(context).theme.backgroundColor2,
             unselectedItemColor: Colors.black54,
             selectedItemColor: const Color(0xFF68E3B3),
             currentIndex: selectedIndex,
