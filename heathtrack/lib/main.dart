@@ -31,12 +31,11 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
   }
 
   Widget build(BuildContext context) {
-    print("type32: " + Provider.of<UserProvider>(context).user.type);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: (settings) => generateRoute(settings),
         home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-            ? Provider.of<UserProvider>(context).user.type == 'watcher'
+            ? Provider.of<UserProvider>(context).user.type == 'patient'
                 ? const PatientControlScreen()
                 : const PatientControlScreen()
             : const LoginView());
