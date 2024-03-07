@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:heathtrack/providers/userProvider.dart';
-import 'package:heathtrack/screens/watcherScreen/watcherHomeScreen.dart';
-import 'package:provider/provider.dart';
-import '../patientScreens/patientControlScreen.dart';
-import '../watcherScreen/watcherControlScreen.dart';
 import 'register_view.dart';
 import 'package:heathtrack/services/authService.dart';
 

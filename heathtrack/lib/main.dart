@@ -31,17 +31,13 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
   }
 
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => UserProvider())
-        ],
-        child: MaterialApp(
+    return MaterialApp(
             debugShowCheckedModeBanner: false,
             onGenerateRoute: (settings) => generateRoute(settings),
             home: Provider.of<UserProvider>(context).user.token.isNotEmpty
                 ? Provider.of<UserProvider>(context).user.type == 'patient'
                     ? const PatientControlScreen()
-                    : const WatcherControlScreen()
-                : const LoginView()));
+                    : const PatientControlScreen()
+                : const LoginView());
   }
 }

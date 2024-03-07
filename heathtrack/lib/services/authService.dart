@@ -12,6 +12,8 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../screens/patientScreens/patientControlScreen.dart';
+
 
 String uri = 'http://172.20.10.3:8080';
 
@@ -84,11 +86,16 @@ class AuthService {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           Provider.of<UserProvider>(context, listen: false).setUser(res.body);
           await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
+          Provider.of<UserProvider>(context, listen: false).user.type == 'watcher'?
           Navigator.pushNamedAndRemoveUntil(
             context,
             WatcherControlScreen.routeName,
             (route) => false,
-          );
+          ):  Navigator.pushNamedAndRemoveUntil(
+              context,
+              PatientControlScreen.routeName,
+          (route) => false,)
+          ;
         },
       );
     } catch (e) {

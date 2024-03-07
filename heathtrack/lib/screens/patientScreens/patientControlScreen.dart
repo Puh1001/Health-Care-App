@@ -9,7 +9,7 @@ import '../../services/patientServices.dart';
 import 'homeScreen.dart';
 class PatientControlScreen extends StatefulWidget {
   const PatientControlScreen({super.key});
-
+  static const String routeName = '/PatientControl';
   @override
   State<PatientControlScreen> createState() => _PatientControlScreenState();
 }

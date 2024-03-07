@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heathtrack/screens/Login/login_view.dart';
 import 'package:heathtrack/screens/Login/register_view.dart';
+import 'package:heathtrack/screens/patientScreens/patientControlScreen.dart';
 import 'package:heathtrack/screens/watcherScreen/watcherControlScreen.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -15,6 +16,10 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
           settings: routeSettings,
           builder: (_) => const WatcherControlScreen());
+    case PatientControlScreen.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings,
+          builder: (_) => const PatientControlScreen());
     default:
       return MaterialPageRoute(
         settings: routeSettings,
