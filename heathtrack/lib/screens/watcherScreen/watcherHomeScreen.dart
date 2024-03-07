@@ -17,7 +17,6 @@ class WatcherHomeScreen extends StatefulWidget {
 
 class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
   List<PatientInWatcher>? listPatient;
-
   @override
   void initState() {
     // TODO: implement initState

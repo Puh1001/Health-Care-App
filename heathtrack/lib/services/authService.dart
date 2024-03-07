@@ -7,16 +7,15 @@ import 'package:heathtrack/constants/errorHandling.dart';
 import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/models/user.dart';
 import 'package:heathtrack/providers/userProvider.dart';
+import 'package:heathtrack/screens/patientScreens/patientControlScreen.dart';
 import 'package:heathtrack/screens/watcherScreen/watcherControlScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 //String uri = 'http://172.20.10.3:8080';
 
 String uri = 'http://192.168.154.101:8080';
-
 
 class AuthService {
 // REGISTER
@@ -84,11 +83,18 @@ class AuthService {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           Provider.of<UserProvider>(context, listen: false).setUser(res.body);
           await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            WatcherControlScreen.routeName,
-            (route) => false,
-          );
+          Provider.of<UserProvider>(context, listen: false).user.type ==
+                  "watcher"
+              ? Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  WatcherControlScreen.routeName,
+                  (route) => false,
+                )
+              : Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  PatientControlScreen.routeName,
+                  (route) => false,
+                );
         },
       );
     } catch (e) {
