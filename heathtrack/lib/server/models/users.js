@@ -28,6 +28,10 @@ const userSchema = mongoose.Schema({
     type: String,
   },
   address: {
+    type: String,
+    default: "",
+  },
+  watcherId: {
     type: mongoose.Schema.Types.ObjectId,
     require: true,
     ref: "User",

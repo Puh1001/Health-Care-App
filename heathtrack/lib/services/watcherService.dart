@@ -24,7 +24,7 @@ class WatcherService {
       required String type,
       required String age,
       required String familyCode,
-      required String address}) async {
+      required String watcherId}) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
       PatientInWatcher patientInWatcher = PatientInWatcher(
@@ -34,7 +34,7 @@ class WatcherService {
         age: age,
         type: type,
         familyCode: familyCode,
-        address: address,
+        watcherId: watcherId,
       );
 
       http.Response res = await http.post(

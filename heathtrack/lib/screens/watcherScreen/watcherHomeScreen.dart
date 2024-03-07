@@ -106,7 +106,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
       type: 'patient',
       familyCode:
           Provider.of<UserProvider>(context, listen: false).user.familyCode,
-      address: Provider.of<UserProvider>(context, listen: false).user.id,
+      watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
     );
   }
 
@@ -296,6 +296,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                           height: MediaQuery.sizeOf(context).height - 250,
                           child: SingleChildScrollView(
                             child: Column(
+
                               // children: listPatient
                               //     .map((e) => PatientCard(
                               //           isWoman:
@@ -317,7 +318,30 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                               //           },
                               //         ))
                               //     .toList(),
-                            ),
+                           // ),
+
+                                // children: listPatient
+                                //     .map((e) => PatientCard(
+                                //           isWoman:
+                                //               e.gender == 'female' ? true : false,
+                                //           name: e.name,
+                                //           age: (e.dateOfBirth == null)
+                                //               ? null
+                                //               : DateTime.now().year -
+                                //                   e.dateOfBirth!.year,
+                                //           diagnose: e.diagnose ??
+                                //               watcher.lang.noInformation,
+                                //           ontap: () {
+                                //             Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                     builder: (context) =>
+                                //                         PatientMornitoringScreen(
+                                //                             patient: e)));
+                                //           },
+                                //         ))
+                                //     .toList(),
+                                ),
                           ),
                         )
                       : const DeviceCard()
