@@ -49,8 +49,8 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
   double? average;
   @override
   Widget build(BuildContext context) {
-    currentValue =
-        (listData.isEmpty ? 0 : listData[listData.length - 1].value);
+
+    currentValue = (listData.isEmpty ? 0 : listData[listData.length - 1].value);
     maxValue = listData.isEmpty
         ? 0
         : listData

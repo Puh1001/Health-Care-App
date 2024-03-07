@@ -29,26 +29,55 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
       systolic: 180,
       diastolic: 55,
       bodyTemperature: 38,
-      oxygenSaturation: 97, email: '', password: '', familyCode: '', address: '', type: '', token: '',
+      oxygenSaturation: 97,
+      email: '',
+      password: '',
+      familyCode: '',
+      address: '',
+      type: '',
+      token: '',
     ),
-    Patient(name: 'Nguyen Van B', gender: "male", id: '', email: '', password: '', familyCode: '', address: '', type: '', token: '',),
     Patient(
-        name: 'Nguyen Thi A',
-        dateOfBirth: DateTime(1977, 12, 11),
-        gender: "female",
-        id: '',
-      email: '', password: '', familyCode: '', address: '', type: '', token: '',),
+      name: 'Nguyen Van B',
+      gender: "male",
+      id: '',
+      email: '',
+      password: '',
+      familyCode: '',
+      address: '',
+      type: '',
+      token: '',
+    ),
     Patient(
-        name: 'Nguyen Van D',
-        dateOfBirth: DateTime(1955, 12, 11),
-        gender: "male",
-        id: '',
-      email: '', password: '', familyCode: '', address: '', type: '', token: '',),
+      name: 'Nguyen Thi A',
+      dateOfBirth: DateTime(1977, 12, 11),
+      gender: "female",
+      id: '',
+      email: '',
+      password: '',
+      familyCode: '',
+      address: '',
+      type: '',
+      token: '',
+    ),
+    Patient(
+      name: 'Nguyen Van D',
+      dateOfBirth: DateTime(1955, 12, 11),
+      gender: "male",
+      id: '',
+      email: '',
+      password: '',
+      familyCode: '',
+      address: '',
+      type: '',
+      token: '',
+    ),
   ];
   bool mySwitch = true;
   TextEditingController patientName = TextEditingController();
   TextEditingController patientEmail = TextEditingController();
   TextEditingController patientPassword = TextEditingController();
+  TextEditingController ageController = TextEditingController();
   final WatcherService watcherService = WatcherService();
 
   void addPatient() {
@@ -57,14 +86,14 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
       name: patientName.text,
       email: patientEmail.text,
       password: patientPassword.text,
+      age: ageController.text,
       type: 'patient',
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(
-      builder: (context,watcher, child){
+    return Consumer<UserProvider>(builder: (context, watcher, child) {
       return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -95,19 +124,25 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                                 fontSize: 20,
                               ),
                             ),
-                            TextField(
+                            TextFormField(
                               controller: patientName,
-                              decoration: InputDecoration(
+                              decoration: const  InputDecoration(
                                 label: Text('Patient\'s name'),
                               ),
                             ),
-                            TextField(
+                            TextFormField(
                               controller: patientEmail,
                               decoration: const InputDecoration(
                                 label: Text('Email'),
                               ),
                             ),
-                            TextField(
+                            TextFormField(
+                              controller: ageController,
+                              decoration: const InputDecoration(
+                                label: Text('Age'),
+                              ),
+                            ),
+                            TextFormField(
                               controller: patientPassword,
                               decoration: const InputDecoration(
                                 label: Text('Password'),
@@ -123,8 +158,8 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                                     patientPassword.text.isEmpty) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content:
-                                            Text('Please complete information!')),
+                                        content: Text(
+                                            'Please complete information!')),
                                   );
                                 } else {
                                   addPatient();
@@ -146,12 +181,12 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                       ),
                     ));
           },
-          child: Icon(
+          backgroundColor: const Color(0xff9bc7d5),
+          shape:const  CircleBorder(),
+          child: const  Icon(
             Icons.add_rounded,
             color: Colors.white,
           ),
-          backgroundColor: Color(0xff9bc7d5),
-          shape: CircleBorder(),
         ),
         backgroundColor: watcher.theme.backgroundColor1,
         body: Column(
@@ -159,7 +194,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
             const SizedBox(
               height: 50,
             ),
-             Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(
@@ -167,16 +202,16 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                 ),
                 const CircleAvatar(
                   radius: 30.0,
-                  backgroundImage:
-                      AssetImage('images/avatar.png'),
+                  backgroundImage: AssetImage('images/avatar.png'),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-                Text(
-                  watcher.user.name,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24,color: watcher.theme.textColor1)
-                ),
+                Text(watcher.user.name,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: watcher.theme.textColor1)),
               ],
             ),
             Padding(
@@ -199,13 +234,13 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                               });
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 5),
+                              padding: const  EdgeInsets.symmetric(vertical: 5),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
                                   color: mySwitch
-                                      ? Color(0xFFA5C8EB)
+                                      ? const Color(0xFFA5C8EB)
                                       : Colors.transparent),
-                              child: Text(
+                              child: const Text(
                                 'list patients',
                                 textAlign: TextAlign.center,
                               ),
@@ -220,13 +255,13 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                               setState(() {});
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 5),
+                              padding: const EdgeInsets.symmetric(vertical: 5),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
                                   color: !mySwitch
-                                      ? Color(0xFFA5C8EB)
+                                      ? const Color(0xFFA5C8EB)
                                       : Colors.transparent),
-                              child: Text(
+                              child: const Text(
                                 'list devices',
                                 textAlign: TextAlign.center,
                               ),
@@ -243,34 +278,35 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                             child: Column(
                               children: listPatient
                                   .map((e) => PatientCard(
-                                    isWoman: e.gender=='female'?true:false,
-                                    name: e.name,
-                                    age: (e.dateOfBirth == null)
-                                        ? null
-                                        : DateTime.now().year -
-                                        e.dateOfBirth!.year,
-                                    diagnose: e.diagnose??watcher.lang.noInformation,
-                                    ontap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PatientMornitoringScreen(patient: e)
-                                          )
-                                      );
-                                    },
-                                  ))
+                                        isWoman:
+                                            e.gender == 'female' ? true : false,
+                                        name: e.name,
+                                        age: (e.dateOfBirth == null)
+                                            ? null
+                                            : DateTime.now().year -
+                                                e.dateOfBirth!.year,
+                                        diagnose: e.diagnose ??
+                                            watcher.lang.noInformation,
+                                        ontap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PatientMornitoringScreen(
+                                                          patient: e)));
+                                        },
+                                      ))
                                   .toList(),
                             ),
                           ),
                         )
-                      : DeviceCard()
+                      : const DeviceCard()
                 ],
               ),
             ),
           ],
         ),
-      );}
-    );
+      );
+    });
   }
 }

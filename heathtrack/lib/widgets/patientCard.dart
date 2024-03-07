@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'updateInfoView.dart';
 class PatientCard extends StatelessWidget {
   PatientCard(
       {super.key,
@@ -81,9 +81,24 @@ class PatientCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(onPressed: (){}, icon: const Icon(Icons.settings,size: 30,),color: Colors.grey.shade600,),
-                  TextButton(onPressed:(){}, child: const Text('Delete',style: TextStyle(color: Color(
-                      0xffb93939)),))
+                  IconButton(
+                    onPressed: (){
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => const UpdateInfoView())
+                      );
+                    },
+                    icon: const Icon(Icons.settings,size: 30,),
+                    color: Colors.grey.shade600,
+                  ),
+                  TextButton(
+                      onPressed:(){},
+                      child: const Text(
+                        'Delete',
+                        style: TextStyle(
+                            color: Color(0xffb93939)
+                        ),
+                      )
+                  )
                 ],
               ),
             )
