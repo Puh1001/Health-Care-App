@@ -6,12 +6,14 @@ class PatientInWatcher {
   final String email;
   final String password;
   final String type;
+  final String age;
   String? id;
   PatientInWatcher({
     required this.name,
     required this.email,
     required this.password,
     required this.type,
+    required this.age,
     this.id,
   });
 
@@ -31,6 +33,7 @@ class PatientInWatcher {
       email: map['email'] as String,
       password: map['password'] as String,
       type: map['type'] as String,
+      age: map['age'] as String,
       id: map['_id'] != null ? map['id'] as String : null,
     );
   }

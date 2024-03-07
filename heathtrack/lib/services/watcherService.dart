@@ -19,6 +19,7 @@ class WatcherService {
     required String email,
     required String password,
     required String type,
+    required String age,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
@@ -26,6 +27,7 @@ class WatcherService {
         name: name,
         email: email,
         password: password,
+        age: age,
         type: type,
       );
 
