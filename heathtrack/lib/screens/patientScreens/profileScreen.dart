@@ -21,13 +21,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File image = File('images/avatar.png');
 
-  // void selectImage() async {
-  //   var res = await pickImage();
-  //   setState() {
-  //     image = res!;
-  //   }
-  // }
-
   final WatcherService watcherService = WatcherService();
 
   // void addPatientProfile(){
@@ -35,7 +28,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // }
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (BuildContext context, patient, child) {
+    return Consumer<UserProvider>(
+        builder: (BuildContext context, patient, child) {
       return Stack(
         children: [
           SingleChildScrollView(
@@ -103,14 +97,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       // onTouch: (value) {
                       //   patient.updateName(value);
                       // },
-                      onTouch: (){},
+                      onTouch: () {},
                       canEdit: false,
                     ),
-
                     Infor(
                       'Gender',
                       "${patient.user.gender}",
-                      canEdit: false, onTouch: (){},
+                      canEdit: false, onTouch: () {},
                       // onTouch: (value) {
                       //   patient.updateSex(value);
                       // },
@@ -119,20 +112,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'Date of Birth',
                       (patient.user.dateOfBirth == null)
                           ? 'No information'
-                          : DateFormat('dd/MM/yyyy').format(patient.user.dateOfBirth!),
-                      onTouch: () async{
-                          final DateTime? dateTime = await showDatePicker(
-                              context: context,
-                              initialDate: patient.user.dateOfBirth ?? DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2025));
+                          : DateFormat('dd/MM/yyyy')
+                              .format(patient.user.dateOfBirth!),
+                      onTouch: () async {
+                        final DateTime? dateTime = await showDatePicker(
+                            context: context,
+                            initialDate:
+                                patient.user.dateOfBirth ?? DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2025));
 
-                          if (dateTime != null) {
-                            setState(() {
-                              patient.user.updateDateOfBirth(dateTime);
-                            });
-                          }
-                        },
+                        if (dateTime != null) {
+                          setState(() {
+                            patient.user.updateDateOfBirth(dateTime);
+                          });
+                        }
+                      },
                     ),
                   ]),
                   InforBar('Communications', [
@@ -140,10 +135,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'Phone number',
                       "${patient.user.phoneNumber}",
                       onTouch: () {
-                        showDialog(context: context,
-                            builder: (BuildContext){
-                              TextEditingController contentController = TextEditingController();
-                              contentController.text = patient.user.phoneNumber==null?'':'${patient.user.phoneNumber}';
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext) {
+                              TextEditingController contentController =
+                                  TextEditingController();
+                              contentController.text =
+                                  patient.user.phoneNumber == null
+                                      ? ''
+                                      : '${patient.user.phoneNumber}';
                               return AlertDialog(
                                 title: const Text("Edit phone number"),
                                 content: TextField(
@@ -152,13 +152,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 actions: [
                                   TextButton(
-                                      onPressed: (){
+                                      onPressed: () {
                                         //patient.updatePhoneNumber(contentController.text);
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text("OK")),
                                   TextButton(
-                                      onPressed: (){Navigator.of(context).pop();},
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
                                       child: const Text("Cancel")),
                                 ],
                               );
@@ -171,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       // onTouch: (value) {
                       //   patient.updateEmail(value);
                       // },
-                      canEdit: false, onTouch: (){},
+                      canEdit: false, onTouch: () {},
                     ),
                   ]),
                   InforBar('Body indicators', [
@@ -179,10 +181,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'Height (cm)',
                       '${patient.user.height}',
                       onTouch: () {
-                        showDialog(context: context,
-                            builder: (BuildContext){
-                              TextEditingController contentController = TextEditingController();
-                              contentController.text = patient.user.height==null?'':'${patient.user.height}';
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext) {
+                              TextEditingController contentController =
+                                  TextEditingController();
+                              contentController.text =
+                                  patient.user.height == null
+                                      ? ''
+                                      : '${patient.user.height}';
                               return AlertDialog(
                                 title: const Text("Edit height"),
                                 content: TextField(
@@ -191,13 +198,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 actions: [
                                   TextButton(
-                                      onPressed: (){
+                                      onPressed: () {
                                         //patient.updateHeight(double.parse(contentController.text));
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text("OK")),
                                   TextButton(
-                                      onPressed: (){Navigator.of(context).pop();},
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
                                       child: const Text("Cancel")),
                                 ],
                               );
@@ -208,10 +217,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'Weight (kg)',
                       '${patient.user.weight}',
                       onTouch: () {
-                        showDialog(context: context,
-                            builder: (BuildContext){
-                              TextEditingController contentController = TextEditingController();
-                              contentController.text = patient.user.weight==null?'':'${patient.user.weight}';
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext) {
+                              TextEditingController contentController =
+                                  TextEditingController();
+                              contentController.text =
+                                  patient.user.weight == null
+                                      ? ''
+                                      : '${patient.user.weight}';
                               return AlertDialog(
                                 title: const Text("Edit weight"),
                                 content: TextField(
@@ -220,13 +234,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 actions: [
                                   TextButton(
-                                      onPressed: (){
+                                      onPressed: () {
                                         //patient.updateWeight(double.parse(contentController.text));
                                         Navigator.of(context).pop();
                                       },
                                       child: Text("OK")),
                                   TextButton(
-                                      onPressed: (){Navigator.of(context).pop();},
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
                                       child: Text("Cancel")),
                                 ],
                               );
@@ -235,10 +251,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Infor(
                       'BMI',
-                        (patient.user.weight != null && patient.user.height != null)
-                            ? '${DiagnosisEngine.calculateBMI(patient.user.weight!, patient.user.height!)} (${DiagnosisEngine.diagnoseBMI(DiagnosisEngine.calculateBMI(patient.user.weight!, patient.user.height!))})'
-                            : 'no information',
-                      canEdit: false, onTouch: (){},
+                      (patient.user.weight != null &&
+                              patient.user.height != null)
+                          ? '${DiagnosisEngine.calculateBMI(patient.user.weight!, patient.user.height!)} (${DiagnosisEngine.diagnoseBMI(DiagnosisEngine.calculateBMI(patient.user.weight!, patient.user.height!))})'
+                          : 'no information',
+                      canEdit: false,
+                      onTouch: () {},
                     )
                   ])
                 ],

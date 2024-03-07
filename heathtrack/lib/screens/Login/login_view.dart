@@ -75,167 +75,158 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Center(
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 16.0),
+              child: Text('Username'),
+            ),
+            TextField(
+              controller: emailController,
+              keyboardType: TextInputType.name,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.account_circle),
+                hintText: 'Type your username',
+                border: UnderlineInputBorder(),
+                // labelText: "Username"
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 16.0, top: 10),
+              child: Text('Password'),
+            ),
+            TextField(
+              controller: passwordController,
+              obscureText: _passwordVisible,
+              // keyboardType: TextInputType.,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.lock),
+                suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                    },
+                    icon: Icon(_passwordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off)),
+                hintText: 'Type your password',
+                // border: OutlineInputBorder(),
+                // labelText: "Password"
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 16.0, top: 10),
+              child: Text('Family Code'),
+            ),
+            TextField(
+              controller: familyCodeController,
+              keyboardType: TextInputType.name,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.home),
+                hintText: 'Type your family code',
+                border: UnderlineInputBorder(),
+                // labelText: "Username"
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () {}, child: const Text('Forgot password ?'))
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Colors.lightBlueAccent, Colors.blue],
+                    ),
+                    borderRadius: BorderRadius.circular(20)),
+                child: TextButton(
+                    onPressed: () {
+                      // Provider.of<UserProvider>(context,listen: false).setPatient();
+                      //   Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) =>
+                      //               const PatientControlScreen()));
+                      loginUser();
+                    },
+                    // onLongPress: (){
+                    //   Provider.of<UserProvider>(context,listen: false).setWatcher();
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) =>
+                    //           const WatcherControlScreen()));
+                    // },
+                    child: const Text(
+                      'LOGIN',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                          letterSpacing: 2),
+                    )),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0, bottom: 16),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: Divider(
+                    thickness: 1,
+                    color: Colors.grey[400],
+                  )),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      'Or sign up using',
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                  ),
+                  Expanded(
+                      child: Divider(
+                    thickness: 1,
+                    color: Colors.grey[400],
+                  )),
+                ],
+              ),
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Text('Username'),
-                ),
-                TextField(
-                  controller: emailController,
-                  keyboardType: TextInputType.name,
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.account_circle),
-                    hintText: 'Type your username',
-                    border: UnderlineInputBorder(),
-                    // labelText: "Username"
+                TextButton(
+                  style: TextButton.styleFrom(
+                    shape: const CircleBorder(),
                   ),
+                  onPressed: () {},
+                  child: Image.asset('images/googleBtn.png', height: 32),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 16.0, top: 10),
-                  child: Text('Password'),
-                ),
-                TextField(
-                  controller: passwordController,
-                  obscureText: _passwordVisible,
-                  // keyboardType: TextInputType.,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock),
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _passwordVisible = !_passwordVisible;
-                          });
-                        },
-                        icon: Icon(_passwordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off)),
-                    hintText: 'Type your password',
-                    // border: OutlineInputBorder(),
-                    // labelText: "Password"
+                TextButton(
+                  style: TextButton.styleFrom(
+                    shape: const CircleBorder(),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 16.0, top: 10),
-                  child: Text('Family Code'),
-                ),
-                TextField(
-                  controller: familyCodeController,
-                  keyboardType: TextInputType.name,
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.home),
-                    hintText: 'Type your family code',
-                    border: UnderlineInputBorder(),
-                    // labelText: "Username"
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
-                          onPressed: () {}, child: const Text('Forgot password ?'))
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Colors.lightBlueAccent, Colors.blue],
-                        ),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: TextButton(
-                        onPressed: () {
-                          // if (_dropdownValue == "Watchers") {
-                          //   Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) =>
-                          //               const WatcherControlScreen()));
-                          // }
-                          // if (_dropdownValue == "Patients") {
-                          Provider.of<UserProvider>(context,listen: false).setPatient();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const PatientControlScreen()));
-                          // }
-                          //loginUser();
-                        },
-                        onLongPress: (){
-                          Provider.of<UserProvider>(context,listen: false).setWatcher();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                  const WatcherControlScreen()));
-                        },
-                        child: const Text(
-                          'LOGIN',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16,
-                              letterSpacing: 2),
-                        )),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0, bottom: 16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.grey[400],
-                          )),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          'Or sign up using',
-                          style: TextStyle(color: Colors.grey[700]),
-                        ),
-                      ),
-                      Expanded(
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.grey[400],
-                          )),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        shape: const CircleBorder(),
-                      ),
-                      onPressed: () {},
-                      child: Image.asset('images/googleBtn.png', height: 32),
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        shape: const CircleBorder(),
-                      ),
-                      onPressed: () {},
-                      child: Image.asset('images/facebookBtn.png', height: 32),
-                    ),
-                  ],
+                  onPressed: () {},
+                  child: Image.asset('images/facebookBtn.png', height: 32),
                 ),
               ],
             ),
-          ),
-        ));
+          ],
+        ),
+      ),
+    ));
   }
 }
 

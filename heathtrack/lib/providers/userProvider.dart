@@ -22,6 +22,7 @@ class UserProvider extends ChangeNotifier {
     _user = User.fromJson(user);
     notifyListeners();
   }
+
   setPatient() {
     Patient p = Patient(
         id: _user.id,
@@ -31,8 +32,7 @@ class UserProvider extends ChangeNotifier {
         familyCode: _user.familyCode,
         address: _user.address,
         type: _user.type,
-        token: _user.token
-    );
+        token: _user.token);
     _user = p;
     notifyListeners();
   }
@@ -47,23 +47,24 @@ class UserProvider extends ChangeNotifier {
         address: _user.address,
         type: _user.type,
         token: _user.token,
-        patientList: []
-    );
+        patientList: []);
     _user = w;
     notifyListeners();
   }
+
   var theme = MyColor();
   var lang = MyLanguage();
   bool settingDarkmode = false;
   bool settingLanguage = true;
 
-  changeColor(bool isdark){
-    isdark? theme.setDark():theme.setLight();
+  changeColor(bool isdark) {
+    isdark ? theme.setDark() : theme.setLight();
     settingDarkmode = isdark;
     notifyListeners();
   }
-  changeLang(bool isEng){
-    isEng? lang.changeToEng():lang.changeToVi();
+
+  changeLang(bool isEng) {
+    isEng ? lang.changeToEng() : lang.changeToVi();
     settingLanguage = isEng;
     notifyListeners();
   }

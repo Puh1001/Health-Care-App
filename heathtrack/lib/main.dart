@@ -34,7 +34,7 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context)=>UserProvider())
+          ChangeNotifierProvider(create: (context) => UserProvider())
           // ChangeNotifierProvider(create: (context) => Patient(
           //   name: "Khanh",
           //   sex: 'female',
@@ -50,10 +50,11 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             onGenerateRoute: (settings) => generateRoute(settings),
-            home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-                ? Provider.of<UserProvider>(context).user.type == 'watcher'
-                    ?  WatcherControlScreen()
-                    : const PatientControlScreen()
-                : const LoginView()));
+            home:
+                Provider.of<UserProvider>(context).setWatcher().token.isNotEmpty
+                    ? Provider.of<UserProvider>(context).user.type == 'watcher'
+                        ? const PatientControlScreen()
+                        : const PatientControlScreen()
+                    : const LoginView()));
   }
 }
