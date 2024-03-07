@@ -39,9 +39,9 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
             debugShowCheckedModeBanner: false,
             onGenerateRoute: (settings) => generateRoute(settings),
             home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-                ? Provider.of<UserProvider>(context).user.type == 'watcher'
-                    ? const WatcherControlScreen()
-                    : const PatientControlScreen()
+                ? Provider.of<UserProvider>(context).user.type == 'patient'
+                    ? const PatientControlScreen()
+                    : const WatcherControlScreen()
                 : const LoginView()));
   }
 }
