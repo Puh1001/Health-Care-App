@@ -23,6 +23,11 @@ class _WatcherControlScreenState extends State<WatcherControlScreen> {
     WatcherSettingScreen()
   ];
   @override
+  void initState() {
+    Provider.of<UserProvider>(context,listen: false).setWatcher();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Provider.of<UserProvider>(context).theme.backgroundColor1,

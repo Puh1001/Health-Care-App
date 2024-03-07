@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:heathtrack/screens/patientScreens/mapScreen.dart';
 import 'package:heathtrack/screens/patientScreens/profileScreen.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/userProvider.dart';
 import 'homeScreen.dart';
 class PatientControlScreen extends StatefulWidget {
   const PatientControlScreen({super.key});
@@ -9,7 +11,6 @@ class PatientControlScreen extends StatefulWidget {
   @override
   State<PatientControlScreen> createState() => _PatientControlScreenState();
 }
-
 class _PatientControlScreenState extends State<PatientControlScreen> {
   int selectedIndex = 0;
   final List<Widget> _children= [
@@ -20,6 +21,11 @@ class _PatientControlScreenState extends State<PatientControlScreen> {
     //Container(color: Colors.yellow,child: const Center(child: Text('profile',))),
     ProfileScreen()
   ];
+  @override
+  void initState() {
+    Provider.of<UserProvider>(context,listen: false).setPatient();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
