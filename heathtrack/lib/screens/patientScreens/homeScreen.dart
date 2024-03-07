@@ -4,7 +4,6 @@ import 'package:heathtrack/screens/patientScreens/patientSettingScreen.dart';
 import 'package:heathtrack/screens/patientScreens/sosScreen.dart';
 import 'package:heathtrack/widgets/healthIndicators.dart';
 import 'package:provider/provider.dart';
-import '../../objects/patient.dart';
 import '../../widgets/HorizontalBar.dart';
 import '../../widgets/Summary.dart';
 

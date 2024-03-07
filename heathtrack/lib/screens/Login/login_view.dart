@@ -46,7 +46,6 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController familyCodeController = TextEditingController();
   bool _passwordVisible = false;
-  String _dropdownValue = "Patients";
 
   void loginUser() {
     authService.loginUser(
@@ -61,14 +60,6 @@ class _LoginFormState extends State<LoginForm> {
   void initState() {
     super.initState();
     _passwordVisible = false;
-  }
-
-  void dropdownCallback(String? value) {
-    if (value is String) {
-      setState(() {
-        _dropdownValue = value;
-      });
-    }
   }
 
   @override
@@ -162,14 +153,7 @@ class _LoginFormState extends State<LoginForm> {
                       //               const PatientControlScreen()));
                       loginUser();
                     },
-                    // onLongPress: (){
-                    //   Provider.of<UserProvider>(context,listen: false).setWatcher();
-                    //   Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: (context) =>
-                    //           const WatcherControlScreen()));
-                    // },
+
                     child: const Text(
                       'LOGIN',
                       style: TextStyle(

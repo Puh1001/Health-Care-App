@@ -4,9 +4,7 @@ import 'package:heathtrack/screens/watcherScreen/patientMornitoringScreen.dart';
 import 'package:heathtrack/services/watcherService.dart';
 import 'package:heathtrack/widgets/patientCard.dart';
 import 'package:provider/provider.dart';
-
 import '../../objects/patient.dart';
-import '../../objects/watcher.dart';
 import '../../widgets/deviceCard.dart';
 
 class WatcherHomeScreen extends StatefulWidget {

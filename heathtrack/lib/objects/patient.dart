@@ -1,5 +1,6 @@
 
 import 'package:heathtrack/k_services/diagnoseEngine.dart';
+import 'package:heathtrack/models/heathData.dart';
 
 import '../models/user.dart';
 
@@ -9,6 +10,8 @@ class Patient extends User {
   final String? gender;
   final double? height;
   final double? weight;
+  List<HeathData> healthDataList = [];
+
   int? heartRate =0;
   int? systolic = 0;
   int? diastolic = 0;
@@ -45,6 +48,7 @@ class Patient extends User {
     this.oxygenSaturation,
     this.bloodGlucoseLevel,
     this.diagnose,
+    this.healthDataList = const []
   }) : super(
     id: id,
     name: name,
