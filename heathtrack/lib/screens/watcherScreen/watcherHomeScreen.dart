@@ -88,6 +88,9 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
       password: patientPassword.text,
       age: ageController.text,
       type: 'patient',
+      familyCode:
+          Provider.of<UserProvider>(context, listen: false).user.familyCode,
+      address: Provider.of<UserProvider>(context, listen: false).user.id,
     );
   }
 
@@ -126,7 +129,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                             ),
                             TextFormField(
                               controller: patientName,
-                              decoration: const  InputDecoration(
+                              decoration: const InputDecoration(
                                 label: Text('Patient\'s name'),
                               ),
                             ),
@@ -182,8 +185,8 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                     ));
           },
           backgroundColor: const Color(0xff9bc7d5),
-          shape:const  CircleBorder(),
-          child: const  Icon(
+          shape: const CircleBorder(),
+          child: const Icon(
             Icons.add_rounded,
             color: Colors.white,
           ),
@@ -234,7 +237,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                               });
                             },
                             child: Container(
-                              padding: const  EdgeInsets.symmetric(vertical: 5),
+                              padding: const EdgeInsets.symmetric(vertical: 5),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
                                   color: mySwitch

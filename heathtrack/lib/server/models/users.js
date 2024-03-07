@@ -27,17 +27,18 @@ const userSchema = mongoose.Schema({
     require: true,
     type: String,
   },
-  role: {
-    type: String,
-    default: "Watcher",
-  },
   address: {
-    type: String,
-    default: "",
+    type: mongoose.Schema.Types.ObjectId,
+    require: true,
+    ref: "User",
   },
   type: {
     type: String,
     default: "watcher",
+  },
+  age: {
+    type: String,
+    require: true,
   },
 });
 

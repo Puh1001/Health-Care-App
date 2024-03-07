@@ -35,17 +35,6 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => UserProvider())
-          // ChangeNotifierProvider(create: (context) => Patient(
-          //   name: "Khanh",
-          //   sex: 'female',
-          //   dateOfBirth: DateTime(2000, 4, 3),
-          //   id: '',
-          // ),),
-          // ChangeNotifierProvider(create: (context) => Watcher(
-          //   name: "I Am Watcher",
-          //   gender: 'female',
-          //   dateOfBirth: DateTime(1999, 9, 9),
-          // ),),
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,

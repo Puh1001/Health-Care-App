@@ -9,7 +9,7 @@ const authRouter = express.Router();
 // REGISTER
 authRouter.post("/api/register", async (req, res) => {
   try {
-    const { name, email, password, familyCode, type } = req.body;
+    const { name, email, password, familyCode, type, address, age } = req.body;
 
     const existingUser = await User.findOne({
       email,
@@ -39,6 +39,8 @@ authRouter.post("/api/register", async (req, res) => {
       name,
       familyCode,
       type,
+      address,
+      age,
     });
 
     user = await user.save();

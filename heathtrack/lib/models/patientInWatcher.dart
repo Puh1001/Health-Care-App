@@ -7,6 +7,8 @@ class PatientInWatcher {
   final String password;
   final String type;
   final String age;
+  final String familyCode;
+  final String address;
   String? id;
   PatientInWatcher({
     required this.name,
@@ -14,6 +16,8 @@ class PatientInWatcher {
     required this.password,
     required this.type,
     required this.age,
+    required this.familyCode,
+    required this.address,
     this.id,
   });
 
@@ -23,6 +27,9 @@ class PatientInWatcher {
       'email': email,
       'password': password,
       'type': type,
+      'age': age,
+      'familyCode': familyCode,
+      'address': address,
       'id': id,
     };
   }
@@ -34,7 +41,9 @@ class PatientInWatcher {
       password: map['password'] as String,
       type: map['type'] as String,
       age: map['age'] as String,
-      id: map['_id'] != null ? map['id'] as String : null,
+      familyCode: map['familyCode'] as String,
+      address: map['address'] as String,
+      id: map['id'] != null ? map['id'] as String : null,
     );
   }
 
