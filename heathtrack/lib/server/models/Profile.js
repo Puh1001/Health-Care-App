@@ -1,8 +1,7 @@
-const { Double } = require("mongodb");
 const mongoose = require("mongoose");
 const User = require("./users");
 
-const patientSchema = mongoose.Schema({
+const profileSchema = mongoose.Schema({
   name: {
     type: String,
     require: true,
@@ -42,11 +41,6 @@ const patientSchema = mongoose.Schema({
     require: true,
     trim: true,
   },
-  bmi: {
-    type: String,
-    require: true,
-    trim: true,
-  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     require: true,
@@ -54,5 +48,5 @@ const patientSchema = mongoose.Schema({
   },
 });
 
-const PatientProfile = mongoose.model("PatientProfie", patientSchema);
-module.exports = PatientProfile;
+const Profile = mongoose.model("Profile", profileSchema);
+module.exports = Profile;

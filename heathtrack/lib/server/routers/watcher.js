@@ -6,8 +6,7 @@ const User = require("../models/users");
 //GET ALL PATIENT
 watcherRouter.get("/watcher/get-all-patient", async (req, res) => {
   try {
-    console.log(req.query.address);
-    const patient = await User.find({ address: req.query.address });
+    const patient = await User.find({ watcherId: req.query.watcherId });
     res.json(patient);
   } catch (err) {
     res.status(500).json({ error: err.message });
