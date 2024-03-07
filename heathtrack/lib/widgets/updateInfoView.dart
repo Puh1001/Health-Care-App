@@ -216,42 +216,6 @@ class _InputFormState extends State<InputForm> {
       readOnly: true,
       enabled: true,
     );
-      // Column(
-      // crossAxisAlignment: CrossAxisAlignment.start,
-      // children: [
-        // Container(
-        //   width: MediaQuery.of(context).size.width*0.9,
-        //   height: 60,
-        //   decoration: BoxDecoration(
-        //     border: Border.all(color: Colors.black),
-        //     borderRadius: BorderRadius.circular(5),
-        //   ),
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //     children: [
-        //       Padding(
-        //         padding: const EdgeInsets.only(left: 8.0),
-        //         child: Text(
-        //           formatDate ?? 'Choose date of birth (tap the icon)',
-        //           style: const TextStyle(
-        //               fontSize: 16
-        //           ),
-        //         ),
-        //       ),
-        //       Align(
-        //         alignment: Alignment.centerRight,
-        //         child: IconButton(
-        //           onPressed: () {
-        //             _showDatePicker();
-        //           },
-        //           icon: const Icon(Icons.calendar_month_outlined),
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // ),
-    //   ],
-    // );
   }
 
   Widget buildHeightAndWeight() {
@@ -368,7 +332,9 @@ class _InputFormState extends State<InputForm> {
             borderRadius: BorderRadius.circular(25),
           ),
           child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
               child: const Text(
                 'Cancel',
                 style: TextStyle(fontSize: 20, color: Colors.redAccent),

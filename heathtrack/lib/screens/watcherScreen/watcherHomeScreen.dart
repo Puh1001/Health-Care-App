@@ -49,6 +49,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
   TextEditingController patientName = TextEditingController();
   TextEditingController patientEmail = TextEditingController();
   TextEditingController patientPassword = TextEditingController();
+  TextEditingController ageController = TextEditingController();
   final WatcherService watcherService = WatcherService();
 
   void addPatient() {
@@ -57,6 +58,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
       name: patientName.text,
       email: patientEmail.text,
       password: patientPassword.text,
+      age: ageController.text,
       type: 'patient',
     );
   }
@@ -95,19 +97,25 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                                 fontSize: 20,
                               ),
                             ),
-                            TextField(
+                            TextFormField(
                               controller: patientName,
-                              decoration: InputDecoration(
+                              decoration: const  InputDecoration(
                                 label: Text('Patient\'s name'),
                               ),
                             ),
-                            TextField(
+                            TextFormField(
                               controller: patientEmail,
                               decoration: const InputDecoration(
                                 label: Text('Email'),
                               ),
                             ),
-                            TextField(
+                            TextFormField(
+                              controller: ageController,
+                              decoration: const InputDecoration(
+                                label: Text('Age'),
+                              ),
+                            ),
+                            TextFormField(
                               controller: patientPassword,
                               decoration: const InputDecoration(
                                 label: Text('Password'),
@@ -146,12 +154,12 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                       ),
                     ));
           },
-          child: Icon(
+          backgroundColor: const Color(0xff9bc7d5),
+          shape:const  CircleBorder(),
+          child: const  Icon(
             Icons.add_rounded,
             color: Colors.white,
           ),
-          backgroundColor: Color(0xff9bc7d5),
-          shape: CircleBorder(),
         ),
         backgroundColor: watcher.theme.backgroundColor1,
         body: Column(
@@ -199,13 +207,13 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                               });
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 5),
+                              padding: const  EdgeInsets.symmetric(vertical: 5),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
                                   color: mySwitch
-                                      ? Color(0xFFA5C8EB)
+                                      ? const Color(0xFFA5C8EB)
                                       : Colors.transparent),
-                              child: Text(
+                              child: const Text(
                                 'list patients',
                                 textAlign: TextAlign.center,
                               ),
@@ -220,13 +228,13 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                               setState(() {});
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 5),
+                              padding: const EdgeInsets.symmetric(vertical: 5),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
                                   color: !mySwitch
-                                      ? Color(0xFFA5C8EB)
+                                      ? const Color(0xFFA5C8EB)
                                       : Colors.transparent),
-                              child: Text(
+                              child: const Text(
                                 'list devices',
                                 textAlign: TextAlign.center,
                               ),
@@ -264,7 +272,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                             ),
                           ),
                         )
-                      : DeviceCard()
+                      : const DeviceCard()
                 ],
               ),
             ),
