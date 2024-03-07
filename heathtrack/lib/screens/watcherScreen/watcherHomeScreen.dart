@@ -29,21 +29,49 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
       systolic: 180,
       diastolic: 55,
       bodyTemperature: 38,
-      oxygenSaturation: 97, email: '', password: '', familyCode: '', address: '', type: '', token: '',
+      oxygenSaturation: 97,
+      email: '',
+      password: '',
+      familyCode: '',
+      address: '',
+      type: '',
+      token: '',
     ),
-    Patient(name: 'Nguyen Van B', gender: "male", id: '', email: '', password: '', familyCode: '', address: '', type: '', token: '',),
     Patient(
-        name: 'Nguyen Thi A',
-        dateOfBirth: DateTime(1977, 12, 11),
-        gender: "female",
-        id: '',
-      email: '', password: '', familyCode: '', address: '', type: '', token: '',),
+      name: 'Nguyen Van B',
+      gender: "male",
+      id: '',
+      email: '',
+      password: '',
+      familyCode: '',
+      address: '',
+      type: '',
+      token: '',
+    ),
     Patient(
-        name: 'Nguyen Van D',
-        dateOfBirth: DateTime(1955, 12, 11),
-        gender: "male",
-        id: '',
-      email: '', password: '', familyCode: '', address: '', type: '', token: '',),
+      name: 'Nguyen Thi A',
+      dateOfBirth: DateTime(1977, 12, 11),
+      gender: "female",
+      id: '',
+      email: '',
+      password: '',
+      familyCode: '',
+      address: '',
+      type: '',
+      token: '',
+    ),
+    Patient(
+      name: 'Nguyen Van D',
+      dateOfBirth: DateTime(1955, 12, 11),
+      gender: "male",
+      id: '',
+      email: '',
+      password: '',
+      familyCode: '',
+      address: '',
+      type: '',
+      token: '',
+    ),
   ];
   bool mySwitch = true;
   TextEditingController patientName = TextEditingController();
@@ -63,8 +91,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(
-      builder: (context,watcher, child){
+    return Consumer<UserProvider>(builder: (context, watcher, child) {
       return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -123,8 +150,8 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                                     patientPassword.text.isEmpty) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content:
-                                            Text('Please complete information!')),
+                                        content: Text(
+                                            'Please complete information!')),
                                   );
                                 } else {
                                   addPatient();
@@ -159,7 +186,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
             const SizedBox(
               height: 50,
             ),
-             Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(
@@ -167,16 +194,16 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                 ),
                 const CircleAvatar(
                   radius: 30.0,
-                  backgroundImage:
-                      AssetImage('images/avatar.png'),
+                  backgroundImage: AssetImage('images/avatar.png'),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-                Text(
-                  watcher.user.name,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24,color: watcher.theme.textColor1)
-                ),
+                Text(watcher.user.name,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: watcher.theme.textColor1)),
               ],
             ),
             Padding(
@@ -243,23 +270,24 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                             child: Column(
                               children: listPatient
                                   .map((e) => PatientCard(
-                                    isWoman: e.gender=='female'?true:false,
-                                    name: e.name,
-                                    age: (e.dateOfBirth == null)
-                                        ? null
-                                        : DateTime.now().year -
-                                        e.dateOfBirth!.year,
-                                    diagnose: e.diagnose??watcher.lang.noInformation,
-                                    ontap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PatientMornitoringScreen(patient: e)
-                                          )
-                                      );
-                                    },
-                                  ))
+                                        isWoman:
+                                            e.gender == 'female' ? true : false,
+                                        name: e.name,
+                                        age: (e.dateOfBirth == null)
+                                            ? null
+                                            : DateTime.now().year -
+                                                e.dateOfBirth!.year,
+                                        diagnose: e.diagnose ??
+                                            watcher.lang.noInformation,
+                                        ontap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PatientMornitoringScreen(
+                                                          patient: e)));
+                                        },
+                                      ))
                                   .toList(),
                             ),
                           ),
@@ -270,7 +298,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
             ),
           ],
         ),
-      );}
-    );
+      );
+    });
   }
 }

@@ -3,11 +3,11 @@ import 'dart:convert';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class HeathData {
   final double heartRate;
-  final int spb;
-  final int dbp;
+  final double spb;
+  final double dbp;
   final double oxygen;
   final double temperature;
-  final int glucose;
+  final double glucose;
   final int step;
   final DateTime timestamp;
   String? id;
@@ -43,11 +43,11 @@ class HeathData {
   factory HeathData.fromMap(Map<String, dynamic> map) {
     return HeathData(
       heartRate: map['heartRate'] as double,
-      spb: map['spb'] as int,
-      dbp: map['dbp'] as int,
+      spb: map['spb'] as double,
+      dbp: map['dbp'] as double,
       oxygen: map['oxygen'] as double,
       temperature: map['temperature'] as double,
-      glucose: map['glucose'] as int,
+      glucose: map['glucose'] as double,
       step: map['step'] as int,
       timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp'] as int),
       id: map['id'] != null ? map['id'] as String : null,

@@ -50,11 +50,10 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             onGenerateRoute: (settings) => generateRoute(settings),
-            home:
-                Provider.of<UserProvider>(context).setWatcher().token.isNotEmpty
-                    ? Provider.of<UserProvider>(context).user.type == 'watcher'
-                        ? const PatientControlScreen()
-                        : const PatientControlScreen()
-                    : const LoginView()));
+            home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+                ? Provider.of<UserProvider>(context).user.type == 'watcher'
+                    ? const WatcherControlScreen()
+                    : const PatientControlScreen()
+                : const LoginView()));
   }
 }
