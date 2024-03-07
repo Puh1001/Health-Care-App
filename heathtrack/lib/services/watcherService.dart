@@ -13,14 +13,15 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class WatcherService {
-  void addPatient({
-    required BuildContext context,
-    required String name,
-    required String email,
-    required String password,
-    required String type,
-    required String age,
-  }) async {
+  void addPatient(
+      {required BuildContext context,
+      required String name,
+      required String email,
+      required String password,
+      required String type,
+      required String age,
+      required String familyCode,
+      required String address}) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
       PatientInWatcher patientInWatcher = PatientInWatcher(
@@ -29,6 +30,8 @@ class WatcherService {
         password: password,
         age: age,
         type: type,
+        familyCode: familyCode,
+        address: address,
       );
 
       http.Response res = await http.post(

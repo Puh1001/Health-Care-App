@@ -76,7 +76,7 @@ class _LoginFormState extends State<LoginForm> {
               padding: EdgeInsets.only(left: 16.0),
               child: Text('Username'),
             ),
-            TextField(
+            TextFormField(
               controller: emailController,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(
@@ -90,7 +90,7 @@ class _LoginFormState extends State<LoginForm> {
               padding: EdgeInsets.only(left: 16.0, top: 10),
               child: Text('Password'),
             ),
-            TextField(
+            TextFormField(
               controller: passwordController,
               obscureText: _passwordVisible,
               // keyboardType: TextInputType.,
@@ -114,7 +114,7 @@ class _LoginFormState extends State<LoginForm> {
               padding: EdgeInsets.only(left: 16.0, top: 10),
               child: Text('Family Code'),
             ),
-            TextField(
+            TextFormField(
               controller: familyCodeController,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(
