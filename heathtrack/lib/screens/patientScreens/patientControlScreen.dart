@@ -3,7 +3,9 @@ import 'package:heathtrack/screens/patientScreens/mapScreen.dart';
 import 'package:heathtrack/screens/patientScreens/profileScreen.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/utils.dart';
 import '../../providers/userProvider.dart';
+import '../../services/patientServices.dart';
 import 'homeScreen.dart';
 class PatientControlScreen extends StatefulWidget {
   const PatientControlScreen({super.key});
@@ -24,7 +26,22 @@ class _PatientControlScreenState extends State<PatientControlScreen> {
   @override
   void initState() {
     Provider.of<UserProvider>(context,listen: false).setPatient();
+    final PatientServices patientServices = PatientServices();
+    Future fetchHealthData() async {
+      try {
+        final healthDataList = await patientServices.fetchHeathData(context);
+        if (healthDataList != null) {
+          print(healthDataList);
+          setState(() {});
+        } else {
+          print("No health data found");
+        }
+      } catch (err) {
+        showSnackBar(context, err.toString());
+      }
+    }
     super.initState();
+
   }
   @override
   Widget build(BuildContext context) {

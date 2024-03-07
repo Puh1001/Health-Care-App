@@ -7,7 +7,6 @@ import 'package:heathtrack/screens/patientScreens/patientControlScreen.dart';
 import 'package:heathtrack/screens/watcherScreen/watcherControlScreen.dart';
 import 'package:heathtrack/services/authService.dart';
 import 'package:provider/provider.dart';
-import 'objects/patient.dart';
 
 main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(

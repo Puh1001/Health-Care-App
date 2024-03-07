@@ -115,7 +115,7 @@ class HealthIndicators extends StatelessWidget {
             Metrics(
               const Icon(FontAwesomeIcons.personRunning,color: Colors.white,size: 50,),
               Provider.of<UserProvider>(context).lang.activity,
-              "1120",
+              "1120",//------------------------------------------need to fix-------------------------------------------------------------
               'steps',
               problem: -1,
               background: const Color(0xffD2D8DE),

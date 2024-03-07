@@ -23,19 +23,16 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
   final PatientServices patientServices = PatientServices();
 
   @override
-  void initState() {
+  initState() {
     super.initState();
     fetchHealthData();
   }
 
-  void fetchHealthData() async {
+  Future fetchHealthData() async {
     try {
       final healthDataList = await patientServices.fetchHeathData(context);
       if (healthDataList != null) {
         print(healthDataList);
-        // listData = healthDataList.map((data) => {
-        //   return Data(heartRate: data.heartRate, timestamp: data.timestamp);
-        // }).toList();
         setState(() {});
       } else {
         print("No health data found");
@@ -52,6 +49,7 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
   double? average;
   @override
   Widget build(BuildContext context) {
+
     currentValue = (listData.isEmpty ? 0 : listData[listData.length - 1].value);
     maxValue = listData.isEmpty
         ? 0
