@@ -9,6 +9,7 @@ require("dotenv").config();
 
 //import from another files
 const authRouter = require("./routers/auth");
+const watcherRouter = require("./routers/watcher");
 const heathDataRouter = require("./routers/heathData");
 const port = process.env.PORT || 8080;
 const hostname = process.env.HOST_NAME;
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 //middleware
 app.use(authRouter);
 app.use(heathDataRouter);
+app.use(watcherRouter);
 //connection
 mongoose
   .connect(DB)

@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:heathtrack/constants/errorHandling.dart';
 import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/models/addPatientProfile.dart';
 import 'package:heathtrack/models/patientInWatcher.dart';
+import 'package:heathtrack/models/user.dart';
 import 'package:heathtrack/objects/patient.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/services/authService.dart';
@@ -105,5 +108,39 @@ class WatcherService {
     } catch (err) {
       showSnackBar(context, err.toString());
     }
+  }
+
+  // GET ALL PATIENT
+  Future<List<PatientInWatcher>> fetchAddressPatient({
+    required BuildContext context,
+    required address,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context);
+    final address = userProvider.user.id;
+    List<PatientInWatcher> patientList = [];
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$uri/watcher/get-all-patient?address=$address'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSucess: () {
+            for (int i = 0; i < jsonDecode(res.body).length; i++) {
+              patientList.add(
+                PatientInWatcher.fromJson(
+                  jsonEncode(jsonDecode(res.body)[i]),
+                ),
+              );
+            }
+          });
+    } catch (err) {
+      showSnackBar(context, err.toString());
+    }
+    return patientList;
   }
 }

@@ -3,7 +3,7 @@ const paitientRouter = express.Router();
 const patient = require("../middlewares/patientProfile");
 const PatientProfile = require("../models/patientProfile");
 // ADD PATIENT
-watcherRouter.post(
+paitientRouter.post(
   "/patient/add-patient-profile",
   patient,
   async (res, req) => {
