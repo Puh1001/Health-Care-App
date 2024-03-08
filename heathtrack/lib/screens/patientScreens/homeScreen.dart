@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heathtrack/models/heathData.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/screens/patientScreens/patientSettingScreen.dart';
 import 'package:heathtrack/screens/patientScreens/sosScreen.dart';
@@ -41,7 +42,9 @@ class HomeScreen extends StatelessWidget {
                     margin: const EdgeInsets.all(20),
                     padding: const EdgeInsets.only(top: 20),
                     child: HealthIndicators(
-                      patient: patient.user,
+                      heathData:patient.user.healthDataList.isEmpty?
+                      HeathData(heartRate: 0, spb: 0, dbp: 0, oxygen: 0, temperature: 0, glucose: 0, step: 0, timestamp: DateTime.now())
+                          :patient.user.healthDataList[patient.user.healthDataList.length -1],
                     ),
                   ),
                   HorizontalBar(

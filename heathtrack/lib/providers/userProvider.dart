@@ -32,7 +32,7 @@ class UserProvider extends ChangeNotifier {
         familyCode: _user.familyCode,
         address: _user.address,
         type: _user.type,
-        token: _user.token);
+        token: _user.token, watcherId: '');
     _user = p;
     notifyListeners();
   }

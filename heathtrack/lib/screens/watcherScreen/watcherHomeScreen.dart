@@ -16,79 +16,30 @@ class WatcherHomeScreen extends StatefulWidget {
 }
 
 class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
-  List<PatientInWatcher>? listPatient;
-
+  List<Patient> listPatient = [];
+  List<PatientInWatcher> listPatientInW =[];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchAddressPatient();
+    fetchAddressPatient().then((_){
+      for (var i in listPatientInW){
+        Patient patient = Patient(id: '', name: '', email: '', password: '', familyCode: '', address: '', type: '', token: '', watcherId: '');
+        patient.getDataFromPatientInWatcher(i);
+        listPatient.clear();
+        listPatient.add(patient);
+      }
+    });
   }
 
-  fetchAddressPatient() async {
-    listPatient = await watcherService.fetchAddressPatient(
+  Future fetchAddressPatient() async {
+    listPatientInW = await watcherService.fetchAddressPatient(
       context: context,
       address: Provider.of<UserProvider>(context, listen: false).user.id,
     );
-    setState(() {});
+    //setState(() {});
   }
 
-  // [
-  //   Patient(
-  //     name: 'Nguyen Van A',
-  //     dateOfBirth: DateTime(1970, 12, 11),
-  //     gender: "male",
-  //     id: '',
-  //     diagnose: "Good!",
-  //     heartRate: 40,
-  //     bloodGlucoseLevel: 30,
-  //     systolic: 180,
-  //     diastolic: 55,
-  //     bodyTemperature: 38,
-  //     oxygenSaturation: 97,
-  //     email: '',
-  //     password: '',
-  //     familyCode: '',
-  //     address: '',
-  //     type: '',
-  //     token: '',
-  //   ),
-  //   Patient(
-  //     name: 'Nguyen Van B',
-  //     gender: "male",
-  //     id: '',
-  //     email: '',
-  //     password: '',
-  //     familyCode: '',
-  //     address: '',
-  //     type: '',
-  //     token: '',
-  //   ),
-  //   Patient(
-  //     name: 'Nguyen Thi A',
-  //     dateOfBirth: DateTime(1977, 12, 11),
-  //     gender: "female",
-  //     id: '',
-  //     email: '',
-  //     password: '',
-  //     familyCode: '',
-  //     address: '',
-  //     type: '',
-  //     token: '',
-  //   ),
-  //   Patient(
-  //     name: 'Nguyen Van D',
-  //     dateOfBirth: DateTime(1955, 12, 11),
-  //     gender: "male",
-  //     id: '',
-  //     email: '',
-  //     password: '',
-  //     familyCode: '',
-  //     address: '',
-  //     type: '',
-  //     token: '',
-  //   ),
-  // ];
   bool mySwitch = true;
   TextEditingController patientName = TextEditingController();
   TextEditingController patientEmail = TextEditingController();
@@ -97,23 +48,22 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
   final WatcherService watcherService = WatcherService();
 
   void addPatient() {
-    watcherService.addPatient(
-      context: context,
-      name: patientName.text,
-      email: patientEmail.text,
-      password: patientPassword.text,
-      age: ageController.text,
-      type: 'patient',
-      familyCode:
-          Provider.of<UserProvider>(context, listen: false).user.familyCode,
-      watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
-    );
+      watcherService.addPatient(
+        context: context,
+        name: patientName.text,
+        email: patientEmail.text,
+        password: patientPassword.text,
+        age: ageController.text,
+        type: 'patient',
+        familyCode:
+        Provider.of<UserProvider>(context, listen: false).user.familyCode,
+        watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
+      );
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, watcher, child) {
-      print(Provider.of<UserProvider>(context).user.type);
       return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -173,6 +123,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                             ),
                             ElevatedButton(
                               onPressed: () {
+                                print(listPatientInW?.length);
                                 if (patientName.text.isEmpty ||
                                     patientEmail.text.isEmpty ||
                                     patientPassword.text.isEmpty) {
@@ -182,7 +133,9 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                                             'Please complete information!')),
                                   );
                                 } else {
-                                  addPatient();
+                                  setState(() {
+                                    addPatient();
+                                  });
                                   Navigator.pop(context);
                                 }
                               },
@@ -291,59 +244,36 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                       ],
                     ),
                   ),
-                  mySwitch
-                      ? SizedBox(
-                          height: MediaQuery.sizeOf(context).height - 250,
-                          child: SingleChildScrollView(
-                            child: Column(
-
-                              // children: listPatient
-                              //     .map((e) => PatientCard(
-                              //           isWoman:
-                              //               e.gender == 'female' ? true : false,
-                              //           name: e.name,
-                              //           age: (e.dateOfBirth == null)
-                              //               ? null
-                              //               : DateTime.now().year -
-                              //                   e.dateOfBirth!.year,
-                              //           diagnose: e.diagnose ??
-                              //               watcher.lang.noInformation,
-                              //           ontap: () {
-                              //             Navigator.push(
-                              //                 context,
-                              //                 MaterialPageRoute(
-                              //                     builder: (context) =>
-                              //                         PatientMornitoringScreen(
-                              //                             patient: e)));
-                              //           },
-                              //         ))
-                              //     .toList(),
-                           // ),
-
-                                // children: listPatient
-                                //     .map((e) => PatientCard(
-                                //           isWoman:
-                                //               e.gender == 'female' ? true : false,
-                                //           name: e.name,
-                                //           age: (e.dateOfBirth == null)
-                                //               ? null
-                                //               : DateTime.now().year -
-                                //                   e.dateOfBirth!.year,
-                                //           diagnose: e.diagnose ??
-                                //               watcher.lang.noInformation,
-                                //           ontap: () {
-                                //             Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                     builder: (context) =>
-                                //                         PatientMornitoringScreen(
-                                //                             patient: e)));
-                                //           },
-                                //         ))
-                                //     .toList(),
-                                ),
-                          ),
-                        )
+                  mySwitch ? SizedBox(
+                    height: MediaQuery.sizeOf(context).height - 250,
+                    child: SingleChildScrollView(
+                      child: listPatient.isEmpty?
+                      Text('No patients yet')
+                          :Column(
+                        children: listPatient!
+                            .map((e) => PatientCard(
+                          isWoman:
+                          e.gender == 'female' ? true : false,
+                          name: e.name,
+                          age: (e.dateOfBirth == null)
+                              ? null
+                              : DateTime.now().year -
+                              e.dateOfBirth!.year,
+                          diagnose: e.diagnose ??
+                              watcher.lang.noInformation,
+                          ontap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PatientMornitoringScreen(
+                                            patient: e)));
+                          },
+                        ))
+                            .toList(),
+                      ),
+                    ),
+                  )
                       : const DeviceCard()
                 ],
               ),
