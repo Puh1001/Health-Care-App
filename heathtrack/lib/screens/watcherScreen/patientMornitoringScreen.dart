@@ -20,7 +20,7 @@ class PatientMornitoringScreen extends StatefulWidget {
 
 class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
   //List<Data> listData = [];
-  final WatcherService watcherService = WatcherService();
+  final WatcherService patientServices = WatcherService();
   var healthDataList = [];
 
   @override
@@ -31,8 +31,9 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
 
   fetchHealthData() async {
     try {
-      healthDataList = await watcherService.fetchHeathDataInWatcher(
+      healthDataList = await patientServices.fetchHeathDataInWatcher(
           context, widget.patient.id);
+      print(healthDataList.length);
       setState(() {});
     } catch (err) {
       print(err);
@@ -170,7 +171,6 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                       ),
                     ),
                   ),
-<<<<<<< HEAD
                   const SizedBox(
                     height: 30,
                   ),
@@ -179,6 +179,7 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                           child: CircularProgressIndicator(),
                         )
                       : HealthIndicators(
+                          patientId: widget.patient.id,
                           heathData: healthDataList.isEmpty
                               ? HeathData(
                                   heartRate: 0,
@@ -190,28 +191,12 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                                   step: 0,
                                   timestamp: '0',
                                   userId: 'userId')
-                              : healthDataList[healthDataList.length - 1],
-                          userId: widget.patient.id,
-                        ),
+                              : healthDataList[healthDataList.length - 1]),
                   const SizedBox(
                     height: 30,
                   ),
                 ]),
               )));
     });
-=======
-                ),
-                const SizedBox(height: 30,),
-                healthDataList.isEmpty?
-                const Center(child: CircularProgressIndicator(),):
-                HealthIndicators(
-                  patientId: widget.patient.id,
-                    heathData:healthDataList.isEmpty?HeathData(heartRate: 0, spb: 0, dbp: 0, oxygen: 0, temperature: 0, glucose: 0, step: 0, timestamp: '0', userId: 'userId'):healthDataList[healthDataList.length -1]),
-                const SizedBox(height: 30,),
-              ]
-        ),))
-      );}
-    );
->>>>>>> ecf05b2a204a1c31cb50f95fa3b5cc0766ed396f
   }
 }
