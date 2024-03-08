@@ -7,15 +7,9 @@ class HeathData {
   final int dbp;
   final double oxygen;
   final double temperature;
-<<<<<<< HEAD
-  final double glucose;
-  final double step;
-  final DateTime timestamp;
-=======
   final int glucose;
   final int step;
   final String timestamp;
->>>>>>> 245b2fcbacf90d7dc7153df19d3d164ae2423cbe
   String? id;
   final String userId;
   HeathData({
@@ -47,7 +41,6 @@ class HeathData {
   }
 
   factory HeathData.fromMap(Map<String, dynamic> map) {
-
     print('${map['heartRate'].runtimeType}');
     print('${map['spb'].runtimeType}');
     print('${map['dpb'].runtimeType}');
@@ -59,17 +52,17 @@ class HeathData {
     print('${map['id'].runtimeType}');
     print('${map['userId'].runtimeType}');
 
-     int heartRate = map['heartRate'] as int ;
+    int heartRate = map['heartRate'] as int;
     // print(heartRate);
-    int spb = map['spb'] as int ;
-    int dbp = map['dbp'] as int ;
+    int spb = map['spb'] as int;
+    int dbp = map['dbp'] as int;
     String id = map['userId'] as String;
     String time = map['timestamp'] as String;
-    double oxy = map['oxygen'] as double ;
+    double oxy = map['oxygen'] as double;
     // print(heartRate);
 
     HeathData heathData = HeathData(
-      heartRate: heartRate ,
+      heartRate: heartRate,
       spb: spb,
       dbp: dbp,
       oxygen: 1,
@@ -78,7 +71,7 @@ class HeathData {
       step: 11,
       timestamp: 'ddd',
       id: 'sdsd',
-      userId:'id',
+      userId: 'id',
       // oxygen: map['oxygen'] as double,
       // temperature: map['temperature'] as double,
       // glucose: map['glucose'] as int,
@@ -93,10 +86,8 @@ class HeathData {
 
   String toJson() => json.encode(toMap());
 
-  factory HeathData.fromJson(String source){
+  factory HeathData.fromJson(String source) {
     print('jjjjjjjjjjjjjjjjj   ${HeathData.fromMap(json.decode(source))}');
-      return HeathData.fromMap(json.decode(source) as Map<String, dynamic>);}
+    return HeathData.fromMap(json.decode(source) as Map<String, dynamic>);
+  }
 }
-
-
-
