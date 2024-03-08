@@ -3,15 +3,14 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class Data {
-  double time;
-  double value;
-  Data({required this.value, required this.time});
-}
+import '../k_services/getEachHealthData.dart';
+
 
 class Chart extends StatelessWidget {
   List<Data> listData;
-  Chart({super.key, required this.listData});
+  var min ;
+  var max ;
+  Chart({super.key, required this.listData, this.max=-1,this.min=-1});
   @override
   Widget build(BuildContext context) {
     double maxVal = listData.isEmpty
@@ -42,8 +41,8 @@ class Chart extends StatelessWidget {
           LineChartData(
             minX: double.parse(minTime.toStringAsFixed(1)),
             maxX: double.parse(maxTime.toStringAsFixed(1)),
-            minY: minVal,
-            maxY: maxVal,
+            minY: min==-1? minVal: min ,
+            maxY: max==-1?minVal: max ,
             backgroundColor: Colors.white,
             lineBarsData: [
               LineChartBarData(

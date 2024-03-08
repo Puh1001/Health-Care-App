@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //String uri = 'http://172.20.10.3:8080';
-String uri = 'http://10.194.57.179:8080';
+String uri = 'http://10.49.116.15:8080';
 // String uri = 'http://192.168.154.101:8080';
 
 class AuthService {

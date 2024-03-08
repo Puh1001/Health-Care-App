@@ -9,6 +9,7 @@ import 'package:moment_dart/moment_dart.dart';
 import 'package:provider/provider.dart';
 
 import '../../k_services/diagnoseEngine.dart';
+import '../../k_services/getEachHealthData.dart';
 import '../../providers/userProvider.dart';
 import '../../widgets/diagnoseBar.dart';
 import 'checkHeartRate.dart';
@@ -21,19 +22,25 @@ class HeartRateScreen extends StatefulWidget {
 }
 
 class _HeartRateScreenState extends State<HeartRateScreen> {
-  List<Data> listData = [];
+  GetEachHealthData getEachHealthData = GetEachHealthData();
   final PatientServices patientServices = PatientServices();
-  var healthDataList;
-
+  var healthDataList ;
+  List<Data> listData = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   didChangeDependencies(){
     super.didChangeDependencies();
     fetchHealthData();
-
   }
+
    fetchHealthData() async {
     try {
        healthDataList = await patientServices.fetchHeathData(context);
+       listData = getEachHealthData.getListHeartRate(healthDataList);
         setState(() {});
     } catch (err) {
       print(err);
@@ -48,6 +55,8 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
   double? average;
   @override
   Widget build(BuildContext context) {
+
+    //listData = getEachHealthData.getListHeartRate(healthDataList);
     currentValue = (listData.isEmpty ? 0 : listData[listData.length - 1].value);
     maxValue = listData.isEmpty
         ? 0
@@ -78,7 +87,7 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
         ? 0
         : (listData.map((data) => data.value).reduce((a, b) => a + b) /
             listData.length);
-    return Scaffold(
+    return healthDataList==null?Center(child: CircularProgressIndicator(),): Scaffold(
         appBar: AppBar(
           title: const Text('Heart rate'),
         ),
@@ -118,7 +127,7 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Chart(listData: listData),
+                  Chart(listData: listData,min: 40.0,max: 160.0,),
                 ]),
               ),
               const SizedBox(
