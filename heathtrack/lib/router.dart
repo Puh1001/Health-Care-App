@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heathtrack/objects/patient.dart';
 import 'package:heathtrack/screens/Login/login_view.dart';
 import 'package:heathtrack/screens/Login/register_view.dart';
 import 'package:heathtrack/screens/patientScreens/patientControlScreen.dart';
