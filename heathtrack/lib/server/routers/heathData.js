@@ -40,7 +40,6 @@ heathDataRouter.get("/api/get-heath-data", async (req, res) => {
   try {
     const heathData = await HeathData.find({ userId: req.query.userId });
     res.json(heathData);
-    console.log(heathData.length);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

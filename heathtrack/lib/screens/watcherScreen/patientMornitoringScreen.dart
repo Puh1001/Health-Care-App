@@ -33,7 +33,6 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
     try {
       healthDataList = await patientServices.fetchHeathDataInWatcher(
           context, widget.patient.id);
-      print(healthDataList.length);
       setState(() {});
     } catch (err) {
       print(err);

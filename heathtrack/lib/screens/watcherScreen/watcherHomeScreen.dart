@@ -79,7 +79,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
       listPatient.add(patient);
     }
     return Consumer<UserProvider>(builder: (context, watcher, child) {
-      return listPatientInW == null
+      return listPatientInW.isEmpty
           ? Center(
               child: CircularProgressIndicator(),
             )
