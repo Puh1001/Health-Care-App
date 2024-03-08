@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heathtrack/constants/utils.dart';
+import 'package:heathtrack/objects/watcher.dart';
 import 'package:heathtrack/screens/patientScreens/checkBloodPressure.dart';
 import 'package:heathtrack/services/patientServices.dart';
 import 'package:heathtrack/widgets/chart.dart';
@@ -10,12 +11,15 @@ import 'package:provider/provider.dart';
 
 import '../../k_services/diagnoseEngine.dart';
 import '../../k_services/getEachHealthData.dart';
+import '../../objects/patient.dart';
 import '../../providers/userProvider.dart';
+import '../../services/watcherService.dart';
 import '../../widgets/diagnoseBar.dart';
 import 'checkHeartRate.dart';
 
 class HeartRateScreen extends StatefulWidget {
-  const HeartRateScreen({super.key});
+  var patientId;
+  HeartRateScreen({super.key, required this.patientId});
 
   @override
   State<HeartRateScreen> createState() => _HeartRateScreenState();
@@ -23,7 +27,8 @@ class HeartRateScreen extends StatefulWidget {
 
 class _HeartRateScreenState extends State<HeartRateScreen> {
   GetEachHealthData getEachHealthData = GetEachHealthData();
-  final PatientServices patientServices = PatientServices();
+  //final PatientServices patientServices = PatientServices();
+  final WatcherService watcherService = WatcherService();
   var healthDataList ;
   List<Data> listData = [];
   @override
@@ -39,7 +44,8 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
 
    fetchHealthData() async {
     try {
-       healthDataList = await patientServices.fetchHeathData(context);
+      print(widget.patientId);
+       healthDataList = await watcherService.fetchHeathDataInWatcher(context,widget.patientId);
        listData = getEachHealthData.getListHeartRate(healthDataList);
         setState(() {});
     } catch (err) {

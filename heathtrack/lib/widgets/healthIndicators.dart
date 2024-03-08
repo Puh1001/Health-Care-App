@@ -11,8 +11,9 @@ import '../screens/patientScreens/oxygenScreen.dart';
 import '../screens/patientScreens/temperatureScreen.dart';
 import 'Metrics.dart';
 class HealthIndicators extends StatelessWidget {
-  HealthIndicators({super.key, required this.heathData});
+  HealthIndicators({super.key, required this.heathData, this.patientId});
   HeathData heathData;
+  var patientId;
   var heartRateStatus = 0;
   var bloodPressureStatus = 0;
   var glucoseLevelStatus = 0;
@@ -48,7 +49,7 @@ class HealthIndicators extends StatelessWidget {
               problem: heartRateStatus,
               background: const Color(0xffD4F4DC),
               ontap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>  HeartRateScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>  HeartRateScreen(patientId: patientId?? Provider.of<UserProvider>(context).user.id)));
               },),
             const SizedBox(width: 15,),
             Metrics(const Icon(
