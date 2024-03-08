@@ -38,9 +38,7 @@ heathDataRouter.post("/api/heath-data", async (req, res) => {
 // GET ALL DATA (modified)
 heathDataRouter.get("/api/get-heath-data", async (req, res) => {
   try {
-    const userID = req.user; // Lấy userID từ middleware auth
-    // const heathData = await HeathData.find({ userID });
-    const heathData = await HeathData.find({});
+    const heathData = await HeathData.find({ userId: req.query.userId });
     res.json(heathData);
   } catch (err) {
     res.status(500).json({ error: err.message });
