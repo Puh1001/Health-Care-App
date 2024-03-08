@@ -23,14 +23,13 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
         email: 'email',
         password: 'password',
         type: 'type',
-        age: 'age',
+        //age: 'age',
         familyCode: 'familyCode',
         watcherId: 'watcherId')
   ];
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  didChangeDependencies(){
+    super.didChangeDependencies();
     fetchAddressPatient();
     for (var i in listPatientInW) {
       Patient patient = Patient(
@@ -47,12 +46,13 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
       listPatient.clear();
       listPatient.add(patient);
     }
+
   }
 
   Future fetchAddressPatient() async {
     listPatientInW = await watcherService.fetchAddressPatient(
       context: context,
-      address: Provider.of<UserProvider>(context, listen: false).user.id,
+      watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
     );
     //setState(() {});
   }

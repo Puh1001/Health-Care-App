@@ -25,7 +25,6 @@ class WatcherService {
     required String age,
     required String familyCode,
     required String watcherId,
-    required String userId,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
@@ -33,10 +32,10 @@ class WatcherService {
         name: name,
         email: email,
         password: password,
-        age: age,
+        //age: age,
         type: type,
         familyCode: familyCode,
-        watcherId: watcherId, id: '',
+        watcherId: watcherId,
       );
 
       http.Response res = await http.post(
@@ -115,7 +114,7 @@ class WatcherService {
   // GET ALL PATIENT
   Future<List<PatientInWatcher>> fetchAddressPatient({
     required BuildContext context,
-    required address,
+    required watcherId,
   }) async {
     final userProvider = Provider.of<UserProvider>(context);
     final watcherId = userProvider.user.id;
@@ -132,17 +131,27 @@ class WatcherService {
           response: res,
           context: context,
           onSucess: () {
-            for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            List <dynamic> data = jsonDecode(res.body);
+            for (var patient in data) {
+              print(patient);
               patientList.add(
-                PatientInWatcher.fromJson(
-                  jsonEncode(jsonDecode(res.body)[i]),
-                ),
+                PatientInWatcher(
+                    id: patient['_id'] ,
+                    name: patient['name'],
+                    email: patient['email'],
+                    password: patient['password'],
+                    type: patient['type'],
+                    //age: patient['age'],
+                    familyCode: patient['familyCode'],
+                    watcherId: patient['watcherId']
+                )
               );
             }
           });
     } catch (err) {
       showSnackBar(context, err.toString());
     }
+    print(patientList);
     return patientList;
   }
 }
