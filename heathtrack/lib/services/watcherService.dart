@@ -16,15 +16,17 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class WatcherService {
-  void addPatient(
-      {required BuildContext context,
-      required String name,
-      required String email,
-      required String password,
-      required String type,
-      required String age,
-      required String familyCode,
-      required String watcherId}) async {
+  void addPatient({
+    required BuildContext context,
+    required String name,
+    required String email,
+    required String password,
+    required String type,
+    required String age,
+    required String familyCode,
+    required String watcherId,
+    required String userId,
+  }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
       PatientInWatcher patientInWatcher = PatientInWatcher(
@@ -116,11 +118,11 @@ class WatcherService {
     required address,
   }) async {
     final userProvider = Provider.of<UserProvider>(context);
-    final address = userProvider.user.id;
+    final watcherId = userProvider.user.id;
     List<PatientInWatcher> patientList = [];
     try {
       http.Response res = await http.get(
-        Uri.parse('$uri/watcher/get-all-patient?address=$address'),
+        Uri.parse('$uri/watcher/get-all-patient?watcherId=$watcherId'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': userProvider.user.token,

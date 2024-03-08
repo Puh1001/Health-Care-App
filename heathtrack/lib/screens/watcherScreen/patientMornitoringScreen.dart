@@ -99,7 +99,7 @@ class PatientMornitoringScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 30,),
                 HealthIndicators(heathData:patient.healthDataList.isEmpty?
-                HeathData(heartRate: 0, spb: 0, dbp: 0, oxygen: 0, temperature: 0, glucose: 0, step: 0, timestamp: DateTime.now())
+                HeathData(heartRate: 0, spb: 0, dbp: 0, oxygen: 0, temperature: 0, glucose: 0, step: 0, timestamp: DateTime.now().toString(), userId: '')
                     :patient.healthDataList[patient.healthDataList.length -1],),
                 const SizedBox(height: 30,),
               ]

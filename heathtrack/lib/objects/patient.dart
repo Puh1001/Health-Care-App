@@ -105,7 +105,7 @@ class Patient extends User {
       default:
         heartRateStatus = -1; break;
     }
-    String diagnoseBloodGlucoseLevelIssue =healthDataList[healthDataList.length-1].glucose!=null? DiagnosisEngine.diagnoseBloodGlucoseLevelIssue(healthDataList[healthDataList.length-1].glucose!):'';
+    String diagnoseBloodGlucoseLevelIssue =healthDataList[healthDataList.length-1].glucose!=null? DiagnosisEngine.diagnoseBloodGlucoseLevelIssue(healthDataList[healthDataList.length-1].glucose! as double):'';
     switch (diagnoseBloodGlucoseLevelIssue) {
       case 'Low blood glucose level':
         bloodGlucoseLevelStatus = 1;

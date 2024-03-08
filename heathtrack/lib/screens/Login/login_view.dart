@@ -140,15 +140,6 @@ class _LoginFormState extends State<LoginForm> {
                     borderRadius: BorderRadius.circular(20)),
                 child: TextButton(
                     onPressed: () {
-                      // Provider.of<UserProvider>(context,listen: false).setPatient();
-                      //   Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //           builder: (context) =>
-                      //
-                      //               const PatientControlScreen()));
-
-
                       loginUser();
                     },
 

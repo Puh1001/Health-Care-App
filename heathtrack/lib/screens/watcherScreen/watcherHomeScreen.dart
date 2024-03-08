@@ -17,19 +17,36 @@ class WatcherHomeScreen extends StatefulWidget {
 
 class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
   List<Patient> listPatient = [];
-  List<PatientInWatcher> listPatientInW =[];
+  List<PatientInWatcher> listPatientInW = [
+    PatientInWatcher(
+        name: 'khanh',
+        email: 'email',
+        password: 'password',
+        type: 'type',
+        age: 'age',
+        familyCode: 'familyCode',
+        watcherId: 'watcherId')
+  ];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchAddressPatient().then((_){
-      for (var i in listPatientInW){
-        Patient patient = Patient(id: '', name: '', email: '', password: '', familyCode: '', address: '', type: '', token: '', watcherId: '');
-        patient.getDataFromPatientInWatcher(i);
-        listPatient.clear();
-        listPatient.add(patient);
-      }
-    });
+    fetchAddressPatient();
+    for (var i in listPatientInW) {
+      Patient patient = Patient(
+          id: '',
+          name: '',
+          email: '',
+          password: '',
+          familyCode: '',
+          address: '',
+          type: '',
+          token: '',
+          watcherId: '');
+      patient.getDataFromPatientInWatcher(i);
+      listPatient.clear();
+      listPatient.add(patient);
+    }
   }
 
   Future fetchAddressPatient() async {
@@ -121,17 +138,17 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
   final WatcherService watcherService = WatcherService();
 
   void addPatient() {
-      watcherService.addPatient(
-        context: context,
-        name: patientName.text,
-        email: patientEmail.text,
-        password: patientPassword.text,
-        age: ageController.text,
-        type: 'patient',
-        familyCode:
-        Provider.of<UserProvider>(context, listen: false).user.familyCode,
-        watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
-      );
+    watcherService.addPatient(
+      context: context,
+      name: patientName.text,
+      email: patientEmail.text,
+      password: patientPassword.text,
+      age: ageController.text,
+      type: 'patient',
+      familyCode:
+          Provider.of<UserProvider>(context, listen: false).user.familyCode,
+      watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
+    );
   }
 
   @override
@@ -317,36 +334,38 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                       ],
                     ),
                   ),
-                  mySwitch ? SizedBox(
-                    height: MediaQuery.sizeOf(context).height - 250,
-                    child: SingleChildScrollView(
-                      child: listPatient.isEmpty?
-                      Text('No patients yet')
-                          :Column(
-                        children: listPatient!
-                            .map((e) => PatientCard(
-                          isWoman:
-                          e.gender == 'female' ? true : false,
-                          name: e.name,
-                          age: (e.dateOfBirth == null)
-                              ? null
-                              : DateTime.now().year -
-                              e.dateOfBirth!.year,
-                          diagnose: e.diagnose ??
-                              watcher.lang.noInformation,
-                          ontap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        PatientMornitoringScreen(
-                                            patient: e)));
-                          },
-                        ))
-                            .toList(),
-                      ),
-                    ),
-                  )
+                  mySwitch
+                      ? SizedBox(
+                          height: MediaQuery.sizeOf(context).height - 250,
+                          child: SingleChildScrollView(
+                            child: listPatient.isEmpty
+                                ? Text('No patients yet')
+                                : Column(
+                                    children: listPatient!
+                                        .map((e) => PatientCard(
+                                              isWoman: e.gender == 'female'
+                                                  ? true
+                                                  : false,
+                                              name: e.name,
+                                              age: (e.dateOfBirth == null)
+                                                  ? null
+                                                  : DateTime.now().year -
+                                                      e.dateOfBirth!.year,
+                                              diagnose: e.diagnose ??
+                                                  watcher.lang.noInformation,
+                                              ontap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            PatientMornitoringScreen(
+                                                                patient: e)));
+                                              },
+                                            ))
+                                        .toList(),
+                                  ),
+                          ),
+                        )
                       : const DeviceCard()
                 ],
               ),
