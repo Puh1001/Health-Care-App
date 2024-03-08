@@ -20,7 +20,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   File image = File('images/avatar.png');
-
   final WatcherService watcherService = WatcherService();
 
   // void addPatientProfile(){
@@ -28,6 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // }
   @override
   Widget build(BuildContext context) {
+    print(image.path);
     return Consumer<UserProvider>(
         builder: (BuildContext context, patient, child) {
       return Stack(

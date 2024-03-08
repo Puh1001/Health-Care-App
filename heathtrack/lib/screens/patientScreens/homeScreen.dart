@@ -22,93 +22,108 @@ class _HomeScreenState extends State<HomeScreen> {
   var healthDataList = [];
 
   @override
-  didChangeDependencies(){
+  didChangeDependencies() {
     super.didChangeDependencies();
     fetchHealthData();
-
   }
+
   fetchHealthData() async {
     try {
       healthDataList = await patientServices.fetchHeathData(context);
       setState(() {});
     } catch (err) {
-      print(err);
-      showSnackBar(context, err.toString());
+      if (this.mounted) {
+        setState(() {
+          // Your state change code goes here
+          print(err);
+          showSnackBar(context, err.toString());
+        });
+      }
+      // print(err);
+      // showSnackBar(context, err.toString());
     }
   }
+
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(
       builder: (BuildContext context, patient, child) {
-        return healthDataList.isEmpty? const Center(child: CircularProgressIndicator()):Scaffold(
-          backgroundColor: const Color(0xfff7f7f7),
-          body: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (contexxt) =>
-                                      PatientSettingScreen()));
-                        },
-                        icon: const Icon(
-                          Icons.settings,
-                          size: 30,
-                        )),
-                    const SizedBox(width: 5)
-                  ]),
-                  GestureDetector(onTap: () {}, child: SummaryWG()),
-                  Container(
-                    margin: const EdgeInsets.all(20),
-                    padding: const EdgeInsets.only(top: 20),
-                    child: HealthIndicators(
-                      heathData:healthDataList[healthDataList.length -1]
-                      // patient.user.healthDataList.isEmpty?
-                      // HeathData(heartRate: 0, spb: 0, dbp: 0, oxygen: 0, temperature: 0, glucose: 0, step: 0, timestamp: DateTime.now().toString(), userId: '')
-                      //     :patient.user.healthDataList[patient.user.healthDataList.length -1],
+        return healthDataList.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : Scaffold(
+                backgroundColor: const Color(0xfff7f7f7),
+                body: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (contexxt) =>
+                                                PatientSettingScreen()));
+                                  },
+                                  icon: const Icon(
+                                    Icons.settings,
+                                    size: 30,
+                                  )),
+                              const SizedBox(width: 5)
+                            ]),
+                        GestureDetector(onTap: () {}, child: SummaryWG()),
+                        Container(
+                          margin: const EdgeInsets.all(20),
+                          padding: const EdgeInsets.only(top: 20),
+                          child: HealthIndicators(
+                              heathData:
+                                  healthDataList[healthDataList.length - 1]
+                              // patient.user.healthDataList.isEmpty?
+                              // HeathData(heartRate: 0, spb: 0, dbp: 0, oxygen: 0, temperature: 0, glucose: 0, step: 0, timestamp: DateTime.now().toString(), userId: '')
+                              //     :patient.user.healthDataList[patient.user.healthDataList.length -1],
+                              ),
+                        ),
+                        HorizontalBar(
+                          const Icon(
+                            Icons.emergency,
+                            color: Colors.red,
+                          ),
+                          'Emergency',
+                          ontap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SosScreen()));
+                          },
+                        ),
+                        HorizontalBar(
+                          const Icon(
+                            Icons.apple,
+                            color: Colors.greenAccent,
+                          ),
+                          'Nutritions',
+                          ontap: () {},
+                        ),
+                        HorizontalBar(
+                          const Icon(
+                            Icons.spa_outlined,
+                            color: Colors.blueAccent,
+                          ),
+                          'BMI',
+                          ontap: () {},
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        )
+                      ],
                     ),
                   ),
-                  HorizontalBar(
-                    const Icon(
-                      Icons.emergency,
-                      color: Colors.red,
-                    ),
-                    'Emergency',
-                    ontap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => SosScreen()));
-                    },
-                  ),
-                  HorizontalBar(
-                    const Icon(
-                      Icons.apple,
-                      color: Colors.greenAccent,
-                    ),
-                    'Nutritions',
-                    ontap: () {},
-                  ),
-                  HorizontalBar(
-                    const Icon(
-                      Icons.spa_outlined,
-                      color: Colors.blueAccent,
-                    ),
-                    'BMI',
-                    ontap: () {},
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  )
-                ],
-              ),
-            ),
-          ),
-        );
+                ),
+              );
       },
     );
   }
