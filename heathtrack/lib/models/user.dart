@@ -2,14 +2,14 @@
 import 'dart:convert';
 
 class User {
-  final String id;
-  final String name;
-  final String email;
-  final String password;
-  final String familyCode;
-  final String address;
-  final String type;
-  final String token;
+  late  String id;
+  late  String name;
+  late  String email;
+  late  String password;
+  late  String familyCode;
+   String address;
+  late  String type;
+   String token;
   User({
     required this.id,
     required this.name,

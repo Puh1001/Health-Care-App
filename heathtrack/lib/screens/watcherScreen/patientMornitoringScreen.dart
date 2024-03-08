@@ -4,8 +4,8 @@ import 'package:heathtrack/screens/watcherScreen/detailPatientInfoScreen.dart';
 import 'package:heathtrack/widgets/healthIndicators.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/heathData.dart';
 import '../../objects/patient.dart';
-import '../../objects/watcher.dart';
 class PatientMornitoringScreen extends StatelessWidget {
   Patient patient;
   PatientMornitoringScreen({super.key, required this.patient});
@@ -13,13 +13,13 @@ class PatientMornitoringScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(
-      builder: (context,watcher,child){
+      builder: (context,user,child){
       return Scaffold(
-          backgroundColor: watcher.theme.backgroundColor1,
+          backgroundColor: user.theme.backgroundColor1,
         appBar: AppBar(
-          backgroundColor: watcher.theme.backgroundColor1,
-          foregroundColor: watcher.theme.textColor1,
-          title: Text(watcher.lang.healthInformationTitle),
+          backgroundColor: user.theme.backgroundColor1,
+          foregroundColor: user.theme.textColor1,
+          title: Text(user.lang.healthInformationTitle),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -76,9 +76,9 @@ class PatientMornitoringScreen extends StatelessWidget {
                                           fontWeight: FontWeight.bold),),
                                     Text('ID: ${patient.id}',
                                       style: const TextStyle(fontSize: 16,color: Colors.black54),),
-                                    Text((patient.dateOfBirth ==null)?'${watcher.lang.age}: ${watcher.lang.noInformation}':'${watcher.lang.age}:  ${DateTime.now().year - patient.dateOfBirth!.year}',
+                                    Text((patient.dateOfBirth ==null)?'${user.lang.age}: ${user.lang.noInformation}':'${user.lang.age}:  ${DateTime.now().year - patient.dateOfBirth!.year}',
                                       style: const TextStyle(fontSize: 16,color: Colors.black54),),
-                                    Text('${watcher.lang.phoneNumber}: ${patient.phoneNumber ?? '${watcher.lang.noInformation}'}',
+                                    Text('${user.lang.phoneNumber}:${patient.phoneNumber ?? user.lang.noInformation}',
                                       style: const TextStyle(fontSize: 16,color: Colors.black54),),
                                   ],
                                 )),
@@ -89,7 +89,7 @@ class PatientMornitoringScreen extends StatelessWidget {
                           children: [
                             const Icon(Icons.check_circle_outline,color: Colors.white,),
                             const SizedBox(width: 5,),
-                            Text('${watcher.lang.diagnose}: ${patient.diagnose}',
+                            Text('${user.lang.diagnose}: ${patient.diagnose}',
                               style: const TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
                           ],
                         )
@@ -98,7 +98,9 @@ class PatientMornitoringScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30,),
-                HealthIndicators(patient: patient),
+                HealthIndicators(heathData:patient.healthDataList.isEmpty?
+                HeathData(heartRate: 0, spb: 0, dbp: 0, oxygen: 0, temperature: 0, glucose: 0, step: 0, timestamp: DateTime.now().toString(), userId: '')
+                    :patient.healthDataList[patient.healthDataList.length -1],),
                 const SizedBox(height: 30,),
               ]
         ),))

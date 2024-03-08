@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:heathtrack/models/heathData.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:provider/provider.dart';
 import '../objects/patient.dart';
@@ -10,8 +11,8 @@ import '../screens/patientScreens/oxygenScreen.dart';
 import '../screens/patientScreens/temperatureScreen.dart';
 import 'Metrics.dart';
 class HealthIndicators extends StatelessWidget {
-  HealthIndicators({super.key, required this.patient});
-  Patient patient;
+  HealthIndicators({super.key, required this.heathData});
+  HeathData heathData;
   var heartRateStatus = 0;
   var bloodPressureStatus = 0;
   var glucoseLevelStatus = 0;
@@ -20,12 +21,12 @@ class HealthIndicators extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    patient.updateStatus();
-    heartRateStatus = patient.heartRateStatus;
-    bloodPressureStatus = patient.bloodPressureStatus;
-    glucoseLevelStatus = patient.bloodGlucoseLevelStatus;
-    oxygenStatus = patient.oxygenSaturationStatus;
-    temperatureStatus = patient.bodyTemperatureStatus;
+    // heathData.updateStatus();
+    // heartRateStatus = heathData.heartRateStatus;
+    // bloodPressureStatus = heathData.bloodPressureStatus;
+    // glucoseLevelStatus = heathData.bloodGlucoseLevelStatus;
+    // oxygenStatus = heathData.oxygenSaturationStatus;
+    // temperatureStatus = heathData.bodyTemperatureStatus;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -42,7 +43,7 @@ class HealthIndicators extends StatelessWidget {
               color: Colors.white,
               size: 35,),
               Provider.of<UserProvider>(context).lang.heartRate,
-              "${patient.heartRate}",
+              "${heathData.heartRate}",
               'bpm',
               problem: heartRateStatus,
               background: const Color(0xffD4F4DC),
@@ -55,7 +56,7 @@ class HealthIndicators extends StatelessWidget {
               color: Colors.white,
               size: 40,),
               "Blood\nPressure",
-              "${patient.systolic}/${patient.diastolic}",
+              "${heathData.spb}/${heathData.dbp}",
               'mmHg',
               problem: bloodPressureStatus,
               background: Color(0xffF7CECD),
@@ -73,7 +74,7 @@ class HealthIndicators extends StatelessWidget {
               size: 40,
             ),
               "Oxygen\nSaturation",
-              "${patient.oxygenSaturation}",
+              "${heathData.oxygen}",
               '%',
               problem: oxygenStatus,
               background: Color(0xffD4E3F4),
@@ -88,7 +89,7 @@ class HealthIndicators extends StatelessWidget {
               size: 40,
             ) as Icon,
               "Body\nTemperature",
-              "${patient.bodyTemperature}",
+              "${heathData.temperature}",
               '°C',
               problem: temperatureStatus,
               background:Color(0xffF4EDD4),
@@ -104,7 +105,7 @@ class HealthIndicators extends StatelessWidget {
             Metrics(
               const Icon(FontAwesomeIcons.g,color: Colors.white,size: 45,),
               "Glucose\nlevel",
-              "${patient.bloodGlucoseLevel}",
+              "${heathData.glucose}",
               'mg/DL',
               problem: glucoseLevelStatus,
               background: Color(0xffDAD4F4),
@@ -115,7 +116,7 @@ class HealthIndicators extends StatelessWidget {
             Metrics(
               const Icon(FontAwesomeIcons.personRunning,color: Colors.white,size: 50,),
               Provider.of<UserProvider>(context).lang.activity,
-              "1120",//------------------------------------------need to fix-------------------------------------------------------------
+              "${heathData.step}",//------------------------------------------need to fix-------------------------------------------------------------
               'steps',
               problem: -1,
               background: const Color(0xffD2D8DE),
