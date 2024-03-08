@@ -52,7 +52,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
   Future fetchAddressPatient() async {
     listPatientInW = await watcherService.fetchAddressPatient(
       context: context,
-      address: Provider.of<UserProvider>(context, listen: false).user.id,
+      watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
     );
     //setState(() {});
   }
