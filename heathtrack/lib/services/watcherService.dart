@@ -25,7 +25,6 @@ class WatcherService {
     required String age,
     required String familyCode,
     required String watcherId,
-    required String userId,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
@@ -36,7 +35,7 @@ class WatcherService {
         age: age,
         type: type,
         familyCode: familyCode,
-        watcherId: watcherId, id: '',
+        watcherId: watcherId,
       );
 
       http.Response res = await http.post(
