@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:heathtrack/constants/errorHandling.dart';
 import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/models/heathData.dart';
-import 'package:heathtrack/models/user.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/services/authService.dart';
 import 'package:provider/provider.dart';

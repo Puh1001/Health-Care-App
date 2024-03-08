@@ -132,20 +132,17 @@ class WatcherService {
           response: res,
           context: context,
           onSucess: () {
-            List <dynamic> data = jsonDecode(res.body);
+            List<dynamic> data = jsonDecode(res.body);
             for (var patient in data) {
-              patientList.add(
-                PatientInWatcher(
-                    id: patient['_id'] ,
-                    name: patient['name'],
-                    email: patient['email'],
-                    password: patient['password'],
-                    type: patient['type'],
-                    //age: patient['age'],
-                    familyCode: patient['familyCode'],
-                    watcherId: patient['watcherId']
-                )
-              );
+              patientList.add(PatientInWatcher(
+                  id: patient['_id'],
+                  name: patient['name'],
+                  email: patient['email'],
+                  password: patient['password'],
+                  type: patient['type'],
+                  //age: patient['age'],
+                  familyCode: patient['familyCode'],
+                  watcherId: patient['watcherId']));
             }
           });
     } catch (err) {
@@ -174,9 +171,7 @@ class WatcherService {
           context: context,
           onSucess: () {
             List<dynamic> data = jsonDecode(res.body);
-            print('data length ${data[7]}');
             for (var health in data) {
-              print(health);
               heathDataList.add(HeathData(
                   heartRate: health['heartRate'],
                   spb: health['spb'],
@@ -192,7 +187,6 @@ class WatcherService {
     } catch (err) {
       showSnackBar(context, err.toString());
     }
-  print(heathDataList.length);
     return heathDataList;
   }
 }
