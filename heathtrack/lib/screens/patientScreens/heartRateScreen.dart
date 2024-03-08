@@ -6,8 +6,10 @@ import 'package:heathtrack/screens/patientScreens/checkBloodPressure.dart';
 import 'package:heathtrack/services/patientServices.dart';
 import 'package:heathtrack/widgets/chart.dart';
 import 'package:moment_dart/moment_dart.dart';
+import 'package:provider/provider.dart';
 
 import '../../k_services/diagnoseEngine.dart';
+import '../../providers/userProvider.dart';
 import '../../widgets/diagnoseBar.dart';
 import 'checkHeartRate.dart';
 
@@ -21,23 +23,22 @@ class HeartRateScreen extends StatefulWidget {
 class _HeartRateScreenState extends State<HeartRateScreen> {
   List<Data> listData = [];
   final PatientServices patientServices = PatientServices();
+  var healthDataList;
 
   @override
-  initState() {
-    super.initState();
+  didChangeDependencies(){
+    super.didChangeDependencies();
     fetchHealthData();
-  }
 
-  Future fetchHealthData() async {
+  }
+   fetchHealthData() async {
     try {
-      final healthDataList = await patientServices.fetchHeathData(context);
-      if (healthDataList != null) {
-        print(healthDataList);
+       healthDataList = await patientServices.fetchHeathData(context);
+       print(healthDataList);
         setState(() {});
-      } else {
-        print("No health data found");
-      }
+       print(healthDataList);
     } catch (err) {
+      print(err);
       showSnackBar(context, err.toString());
     }
   }
@@ -49,7 +50,7 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
   double? average;
   @override
   Widget build(BuildContext context) {
-
+     print(healthDataList);
     currentValue = (listData.isEmpty ? 0 : listData[listData.length - 1].value);
     maxValue = listData.isEmpty
         ? 0
@@ -103,8 +104,8 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.0),
                         child: Icon(
-                          FontAwesomeIcons.g,
-                          color: Colors.purpleAccent,
+                          FontAwesomeIcons.heartPulse,
+                          color: Colors.green,
                           size: 60,
                         ),
                       ),

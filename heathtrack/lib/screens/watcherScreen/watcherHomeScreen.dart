@@ -17,19 +17,20 @@ class WatcherHomeScreen extends StatefulWidget {
 
 class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
   List<Patient> listPatient = [];
-  List<PatientInWatcher> listPatientInW =[];
+  List<PatientInWatcher> listPatientInW =[
+    PatientInWatcher(name: 'khanh', email: 'email', password: 'password', type: 'type', age: 'age', familyCode: 'familyCode', watcherId: 'watcherId')
+  ];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchAddressPatient().then((_){
-      for (var i in listPatientInW){
-        Patient patient = Patient(id: '', name: '', email: '', password: '', familyCode: '', address: '', type: '', token: '', watcherId: '');
-        patient.getDataFromPatientInWatcher(i);
-        listPatient.clear();
-        listPatient.add(patient);
-      }
-    });
+    fetchAddressPatient();
+    for (var i in listPatientInW){
+      Patient patient = Patient(id: '', name: '', email: '', password: '', familyCode: '', address: '', type: '', token: '', watcherId: '');
+      patient.getDataFromPatientInWatcher(i);
+      listPatient.clear();
+      listPatient.add(patient);
+    }
   }
 
   Future fetchAddressPatient() async {

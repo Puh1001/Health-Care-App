@@ -13,27 +13,36 @@ class PatientServices {
   // GET ALL HEATH DATA
   Future<List<HeathData>> fetchHeathData(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context);
+
     List<HeathData> heathDataList = [];
     try {
       http.Response res = await http.get(
         Uri.parse('$uri/api/get-heath-data'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
-          'x-auth-token': userProvider.user.token,
+          //'x-auth-token': userProvider.user.token,
         },
       );
       httpErrorHandle(
           response: res,
           context: context,
           onSucess: () {
-            for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            print(jsonDecode(res.body).length);
+            List<dynamic> data = jsonDecode(res.body);
+            for (var health in data) {
+              print(health);
               heathDataList.add(
-                HeathData.fromJson(
-                  jsonEncode(jsonDecode(res.body)[i]),
-                ),
-              );
+                  HeathData(heartRate: health['heartRate'],
+                      spb:  health['spb'],
+                      dbp:  health['dbp'],
+                      oxygen:  health['oxygen'],
+                      temperature:  health['temperature'],
+                      glucose:  health['glucose'],
+                      step:  health['step'],
+                      timestamp:  health['timestamp'],
+                      userId:  health['userId']));
             }
-          });
+           });
     } catch (err) {
       showSnackBar(context, err.toString());
     }

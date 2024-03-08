@@ -2,16 +2,16 @@ import 'dart:convert';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class HeathData {
-  final double heartRate;
-  final double spb;
-  final double dbp;
+  final int heartRate;
+  final int spb;
+  final int dbp;
   final double oxygen;
   final double temperature;
-  final double glucose;
+  final int glucose;
   final int step;
-  final DateTime timestamp;
+  final String timestamp;
   String? id;
-  String? userId;
+  final String userId;
   HeathData({
     required this.heartRate,
     required this.spb,
@@ -22,7 +22,7 @@ class HeathData {
     required this.step,
     required this.timestamp,
     this.id,
-    this.userId,
+    required this.userId,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,29 +34,63 @@ class HeathData {
       'temperature': temperature,
       'glucose': glucose,
       'step': step,
-      'timestamp': timestamp.millisecondsSinceEpoch,
+      'timestamp': timestamp,
       'id': id,
       'userId': userId,
     };
   }
 
   factory HeathData.fromMap(Map<String, dynamic> map) {
-    return HeathData(
-      heartRate: map['heartRate'] as double,
-      spb: map['spb'] as double,
-      dbp: map['dbp'] as double,
-      oxygen: map['oxygen'] as double,
-      temperature: map['temperature'] as double,
-      glucose: map['glucose'] as double,
-      step: map['step'] as int,
-      timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp'] as int),
-      id: map['id'] != null ? map['id'] as String : null,
-      userId: map['userId'] != null ? map['userId'] as String : null,
+
+    print('${map['heartRate'].runtimeType}');
+    print('${map['spb'].runtimeType}');
+    print('${map['dpb'].runtimeType}');
+    print('${map['oxygen'].runtimeType}');
+    print('${map['temperature'].runtimeType}');
+    print('${map['glucose'].runtimeType}');
+    print('${map['step'].runtimeType}');
+    print('${map['timestamp'].runtimeType}');
+    print('${map['id'].runtimeType}');
+    print('${map['userId'].runtimeType}');
+
+     int heartRate = map['heartRate'] as int ;
+    // print(heartRate);
+    int spb = map['spb'] as int ;
+    int dbp = map['dbp'] as int ;
+    String id = map['userId'] as String;
+    String time = map['timestamp'] as String;
+    double oxy = map['oxygen'] as double ;
+    // print(heartRate);
+
+    HeathData heathData = HeathData(
+      heartRate: heartRate ,
+      spb: spb,
+      dbp: dbp,
+      oxygen: 1,
+      temperature: 1,
+      glucose: 1,
+      step: 11,
+      timestamp: 'ddd',
+      id: 'sdsd',
+      userId:'id',
+      // oxygen: map['oxygen'] as double,
+      // temperature: map['temperature'] as double,
+      // glucose: map['glucose'] as int,
+      // step: map['step'] as int,
+      // timestamp: map['timestamp'] as String,
+      // //id: map['id'] != null ? map['id'] as String : null,
+      // userId: map['userId'] as String ,
     );
+    print('step ${heathData.heartRate}');
+    return heathData;
   }
 
   String toJson() => json.encode(toMap());
 
-  factory HeathData.fromJson(String source) =>
-      HeathData.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory HeathData.fromJson(String source){
+    print('jjjjjjjjjjjjjjjjj   ${HeathData.fromMap(json.decode(source))}');
+      return HeathData.fromMap(json.decode(source) as Map<String, dynamic>);}
 }
+
+
+
