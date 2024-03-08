@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heathtrack/widgets/chart.dart';
 
 import '../../k_services/diagnoseEngine.dart';
+import '../../k_services/getEachHealthData.dart';
 import '../../widgets/diagnoseBar.dart';
 class TemperatureScreen extends StatefulWidget {
 

@@ -5,6 +5,7 @@ import 'package:heathtrack/screens/patientScreens/checkBloodPressure.dart';
 import 'package:heathtrack/widgets/chart.dart';
 
 import '../../k_services/diagnoseEngine.dart';
+import '../../k_services/getEachHealthData.dart';
 import '../../widgets/diagnoseBar.dart';
 class BloodPressureScreen extends StatefulWidget {
 

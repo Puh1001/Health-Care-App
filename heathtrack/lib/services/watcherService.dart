@@ -173,16 +173,16 @@ class WatcherService {
           response: res,
           context: context,
           onSucess: () {
-            print(jsonDecode(res.body).length);
             List<dynamic> data = jsonDecode(res.body);
+            print('data length ${data[7]}');
             for (var health in data) {
               print(health);
               heathDataList.add(HeathData(
                   heartRate: health['heartRate'],
                   spb: health['spb'],
                   dbp: health['dbp'],
-                  oxygen: health['oxygen'],
-                  temperature: health['temperature'],
+                  oxygen: double.parse(health['oxygen'].toString()),
+                  temperature: double.parse(health['temperature'].toString()),
                   glucose: health['glucose'],
                   step: health['step'],
                   timestamp: health['timestamp'],
@@ -192,6 +192,7 @@ class WatcherService {
     } catch (err) {
       showSnackBar(context, err.toString());
     }
+  print(heathDataList.length);
     return heathDataList;
   }
 }

@@ -5,6 +5,7 @@ import 'package:heathtrack/k_services/diagnoseEngine.dart';
 import 'package:heathtrack/screens/patientScreens/checkOxygen.dart';
 import 'package:heathtrack/widgets/chart.dart';
 
+import '../../k_services/getEachHealthData.dart';
 import '../../widgets/diagnoseBar.dart';
 class OxygenScreen extends StatefulWidget {
 

@@ -32,7 +32,6 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
        context: context,
        watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
      );
-     print("gdgdgdrdf $listPatientInW");
      setState(() {});
    } catch (err) {
   print(err);
@@ -48,21 +47,22 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
 
 
   void addPatient() {
-    watcherService.addPatient(
-      context: context,
-      name: patientName.text,
-      email: patientEmail.text,
-      password: patientPassword.text,
-      age: ageController.text,
-      type: 'patient',
-      familyCode:
-          Provider.of<UserProvider>(context, listen: false).user.familyCode,
-      watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
-    );
+    setState(() {
+      watcherService.addPatient(
+        context: context,
+        name: patientName.text,
+        email: patientEmail.text,
+        password: patientPassword.text,
+        age: ageController.text,
+        type: 'patient',
+        familyCode:
+        Provider.of<UserProvider>(context, listen: false).user.familyCode,
+        watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
+      );
+    });
   }
   @override
   Widget build(BuildContext context) {
-    print(listPatientInW);
     listPatient.clear();
     for (var i in listPatientInW) {
       Patient patient = Patient(
@@ -76,8 +76,6 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
           token: '',
           watcherId: '');
       patient.getDataFromPatientInWatcher(i);
-      print('patient  fsfdf $patient');
-
       listPatient.add(patient);
     }
     return Consumer<UserProvider>(builder: (context, watcher, child) {

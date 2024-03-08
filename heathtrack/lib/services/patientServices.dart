@@ -28,16 +28,14 @@ class PatientServices {
           response: res,
           context: context,
           onSucess: () {
-            print(jsonDecode(res.body).length);
             List<dynamic> data = jsonDecode(res.body);
             for (var health in data) {
-              print(health);
               heathDataList.add(HeathData(
                   heartRate: health['heartRate'],
                   spb: health['spb'],
                   dbp: health['dbp'],
-                  oxygen: health['oxygen'],
-                  temperature: health['temperature'],
+                  oxygen: double.parse(health['oxygen'].toString()),
+                  temperature: double.parse(health['temperature'].toString()),
                   glucose: health['glucose'],
                   step: health['step'],
                   timestamp: health['timestamp'],

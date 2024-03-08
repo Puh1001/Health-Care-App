@@ -4,12 +4,39 @@ import 'package:heathtrack/screens/watcherScreen/detailPatientInfoScreen.dart';
 import 'package:heathtrack/widgets/healthIndicators.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/utils.dart';
 import '../../models/heathData.dart';
 import '../../objects/patient.dart';
-class PatientMornitoringScreen extends StatelessWidget {
+import '../../services/watcherService.dart';
+class PatientMornitoringScreen extends StatefulWidget {
   Patient patient;
   PatientMornitoringScreen({super.key, required this.patient});
 
+  @override
+  State<PatientMornitoringScreen> createState() => _PatientMornitoringScreenState();
+}
+
+class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
+  //List<Data> listData = [];
+  final WatcherService patientServices = WatcherService();
+  var healthDataList=[];
+
+  @override
+  didChangeDependencies(){
+    super.didChangeDependencies();
+    fetchHealthData();
+
+  }
+  fetchHealthData() async {
+    try {
+      healthDataList = await patientServices.fetchHeathDataInWatcher(context,widget.patient.id);
+      print(healthDataList.length);
+      setState(() {});
+    } catch (err) {
+      print(err);
+      showSnackBar(context, err.toString());
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(
@@ -29,7 +56,7 @@ class PatientMornitoringScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(
-                        builder: (context)=>DetailPatientInfoScreen(patient: patient)));
+                        builder: (context)=>DetailPatientInfoScreen(patient: widget.patient)));
                   },
                   child: Container(
                     padding: const EdgeInsets.all(12),
@@ -59,7 +86,7 @@ class PatientMornitoringScreen extends StatelessWidget {
                                       color: Colors.white.withOpacity(0.5),
                                       borderRadius: BorderRadius.circular(15),
                                         image:  DecorationImage(
-                                            image: AssetImage(patient.gender=='female'?'images/womanAvatar.png':'images/manAvatar.png',),
+                                            image: AssetImage(widget.patient.gender=='female'?'images/womanAvatar.png':'images/manAvatar.png',),
                                             fit: BoxFit.fitHeight
                                         )
                                     ),
@@ -71,14 +98,14 @@ class PatientMornitoringScreen extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(patient.name,
+                                    Text(widget.patient.name,
                                       style: const TextStyle(fontSize: 20,
                                           fontWeight: FontWeight.bold),),
-                                    Text('ID: ${patient.id}',
+                                    Text('ID: ${widget.patient.id}',
                                       style: const TextStyle(fontSize: 16,color: Colors.black54),),
-                                    Text((patient.dateOfBirth ==null)?'${user.lang.age}: ${user.lang.noInformation}':'${user.lang.age}:  ${DateTime.now().year - patient.dateOfBirth!.year}',
+                                    Text((widget.patient.dateOfBirth ==null)?'${user.lang.age}: ${user.lang.noInformation}':'${user.lang.age}:  ${DateTime.now().year - widget.patient.dateOfBirth!.year}',
                                       style: const TextStyle(fontSize: 16,color: Colors.black54),),
-                                    Text('${user.lang.phoneNumber}:${patient.phoneNumber ?? user.lang.noInformation}',
+                                    Text('${user.lang.phoneNumber}:${widget.patient.phoneNumber ?? user.lang.noInformation}',
                                       style: const TextStyle(fontSize: 16,color: Colors.black54),),
                                   ],
                                 )),
@@ -89,7 +116,7 @@ class PatientMornitoringScreen extends StatelessWidget {
                           children: [
                             const Icon(Icons.check_circle_outline,color: Colors.white,),
                             const SizedBox(width: 5,),
-                            Text('${user.lang.diagnose}: ${patient.diagnose}',
+                            Text('${user.lang.diagnose}: ${widget.patient.diagnose}',
                               style: const TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
                           ],
                         )
@@ -98,9 +125,9 @@ class PatientMornitoringScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30,),
-                HealthIndicators(heathData:patient.healthDataList.isEmpty?
-                HeathData(heartRate: 0, spb: 0, dbp: 0, oxygen: 0, temperature: 0, glucose: 0, step: 0, timestamp: DateTime.now().toString(), userId: '')
-                    :patient.healthDataList[patient.healthDataList.length -1],),
+                healthDataList.isEmpty?
+                const Center(child: CircularProgressIndicator(),):
+                HealthIndicators(heathData:healthDataList.isEmpty?HeathData(heartRate: 0, spb: 0, dbp: 0, oxygen: 0, temperature: 0, glucose: 0, step: 0, timestamp: '0', userId: 'userId'):healthDataList[healthDataList.length -1]),
                 const SizedBox(height: 30,),
               ]
         ),))

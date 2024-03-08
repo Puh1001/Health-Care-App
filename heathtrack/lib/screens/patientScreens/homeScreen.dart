@@ -30,9 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   fetchHealthData() async {
     try {
       healthDataList = await patientServices.fetchHeathData(context);
-      print(healthDataList);
       setState(() {});
-      print(healthDataList);
     } catch (err) {
       print(err);
       showSnackBar(context, err.toString());
