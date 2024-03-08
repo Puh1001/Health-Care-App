@@ -133,7 +133,6 @@ class WatcherService {
           onSucess: () {
             List <dynamic> data = jsonDecode(res.body);
             for (var patient in data) {
-              print(patient);
               patientList.add(
                 PatientInWatcher(
                     id: patient['_id'] ,
@@ -151,7 +150,6 @@ class WatcherService {
     } catch (err) {
       showSnackBar(context, err.toString());
     }
-    print(patientList);
     return patientList;
   }
 }

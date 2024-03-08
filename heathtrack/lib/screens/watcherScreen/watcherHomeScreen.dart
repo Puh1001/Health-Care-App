@@ -5,6 +5,7 @@ import 'package:heathtrack/screens/watcherScreen/patientMornitoringScreen.dart';
 import 'package:heathtrack/services/watcherService.dart';
 import 'package:heathtrack/widgets/patientCard.dart';
 import 'package:provider/provider.dart';
+import '../../constants/utils.dart';
 import '../../objects/patient.dart';
 import '../../widgets/deviceCard.dart';
 
@@ -17,125 +18,34 @@ class WatcherHomeScreen extends StatefulWidget {
 
 class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
   List<Patient> listPatient = [];
-  List<PatientInWatcher> listPatientInW = [
-    PatientInWatcher(
-        name: 'khanh',
-        email: 'email',
-        password: 'password',
-        type: 'type',
-        //age: 'age',
-        familyCode: 'familyCode',
-        watcherId: 'watcherId')
-  ];
+  final WatcherService watcherService = WatcherService();
+  var listPatientInW ;
   @override
   didChangeDependencies(){
     super.didChangeDependencies();
     fetchAddressPatient();
-    for (var i in listPatientInW) {
-      Patient patient = Patient(
-          id: '',
-          name: '',
-          email: '',
-          password: '',
-          familyCode: '',
-          address: '',
-          type: '',
-          token: '',
-          watcherId: '');
-      patient.getDataFromPatientInWatcher(i);
-      listPatient.clear();
-      listPatient.add(patient);
-    }
-
   }
 
-  Future fetchAddressPatient() async {
-    listPatientInW = await watcherService.fetchAddressPatient(
-      context: context,
-      watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
-    );
-    //setState(() {});
+   fetchAddressPatient() async {
+    try {
+     listPatientInW = await watcherService.fetchAddressPatient(
+       context: context,
+       watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
+     );
+     print("gdgdgdrdf $listPatientInW");
+     setState(() {});
+   } catch (err) {
+  print(err);
+  showSnackBar(context, err.toString());
   }
-
-  // List<PatientInWatcher>? listPatient;
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   fetchAddressPatient();
-  // }
-
-  // fetchAddressPatient() async {
-  //   listPatient = await watcherService.fetchAddressPatient(
-  //     context: context,
-  //     address: Provider.of<UserProvider>(context, listen: false).user.id,
-  //   );
-  //   setState(() {});
-  // }
-
-  // List<Patient> listPatient = [
-  //   Patient(
-  //     name: 'Nguyen Van A',
-  //     dateOfBirth: DateTime(1970, 12, 11),
-  //     gender: "male",
-  //     id: '',
-  //     diagnose: "Good!",
-  //     heartRate: 40,
-  //     bloodGlucoseLevel: 30,
-  //     systolic: 180,
-  //     diastolic: 55,
-  //     bodyTemperature: 38,
-  //     oxygenSaturation: 97,
-  //     email: '',
-  //     password: '',
-  //     familyCode: '',
-  //     address: '',
-  //     type: '',
-  //     token: '',
-  //   ),
-  //   Patient(
-  //     name: 'Nguyen Van B',
-  //     gender: "male",
-  //     id: '',
-  //     email: '',
-  //     password: '',
-  //     familyCode: '',
-  //     address: '',
-  //     type: '',
-  //     token: '',
-  //   ),
-  //   Patient(
-  //     name: 'Nguyen Thi A',
-  //     dateOfBirth: DateTime(1977, 12, 11),
-  //     gender: "female",
-  //     id: '',
-  //     email: '',
-  //     password: '',
-  //     familyCode: '',
-  //     address: '',
-  //     type: '',
-  //     token: '',
-  //   ),
-  //   Patient(
-  //     name: 'Nguyen Van D',
-  //     dateOfBirth: DateTime(1955, 12, 11),
-  //     gender: "male",
-  //     id: '',
-  //     email: '',
-  //     password: '',
-  //     familyCode: '',
-  //     address: '',
-  //     type: '',
-  //     token: '',
-  //   ),
-  // ];
+  }
 
   bool mySwitch = true;
   TextEditingController patientName = TextEditingController();
   TextEditingController patientEmail = TextEditingController();
   TextEditingController patientPassword = TextEditingController();
   TextEditingController ageController = TextEditingController();
-  final WatcherService watcherService = WatcherService();
+
 
   void addPatient() {
     watcherService.addPatient(
@@ -150,11 +60,30 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
       watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
     );
   }
-
   @override
   Widget build(BuildContext context) {
+    print(listPatientInW);
+    listPatient.clear();
+    for (var i in listPatientInW) {
+      Patient patient = Patient(
+          id: '',
+          name: '',
+          email: '',
+          password: '',
+          familyCode: '',
+          address: '',
+          type: '',
+          token: '',
+          watcherId: '');
+      patient.getDataFromPatientInWatcher(i);
+      print('patient  fsfdf $patient');
+
+      listPatient.add(patient);
+    }
     return Consumer<UserProvider>(builder: (context, watcher, child) {
-      return Scaffold(
+      return listPatientInW==null?
+      Center(child: CircularProgressIndicator(),) :
+      Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showModalBottomSheet(

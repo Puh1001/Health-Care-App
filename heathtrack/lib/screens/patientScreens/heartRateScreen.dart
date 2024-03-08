@@ -34,9 +34,7 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
    fetchHealthData() async {
     try {
        healthDataList = await patientServices.fetchHeathData(context);
-       print(healthDataList);
         setState(() {});
-       print(healthDataList);
     } catch (err) {
       print(err);
       showSnackBar(context, err.toString());
@@ -50,7 +48,6 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
   double? average;
   @override
   Widget build(BuildContext context) {
-     print(healthDataList);
     currentValue = (listData.isEmpty ? 0 : listData[listData.length - 1].value);
     maxValue = listData.isEmpty
         ? 0
