@@ -8,10 +8,10 @@ class HeathData {
   final double oxygen;
   final double temperature;
   final double glucose;
-  final int step;
+  final double step;
   final DateTime timestamp;
   String? id;
-  String? userId;
+  final String userId;
   HeathData({
     required this.heartRate,
     required this.spb,
@@ -22,7 +22,7 @@ class HeathData {
     required this.step,
     required this.timestamp,
     this.id,
-    this.userId,
+    required this.userId,
   });
 
   Map<String, dynamic> toMap() {
@@ -48,10 +48,10 @@ class HeathData {
       oxygen: map['oxygen'] as double,
       temperature: map['temperature'] as double,
       glucose: map['glucose'] as double,
-      step: map['step'] as int,
+      step: map['step'] as double,
       timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp'] as int),
       id: map['id'] != null ? map['id'] as String : null,
-      userId: map['userId'] != null ? map['userId'] as String : null,
+      userId: map['userId'] as String,
     );
   }
 

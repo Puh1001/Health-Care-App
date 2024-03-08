@@ -106,6 +106,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
       familyCode:
           Provider.of<UserProvider>(context, listen: false).user.familyCode,
       watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
+      userId: "",
     );
   }
 
