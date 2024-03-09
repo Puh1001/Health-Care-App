@@ -79,7 +79,9 @@ class HealthIndicators extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => BloodPressureScreen()));
+                        builder: (context) => BloodPressureScreen(
+                            patientId: patientId ??
+                                Provider.of<UserProvider>(context).user.id)));
               },
             ),
           ],
