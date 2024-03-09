@@ -1,15 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:heathtrack/constants/errorHandling.dart';
 import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/models/heathData.dart';
 import 'package:heathtrack/models/patientInWatcher.dart';
-import 'package:heathtrack/models/user.dart';
-import 'package:heathtrack/objects/patient.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/services/authService.dart';
 import 'package:http/http.dart' as http;
@@ -86,7 +83,6 @@ class WatcherService {
                   email: patient['email'],
                   password: patient['password'],
                   type: patient['type'],
-                  //age: patient['age'],
                   familyCode: patient['familyCode'],
                   watcherId: patient['watcherId']));
             }
