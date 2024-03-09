@@ -10,7 +10,7 @@ import 'dart:io';
 
 import 'package:provider/provider.dart';
 
-//giao diện cập nhật thông tin người dùng
+//giao diện cập nhật thông tin bệnh nhân
 class UpdateInfoView extends StatelessWidget {
   var patientId;
   UpdateInfoView({super.key, this.patientId});
@@ -304,7 +304,7 @@ class _InputFormState extends State<InputForm> {
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
                     ),
-                    labelText: 'Sex'),
+                    labelText: 'Gender'),
                 value: selectedSex,
                 items: sexItems
                     .map((item) => DropdownMenuItem<String>(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
+import '../../widgets/updateWatcherInfoView.dart';
 import '../../widgets/InforBar.dart';
 class WatcherProfileScreen extends StatelessWidget {
   var image = 'images/avatar.png';
@@ -15,11 +15,32 @@ class WatcherProfileScreen extends StatelessWidget {
           leading: Container(),
           centerTitle: true,
           title: Text('Information'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: TextButton(
+                  onPressed: (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const UpdateWatcherInfoView(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                      'Edit',
+                    style: TextStyle(
+                      fontSize: 20
+                    ),
+                  )
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Container(
             color: const Color(0xfff7f7f7),
             padding: const EdgeInsets.only(top: 20),
+
             child: Column(
               children: [
                 CircleAvatar(
