@@ -7,6 +7,7 @@ import '../../constants/utils.dart';
 import '../../providers/userProvider.dart';
 import '../../services/patientServices.dart';
 import 'homeScreen.dart';
+import '../../screens/patientScreens/newsScreen.dart';
 
 class PatientControlScreen extends StatefulWidget {
   const PatientControlScreen({super.key});
@@ -19,16 +20,9 @@ class _PatientControlScreenState extends State<PatientControlScreen> {
   int selectedIndex = 0;
   final List<Widget> _children = [
     HomeScreen(),
-    MapScreen(),
-    //Container(color: Colors.green,child: const Center(child: Text('map',))),
-    Container(
-      color: Colors.pink,
-      child: const Center(
-        child: Text('News'),
-      ),
-    ),
-    //Container(color: Colors.yellow,child: const Center(child: Text('profile',))),
-    ProfileScreen()
+    const MapScreen(),
+    const ViewModel(),
+    const ProfileScreen()
   ];
   @override
   void initState() {
