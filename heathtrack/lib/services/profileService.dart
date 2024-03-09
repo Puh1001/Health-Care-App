@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
@@ -41,13 +42,12 @@ class ProfileService {
         bloodType: bloodtype,
       );
 
-      http.Response resp =
-          await http.post(Uri.parse('$uri/patient/add-patient-profile'),
-              headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'x-auth-token': userProvider.user.token,
-              },
-              body: proflie.toJson());
+      http.Response resp = await http.post(Uri.parse('$uri/api/add-profile'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': userProvider.user.token,
+          },
+          body: proflie.toJson());
 
       httpErrorHandle(
         response: resp,
@@ -60,5 +60,43 @@ class ProfileService {
     } catch (err) {
       showSnackBar(context, err.toString());
     }
+  }
+
+  Future<List<Proflie>> fetchProfileData({
+    required BuildContext context,
+    required userId,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context);
+    List<Proflie> profileList = [];
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$uri/api/get-profile?userId=$userId'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSucess: () {
+            List<dynamic> data = jsonDecode(res.body);
+            for (var profile in data) {
+              profileList.add(Proflie(
+                gender: profile['gender'],
+                image: profile['image'],
+                dateOfBirth: profile['dateOfBirth'],
+                bloodType: profile['bloodType'],
+                phoneNumber: profile['phoneNumber'],
+                weight: double.parse(profile['weight'].toString()),
+                height: double.parse(profile['height'].toString()),
+                userId: userId,
+              ));
+            }
+          });
+    } catch (err) {
+      showSnackBar(context, err.toString());
+    }
+    return profileList;
   }
 }

@@ -65,7 +65,7 @@ class _InputFormState extends State<InputForm> {
           dateOfBirth: doBController.text,
           phoneNumber: phoneNumberController.text,
           weight: double.parse(weightController.text),
-          height: double.parse(weightController.text),
+          height: double.parse(heightController.text),
           userId: widget.patientId,
           bloodtype: selectedBlood);
     }

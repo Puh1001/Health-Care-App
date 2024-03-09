@@ -31,13 +31,6 @@ class _WatcherControlScreenState extends State<WatcherControlScreen> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   Provider.of<UserProvider>(context, listen: false).setWatcher();
-  //   print("${Provider.of<UserProvider>(context, listen: false).user}");
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

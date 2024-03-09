@@ -21,6 +21,11 @@ const profileSchema = mongoose.Schema({
     type: String,
     require: true,
   },
+  bloodType: {
+    type: String,
+    require: true,
+    trim: true,
+  },
   height: {
     type: Number,
     require: true,

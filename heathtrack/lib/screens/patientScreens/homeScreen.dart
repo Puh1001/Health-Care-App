@@ -33,13 +33,10 @@ class _HomeScreenState extends State<HomeScreen> {
     } catch (err) {
       if (this.mounted) {
         setState(() {
-          // Your state change code goes here
           print(err);
           showSnackBar(context, err.toString());
         });
       }
-      // print(err);
-      // showSnackBar(context, err.toString());
     }
   }
 
