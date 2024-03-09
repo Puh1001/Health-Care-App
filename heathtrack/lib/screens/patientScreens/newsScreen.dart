@@ -86,7 +86,6 @@ class _ViewModelState extends State<ViewModel> {
                                         fit: BoxFit.cover,
                                         placeholder: (context, url) => const SizedBox(
                                           width: 20,
-                                          // height: 10,
                                           child: CircularProgressIndicator(),
                                         ),
                                         errorWidget: (context, url, error) => const Icon(Icons.error),
