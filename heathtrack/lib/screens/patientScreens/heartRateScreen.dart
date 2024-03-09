@@ -19,16 +19,12 @@ class HeartRateScreen extends StatefulWidget {
 }
 
 class _HeartRateScreenState extends State<HeartRateScreen> {
-  GetEachHealthData getEachHealthData = GetEachHealthData();
-  //final PatientServices patientServices = PatientServices();
-  final WatcherService watcherService = WatcherService();
-  var healthDataList;
   List<Data> listData = [];
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+  GetEachHealthData getEachHealthData = GetEachHealthData();
+
+  final WatcherService watcherService = WatcherService();
+
+  var healthDataList;
 
   @override
   didChangeDependencies() {
@@ -56,7 +52,6 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
   double? average;
   @override
   Widget build(BuildContext context) {
-    //listData = getEachHealthData.getListHeartRate(healthDataList);
     currentValue = (listData.isEmpty ? 0 : listData[listData.length - 1].value);
     maxValue = listData.isEmpty
         ? 0

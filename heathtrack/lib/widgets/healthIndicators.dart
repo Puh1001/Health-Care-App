@@ -101,8 +101,12 @@ class HealthIndicators extends StatelessWidget {
               problem: oxygenStatus,
               background: Color(0xffD4E3F4),
               ontap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => OxygenScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => OxygenScreen(
+                            patientId: patientId ??
+                                Provider.of<UserProvider>(context).user.id)));
               },
             ),
             const SizedBox(
@@ -123,7 +127,9 @@ class HealthIndicators extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => TemperatureScreen()));
+                        builder: (context) => TemperatureScreen(
+                            patientId: patientId ??
+                                Provider.of<UserProvider>(context).user.id)));
               },
             ),
           ],
@@ -148,7 +154,9 @@ class HealthIndicators extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => GlucoseLevelScreen()));
+                        builder: (context) => GlucoseLevelScreen(
+                            patientId: patientId ??
+                                Provider.of<UserProvider>(context).user.id)));
               },
             ),
             const SizedBox(
