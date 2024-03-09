@@ -5,24 +5,13 @@ const Profile = require("../models/Profile");
 // ADD PATIENT
 profileRouter.post("/api/add-profile", async (req, res) => {
   try {
-    const {
-      name,
-      dateOfBirth,
-      gender,
-      phoneNumber,
-      image,
-      email,
-      height,
-      weight,
-      userId,
-    } = req.body;
+    const { dateOfBirth, gender, phoneNumber, image, height, weight, userId } =
+      req.body;
     let profile = new Profile({
-      name,
       dateOfBirth,
       gender,
       phoneNumber,
       image,
-      email,
       height,
       weight,
       userId,

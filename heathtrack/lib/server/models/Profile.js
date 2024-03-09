@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 const User = require("./users");
 
 const profileSchema = mongoose.Schema({
-  name: {
-    type: String,
-    require: true,
-    trim: true,
-  },
   dateOfBirth: {
     type: Date,
     requite: true,
@@ -25,11 +20,6 @@ const profileSchema = mongoose.Schema({
   image: {
     type: String,
     require: true,
-  },
-  email: {
-    type: String,
-    require: true,
-    trim: true,
   },
   height: {
     type: Number,

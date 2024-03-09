@@ -19,15 +19,18 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  File image = File('images/avatar.png');
+  List<File> image = [];
   final WatcherService watcherService = WatcherService();
 
-  // void addPatientProfile(){
-  //   watcherService.addPatientProfile(context: context, name: name, dateOfBirth: dateOfBirth, gender: gender, phoneNumber: phoneNumber, email: email, height: height, weight: weight, bmi: bmi, image: image)
-  // }
+  void selectImage() async {
+    var res = await pickImage();
+    setState(() {
+      image = res;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(image.path);
     return Consumer<UserProvider>(
         builder: (BuildContext context, patient, child) {
       return Stack(
@@ -45,37 +48,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       backgroundColor: Colors.white,
                       child: Stack(
                         children: [
-                          SizedBox(
-                            height: 150,
-                            width: 150,
-                            child: ClipOval(
-                              child: Image.file(
-                                image,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.black.withOpacity(0.5),
-                              child: IconButton(
-                                onPressed: () async {
-                                  File? pickedImage = await pickImage();
-                                  if (pickedImage != null) {
-                                    setState(() {
-                                      image = pickedImage;
-                                    });
-                                  }
-                                },
-                                icon: const Icon(
-                                  Icons.camera_alt,
-                                  size: 25,
+                          image.isNotEmpty
+                              ? SizedBox(
+                                  height: 150,
+                                  width: 150,
+                                  child: ClipOval(
+                                    child: Image.file(
+                                      image[0],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              : Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      selectImage();
+                                    },
+                                    icon: const Icon(
+                                      Icons.camera_alt,
+                                      size: 25,
+                                    ),
+                                    color: Colors.grey,
+                                  ),
                                 ),
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),

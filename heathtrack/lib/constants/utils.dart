@@ -7,21 +7,20 @@ void showSnackBar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
 }
 
-Future<File?> pickImage() async {
-  File? image;
-  PlatformFile? pickedFile;
+Future<List<File>> pickImage() async {
+  List<File> images = [];
   try {
-    FilePickerResult? file = await FilePicker.platform.pickFiles(
+    var files = await FilePicker.platform.pickFiles(
       type: FileType.image,
       allowMultiple: false,
     );
-
-    if (file != null && file.files.single != null) {
-      pickedFile = file!.files.first;
-      image = File(pickedFile!.path.toString());
+    if (files != null && files.files.isNotEmpty) {
+      for (int i = 0; i < files.files.length; i++) {
+        images.add(File(files.files[i].path!));
+      }
     }
-  } catch (err) {
-    debugPrint(err.toString());
+  } catch (e) {
+    debugPrint(e.toString());
   }
-  return image;
+  return images;
 }

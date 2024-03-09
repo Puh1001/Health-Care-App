@@ -298,6 +298,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                                                                       patient:
                                                                           e)));
                                                     },
+                                                    patient: e,
                                                   ))
                                               .toList(),
                                         ),

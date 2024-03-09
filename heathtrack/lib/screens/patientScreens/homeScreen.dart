@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:heathtrack/models/heathData.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/screens/patientScreens/patientSettingScreen.dart';
 import 'package:heathtrack/screens/patientScreens/sosScreen.dart';

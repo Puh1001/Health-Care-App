@@ -2,17 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heathtrack/constants/utils.dart';
-import 'package:heathtrack/objects/watcher.dart';
-import 'package:heathtrack/screens/patientScreens/checkBloodPressure.dart';
-import 'package:heathtrack/services/patientServices.dart';
 import 'package:heathtrack/widgets/chart.dart';
-import 'package:moment_dart/moment_dart.dart';
-import 'package:provider/provider.dart';
 
 import '../../k_services/diagnoseEngine.dart';
 import '../../k_services/getEachHealthData.dart';
-import '../../objects/patient.dart';
-import '../../providers/userProvider.dart';
 import '../../services/watcherService.dart';
 import '../../widgets/diagnoseBar.dart';
 import 'checkHeartRate.dart';

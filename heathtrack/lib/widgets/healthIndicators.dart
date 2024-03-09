@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:heathtrack/models/heathData.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:provider/provider.dart';
-import '../objects/patient.dart';
 import '../screens/patientScreens/bloodPressureScreen.dart';
 import '../screens/patientScreens/glucoseLevelScreen.dart';
 import '../screens/patientScreens/heartRateScreen.dart';
