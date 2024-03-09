@@ -41,13 +41,12 @@ class ProfileService {
         bloodType: bloodtype,
       );
 
-      http.Response resp =
-          await http.post(Uri.parse('$uri/patient/add-patient-profile'),
-              headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'x-auth-token': userProvider.user.token,
-              },
-              body: proflie.toJson());
+      http.Response resp = await http.post(Uri.parse('$uri/api/add-profile'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': userProvider.user.token,
+          },
+          body: proflie.toJson());
 
       httpErrorHandle(
         response: resp,
