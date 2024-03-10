@@ -22,7 +22,7 @@ class LoginView extends StatelessWidget {
         centerTitle: true,
       ),
       resizeToAvoidBottomInset: false,
-      body: const LoginForm(),
+      body: LoginForm(),
       floatingActionButton: const FooterView(),
       // endDrawer: FooterView(),
     );
@@ -101,8 +101,6 @@ class _LoginFormState extends State<LoginForm> {
                         ? Icons.visibility
                         : Icons.visibility_off)),
                 hintText: 'Type your password',
-                // border: OutlineInputBorder(),
-                // labelText: "Password"
               ),
             ),
             const Padding(
@@ -142,7 +140,6 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: () {
                       loginUser();
                     },
-
                     child: const Text(
                       'LOGIN',
                       style: TextStyle(

@@ -10,7 +10,6 @@ import 'dart:io';
 
 import 'package:provider/provider.dart';
 
-//giao diện cập nhật thông tin bệnh nhân
 class UpdateInfoView extends StatelessWidget {
   var patientId;
   UpdateInfoView({super.key, this.patientId});

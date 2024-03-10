@@ -32,7 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future fetchProfileData() async {
     try {
-      print("${Provider.of<UserProvider>(context).user.id}");
       profileDataList = await profileService.fetchProfileData(
           context: context, userId: Provider.of<UserProvider>(context).user.id);
       setState(() {});
@@ -40,8 +39,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       showSnackBar(context, err.toString());
     }
   }
-
-  final WatcherService watcherService = WatcherService();
 
   void selectImage() async {
     var res = await pickImage();

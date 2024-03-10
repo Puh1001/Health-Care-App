@@ -27,11 +27,14 @@ class _DetailPatientInfoScreenState extends State<DetailPatientInfoScreen> {
     fetchProfileData();
   }
 
-  Future fetchProfileData() async {
+  fetchProfileData() async {
     try {
       profileDataList = await profileService.fetchProfileData(
           context: context, userId: widget.patient.id);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
+      // setState(() {});
     } catch (err) {
       showSnackBar(context, err.toString());
     }

@@ -40,7 +40,9 @@ class _GlucoseLevelScreenState extends State<GlucoseLevelScreen> {
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patientId);
       listData = getEachHealthData.getListHeartRate(healthDataList);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     } catch (err) {
       print(err);
       showSnackBar(context, err.toString());

@@ -34,11 +34,13 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
 
   fetchHealthData() async {
     try {
-      print(widget.patientId);
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patientId);
       listData = getEachHealthData.getListHeartRate(healthDataList);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
+      // setState(() {});
     } catch (err) {
       print(err);
       showSnackBar(context, err.toString());

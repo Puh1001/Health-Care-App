@@ -5,8 +5,6 @@ import 'package:heathtrack/screens/watcherScreen/watcherProfileScreen.dart';
 import 'package:heathtrack/screens/watcherScreen/watcherSettingScreen.dart';
 import 'package:provider/provider.dart';
 
-import '../../objects/watcher.dart';
-
 class WatcherControlScreen extends StatefulWidget {
   static const String routeName = '/WatcherControl';
   const WatcherControlScreen({super.key});
@@ -23,7 +21,8 @@ class _WatcherControlScreenState extends State<WatcherControlScreen> {
     WatcherSettingScreen()
   ];
   @override
-  void initState() {
+  didChangeDependencies() {
+    super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         Provider.of<UserProvider>(context, listen: false).setWatcher();

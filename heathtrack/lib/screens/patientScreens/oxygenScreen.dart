@@ -39,7 +39,9 @@ class _OxygenScreenState extends State<OxygenScreen> {
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patientId);
       listData = getEachHealthData.getListHeartRate(healthDataList);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     } catch (err) {
       print(err);
       showSnackBar(context, err.toString());
