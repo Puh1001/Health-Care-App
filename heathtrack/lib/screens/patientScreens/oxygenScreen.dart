@@ -113,7 +113,11 @@ class _OxygenScreenState extends State<OxygenScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Chart(listData: listData),
+                      Chart(
+                        listData: listData,
+                        min: 70.0,
+                        max: 100.0,
+                      ),
                     ]),
                   ),
                   const SizedBox(

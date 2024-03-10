@@ -45,43 +45,21 @@ class _CheckBloodPressure extends State<CheckBloodPressure> {
               ),
             ),
             const SizedBox(height: 30,),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                      onPressed: (){
-                  
-                        setState(() {
-                          result = DiagnosisEngine.diagnoseBloodPressureIssue(int.parse(sysController.text),int.parse(diaController.text));
-                        });
-                      },
-                    style: ButtonStyle(
-                      padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 50,vertical: 10)),
-                      backgroundColor: MaterialStatePropertyAll(Colors.red),
-                      foregroundColor: MaterialStatePropertyAll(Colors.white),
-                    ),
-                      child: const Text('Check',style: TextStyle(fontSize: 20),),
-                  ),
-                ),
-                const SizedBox(width: 20,),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: (){
-                  
-                      setState(() {
-                        result = DiagnosisEngine.diagnoseBloodPressureIssue(int.parse(sysController.text),int.parse(diaController.text));
-                      });
-                    },
-                    style: ButtonStyle(
-                      padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 50,vertical: 10)),
-                      backgroundColor: MaterialStatePropertyAll(Colors.white),
-                      foregroundColor: MaterialStatePropertyAll(Colors.red),
-                    ),
-                    child: const Text('Add',style: TextStyle(fontSize: 20),),
-                  ),
-                ),
-              ],
+            ElevatedButton(
+                onPressed: (){
+
+                  setState(() {
+                    result = DiagnosisEngine.diagnoseBloodPressureIssue(int.parse(sysController.text),int.parse(diaController.text));
+                  });
+                },
+              style: const ButtonStyle(
+                padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 50,vertical: 10)),
+                backgroundColor: MaterialStatePropertyAll(Colors.red),
+                foregroundColor: MaterialStatePropertyAll(Colors.white),
+              ),
+                child: const Text('Check',style: TextStyle(fontSize: 20),),
             ),
+            const SizedBox(width: 20,),
             const SizedBox(height: 30,),
             result.isEmpty?const Text(''):
                 Container(
@@ -89,12 +67,12 @@ class _CheckBloodPressure extends State<CheckBloodPressure> {
                   padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color(0xffededed)
+                    color: const Color(0xffededed)
                   ),
                   child: Column(
                     children: [
                       const Text('Result', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                      Text(result,style: TextStyle(fontSize: 20,overflow: TextOverflow.clip),)
+                      Text(result,style: const TextStyle(fontSize: 20,overflow: TextOverflow.clip),)
                     ],
                   ),
                 )

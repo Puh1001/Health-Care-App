@@ -109,7 +109,7 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Chart(listData: listData),
+                Chart(listData: listData, min: 25.0, max: 50.0),
               ]),
             ),
             const SizedBox(

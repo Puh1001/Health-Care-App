@@ -22,8 +22,9 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   List<File> image = [];
   final ProfileService profileService = ProfileService();
-  var profileDataList = [];
-
+  var profileData;
+  var bmi;
+  var diagnoseBmi;
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
@@ -32,8 +33,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future fetchProfileData() async {
     try {
-      profileDataList = await profileService.fetchProfileData(
+      print("${Provider.of<UserProvider>(context).user.id}");
+      profileData = await profileService.fetchProfileData(
           context: context, userId: Provider.of<UserProvider>(context).user.id);
+      bmi = DiagnosisEngine.calculateBMI(
+          profileData.weight!, profileData.height!);
+      diagnoseBmi = DiagnosisEngine.diagnoseBMI(bmi);
       setState(() {});
     } catch (err) {
       showSnackBar(context, err.toString());
@@ -57,8 +62,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Consumer<UserProvider>(
         builder: (BuildContext context, patient, child) {
-      return profileDataList.isEmpty
-          ? Center(
+      return profileData == null
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : Stack(
@@ -81,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   width: 150,
                                   child: ClipOval(
                                     child: Image.network(
-                                      profileDataList[0].image,
+                                      profileData.image,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -125,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Infor(
                             'Gender',
-                            "${profileDataList[0].gender}",
+                            "${profileData.gender}",
                             canEdit: false, onTouch: () {},
                             // onTouch: (value) {
                             //   patient.updateSex(value);
@@ -133,18 +138,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Infor(
                             'Date of Birth',
-                            (DateTime.parse(profileDataList[0].dateOfBirth) ==
-                                    null)
+                            (DateTime.parse(profileData.dateOfBirth) == null)
                                 ? 'No information'
                                 : DateFormat('dd/MM/yyyy').format(
-                                    DateTime.parse(
-                                        profileDataList[0].dateOfBirth)!),
+                                    DateTime.parse(profileData.dateOfBirth)!),
                             onTouch: () async {
                               final DateTime? dateTime = await showDatePicker(
                                   context: context,
-                                  initialDate: DateTime.parse(
-                                          profileDataList[0].dateOfBirth) ??
-                                      DateTime.now(),
+                                  initialDate:
+                                      DateTime.parse(profileData.dateOfBirth) ??
+                                          DateTime.now(),
                                   firstDate: DateTime(1900),
                                   lastDate: DateTime(2025));
 
@@ -159,18 +162,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         InforBar('Communications', [
                           Infor(
                             'Phone number',
-                            "${profileDataList[0].phoneNumber}",
+                            "${profileData.phoneNumber}",
                             onTouch: () {
                               showDialog(
                                   context: context,
                                   builder: (BuildContext) {
                                     TextEditingController contentController =
                                         TextEditingController();
-                                    contentController.text = patient
-                                                .user.phoneNumber ==
-                                            null
-                                        ? ''
-                                        : '${profileDataList[0].phoneNumber}';
+                                    contentController.text =
+                                        patient.user.phoneNumber == null
+                                            ? ''
+                                            : '${profileData.phoneNumber}';
                                     return AlertDialog(
                                       title: const Text("Edit phone number"),
                                       content: TextField(
@@ -206,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         InforBar('Body indicators', [
                           Infor(
                             'Blood Type',
-                            '${profileDataList[0].bloodType}',
+                            '${profileData.bloodType}',
                             onTouch: () {
                               showDialog(
                                   context: context,
@@ -214,9 +216,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     TextEditingController contentController =
                                         TextEditingController();
                                     contentController.text =
-                                        profileDataList[0].bloodType == null
+                                        profileData.bloodType == null
                                             ? ''
-                                            : '${profileDataList[0].bloodType}';
+                                            : '${profileData.bloodType}';
                                     return AlertDialog(
                                       title: const Text("Edit Blood Type"),
                                       content: TextField(
@@ -242,7 +244,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Infor(
                             'Height (cm)',
-                            '${profileDataList[0].height}',
+                            '${profileData.height}',
                             onTouch: () {
                               showDialog(
                                   context: context,
@@ -250,9 +252,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     TextEditingController contentController =
                                         TextEditingController();
                                     contentController.text =
-                                        profileDataList[0].height == null
+                                        profileData.height == null
                                             ? ''
-                                            : '${profileDataList[0].height}';
+                                            : '${profileData.height}';
                                     return AlertDialog(
                                       title: const Text("Edit height"),
                                       content: TextField(
@@ -278,7 +280,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Infor(
                             'Weight (kg)',
-                            '${profileDataList[0].weight}',
+                            '${profileData.weight}',
                             onTouch: () {
                               showDialog(
                                   context: context,
@@ -286,9 +288,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     TextEditingController contentController =
                                         TextEditingController();
                                     contentController.text =
-                                        profileDataList[0].weight == null
+                                        profileData.weight == null
                                             ? ''
-                                            : '${profileDataList[0].weight}';
+                                            : '${profileData.weight}';
                                     return AlertDialog(
                                       title: const Text("Edit weight"),
                                       content: TextField(
@@ -314,9 +316,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Infor(
                             'BMI',
-                            (patient.user.weight != null &&
-                                    patient.user.height != null)
-                                ? '${DiagnosisEngine.calculateBMI(profileDataList[0].weight!, profileDataList[0].height!)} (${DiagnosisEngine.diagnoseBMI(DiagnosisEngine.calculateBMI(profileDataList[0].weight!, profileDataList[0].height!))})'
+                            bmi != null
+                                ? '$bmi ($diagnoseBmi)'
                                 : 'no information',
                             canEdit: false,
                             onTouch: () {},

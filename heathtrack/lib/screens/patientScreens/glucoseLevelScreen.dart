@@ -110,7 +110,11 @@ class _GlucoseLevelScreenState extends State<GlucoseLevelScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Chart(listData: listData),
+                Chart(
+                  listData: listData,
+                  min: 50.0,
+                  max: 150.0,
+                ),
               ]),
             ),
             const SizedBox(
