@@ -62,12 +62,12 @@ class ProfileService {
     }
   }
 
-  Future<List<Proflie>> fetchProfileData({
+  Future<Proflie?> fetchProfileData({
     required BuildContext context,
     required userId,
   }) async {
     final userProvider = Provider.of<UserProvider>(context);
-    List<Proflie> profileList = [];
+    Proflie? profile;
     try {
       http.Response res = await http.get(
         Uri.parse('$uri/api/get-profile?userId=$userId'),
@@ -80,23 +80,21 @@ class ProfileService {
           response: res,
           context: context,
           onSucess: () {
-            List<dynamic> data = jsonDecode(res.body);
-            for (var profile in data) {
-              profileList.add(Proflie(
-                gender: profile['gender'],
-                image: profile['image'],
-                dateOfBirth: profile['dateOfBirth'],
-                bloodType: profile['bloodType'],
-                phoneNumber: profile['phoneNumber'],
-                weight: double.parse(profile['weight'].toString()),
-                height: double.parse(profile['height'].toString()),
+            dynamic data = jsonDecode(res.body);
+              profile = Proflie(
+                gender: data[0]['gender'],
+                image: data[0]['image'],
+                dateOfBirth: data[0]['dateOfBirth'],
+                bloodType: data[0]['bloodType'],
+                phoneNumber: data[0]['phoneNumber'],
+                weight: double.parse(data[0]['weight'].toString()),
+                height: double.parse(data[0]['height'].toString()),
                 userId: userId,
-              ));
-            }
+              );
           });
     } catch (err) {
       showSnackBar(context, err.toString());
     }
-    return profileList;
+    return profile;
   }
 }

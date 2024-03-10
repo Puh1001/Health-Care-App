@@ -137,8 +137,8 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
                     height: 20,
                   ),
                   DiagnoseBar(
-                      diagnose: DiagnosisEngine.diagnoseBloodGlucoseLevelIssue(
-                          currentValue!)),
+                      diagnose: DiagnosisEngine.diagnoseHeartRateIssue(
+                          currentValue!.toInt() )),
                   DataBar(
                     name: 'Current Heart rate',
                     value: '$currentValue',

@@ -39,7 +39,7 @@ class _GlucoseLevelScreenState extends State<GlucoseLevelScreen> {
       print(widget.patientId);
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patientId);
-      listData = getEachHealthData.getListHeartRate(healthDataList);
+      listData = getEachHealthData.getListGlucose(healthDataList);
       setState(() {});
     } catch (err) {
       print(err);
@@ -108,7 +108,7 @@ class _GlucoseLevelScreenState extends State<GlucoseLevelScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Chart(listData: listData),
+                Chart(listData: listData,min:50.0,max: 150.0,),
               ]),
             ),
             const SizedBox(

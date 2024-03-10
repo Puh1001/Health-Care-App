@@ -19,7 +19,7 @@ class BloodPressureScreen extends StatefulWidget {
 }
 
 class _BloodPressureScreenState extends State<BloodPressureScreen> {
-  List<Data> listData = [];
+  List<Data2> listData = [];
 
   GetEachHealthData getEachHealthData = GetEachHealthData();
 
@@ -38,7 +38,7 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
       print(widget.patientId);
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patientId);
-      listData = getEachHealthData.getListHeartRate(healthDataList);
+      listData = getEachHealthData.getListBloodPressure(healthDataList);
       setState(() {});
     } catch (err) {
       print(err);
@@ -46,28 +46,38 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
     }
   }
 
-  double? currentValue;
-  double? maxValue;
-  double? minValue;
-  double? average;
+  String? currentValue;
+  double maxSystolic = double.negativeInfinity;
+  double minSystolic = double.infinity;
+  double maxDiastolic = double.negativeInfinity;
+  double minDiastolic = double.infinity;
   @override
+
   Widget build(BuildContext context) {
-    currentValue = listData.isEmpty ? 0 : listData[listData.length - 1].value;
-    maxValue = listData.isEmpty
-        ? 0
-        : listData
-            .reduce((curr, next) => curr.value > next.value ? curr : next)
-            .value;
-    minValue = listData.isEmpty
-        ? 0
-        : listData
-            .reduce((curr, next) => curr.value < next.value ? curr : next)
-            .value;
-    average = listData.isEmpty
-        ? 0
-        : (listData.map((data) => data.value).reduce((a, b) => a + b) /
-            listData.length);
-    return Scaffold(
+     currentValue = listData.isEmpty ? "" : '${listData[listData.length - 1].val1.toInt()}/${listData[listData.length - 1].val2.toInt()}';
+     double maxSys = listData.isEmpty
+         ? 0
+         : listData
+         .reduce((curr, next) => curr.val1 > next.val1 ? curr : next)
+         .val1;
+     double minSys = listData.isEmpty
+         ? 0
+         : listData
+         .reduce((curr, next) => curr.val1 < next.val1 ? curr : next)
+         .val2;
+     double maxDia = listData.isEmpty
+         ? 0
+         : listData
+         .reduce((curr, next) => curr.val2 > next.val2 ? curr : next)
+         .val1;
+     double minDia = listData.isEmpty
+         ? 0
+         : listData
+         .reduce((curr, next) => curr.val2 < next.val2 ? curr : next)
+         .val2;
+    return healthDataList==null?
+        const Center(child: CircularProgressIndicator(),):
+      Scaffold(
       appBar: AppBar(
         title: const Text('Blood pressure'),
       ),
@@ -92,13 +102,13 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
                       child: Icon(
                         FontAwesomeIcons.droplet,
                         color: Colors.red,
-                        size: 60,
+                        size: 55,
                       ),
                     ),
                     Text(
                       "$currentValue mmHg",
                       style: const TextStyle(
-                          fontSize: 45,
+                          fontSize: 40,
                           color: Colors.blueGrey,
                           fontWeight: FontWeight.bold),
                     )
@@ -107,7 +117,7 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Chart(listData: listData),
+                Chart2(listData: listData),
               ]),
             ),
 
@@ -115,23 +125,26 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
               height: 20,
             ),
             DiagnoseBar(
-                diagnose: DiagnosisEngine.diagnoseBloodPressureIssue(80,
-                    50)), //<<<-------<<<-----------------------------------------
+                diagnose: DiagnosisEngine.diagnoseBloodPressureIssue(listData[listData.length -1].val1.toInt(),listData[listData.length -1].val2.toInt()), ),
             DataBar(
               name: 'Current Blood pressure',
               value: '$currentValue',
             ),
             DataBar(
-              name: 'Average Blood pressure',
-              value: '${(average! * pow(10, 1)).round() / pow(10, 1)}',
+              name: 'Max systolic',
+              value: '$maxSys',
             ),
             DataBar(
-              name: 'Max Blood pressure',
-              value: '$maxValue',
+              name: 'Min systolic',
+              value: '$minSys',
             ),
             DataBar(
-              name: 'Min Blood pressure',
-              value: '$minValue',
+              name: 'Max diastolic',
+              value: '$maxDia',
+            ),
+            DataBar(
+              name: 'Min diastolic',
+              value: '$minDia',
             ),
             const SizedBox(
               height: 30,
@@ -141,12 +154,12 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CheckBloodPressure()));
+                        builder: (context) => const CheckBloodPressure()));
               },
-              style: ButtonStyle(
+              style: const ButtonStyle(
                   foregroundColor: MaterialStatePropertyAll(Colors.white),
                   backgroundColor: MaterialStatePropertyAll(Colors.red)),
-              child: Padding(
+              child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
                 child: Text('Check',
                     style: TextStyle(

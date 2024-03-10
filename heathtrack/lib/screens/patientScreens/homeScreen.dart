@@ -8,6 +8,7 @@ import '../../constants/utils.dart';
 import '../../services/patientServices.dart';
 import '../../widgets/HorizontalBar.dart';
 import '../../widgets/Summary.dart';
+import 'checkBMIScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -98,18 +99,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         HorizontalBar(
                           const Icon(
-                            Icons.apple,
-                            color: Colors.greenAccent,
-                          ),
-                          'Nutritions',
-                          ontap: () {},
-                        ),
-                        HorizontalBar(
-                          const Icon(
                             Icons.spa_outlined,
                             color: Colors.blueAccent,
                           ),
                           'BMI',
+                          ontap: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckBMIScreen()));},
+                        ),
+                        HorizontalBar(
+                          const Icon(
+                            Icons.apple,
+                            color: Colors.greenAccent,
+                          ),
+                          'Nutritions',
                           ontap: () {},
                         ),
                         const SizedBox(

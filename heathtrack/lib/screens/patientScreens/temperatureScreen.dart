@@ -38,7 +38,7 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
       print(widget.patientId);
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patientId);
-      listData = getEachHealthData.getListHeartRate(healthDataList);
+      listData = getEachHealthData.getListTemperature(healthDataList);
       setState(() {});
     } catch (err) {
       print(err);
@@ -107,7 +107,7 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Chart(listData: listData),
+                Chart(listData: listData, min:25.0, max:50.0),
               ]),
             ),
             const SizedBox(

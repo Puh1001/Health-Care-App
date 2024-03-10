@@ -38,7 +38,7 @@ class _OxygenScreenState extends State<OxygenScreen> {
       print(widget.patientId);
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patientId);
-      listData = getEachHealthData.getListHeartRate(healthDataList);
+      listData = getEachHealthData.getListOxygen(healthDataList);
       setState(() {});
     } catch (err) {
       print(err);
@@ -111,7 +111,7 @@ class _OxygenScreenState extends State<OxygenScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Chart(listData: listData),
+                      Chart(listData: listData,min:70.0,max: 100.0,),
                     ]),
                   ),
                   const SizedBox(
