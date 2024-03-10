@@ -38,7 +38,7 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
       print(widget.patientId);
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patientId);
-      listData = getEachHealthData.getListHeartRate(healthDataList);
+      listData = getEachHealthData.getListTemperature(healthDataList);
       if (mounted) {
         setState(() {});
       }

@@ -35,7 +35,6 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
 
   fetchHealthData() async {
     try {
-      print(widget.patientId);
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patientId);
       listData = getEachHealthData.getListBloodPressure(healthDataList);
