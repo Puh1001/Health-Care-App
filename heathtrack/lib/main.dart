@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:heathtrack/objects/watcher.dart';
 import 'package:heathtrack/providers/userProvider.dart';
@@ -7,12 +8,19 @@ import 'package:heathtrack/screens/patientScreens/patientControlScreen.dart';
 import 'package:heathtrack/screens/watcherScreen/watcherControlScreen.dart';
 import 'package:heathtrack/services/authService.dart';
 import 'package:provider/provider.dart';
+import 'package:heathtrack/services/notificationService.dart';
+import 'package:heathtrack/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-main() => runApp(MultiProvider(providers: [
-      ChangeNotifierProvider(
-        create: (context) => UserProvider(),
-      ),
-    ], child: const HeathTrackApp()));
+void main() async {
+  //them doan nay de nhan thong bao tu firebase
+  callInitialize();
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+    ),
+  ], child: const HeathTrackApp()));
+}
 
 class HeathTrackApp extends StatefulWidget {
   const HeathTrackApp({super.key});

@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+//xử lý new api
 class NewsModel {
   String? status;
   int? totalResults;
