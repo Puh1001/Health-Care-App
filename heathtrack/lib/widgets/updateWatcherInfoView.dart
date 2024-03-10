@@ -1,12 +1,15 @@
-
 import 'package:flutter/material.dart';
 import 'package:heathtrack/constants/utils.dart';
+import 'package:heathtrack/providers/userProvider.dart';
+import 'package:heathtrack/services/profileService.dart';
+import 'package:provider/provider.dart';
 import '../constants/utils.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
 
 class UpdateWatcherInfoView extends StatelessWidget {
-  const UpdateWatcherInfoView({super.key});
+  var patientId;
+  UpdateWatcherInfoView({super.key, required this.patientId});
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +19,16 @@ class UpdateWatcherInfoView extends StatelessWidget {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: WatcherInputForm(),
+        child: WatcherInputForm(
+            patientId: Provider.of<UserProvider>(context).user.id),
       ),
     );
   }
 }
+
 class WatcherInputForm extends StatefulWidget {
-  const WatcherInputForm({super.key});
+  var patientId;
+  WatcherInputForm({super.key, required this.patientId});
 
   @override
   State<WatcherInputForm> createState() => _WatcherInputFormState();
@@ -40,6 +46,21 @@ class _WatcherInputFormState extends State<WatcherInputForm> {
   List<String> sexItems = ['Male', 'Female', 'Other'];
   String selectedSex = 'Male';
   DateTime? dateTime;
+  final ProfileService profileService = ProfileService();
+
+  void addProfile() {
+    if (image != null) {
+      profileService.addWatcherProfile(
+        context: context,
+        gender: selectedSex,
+        image: image,
+        dateOfBirth: doBController.text,
+        phoneNumber: phoneNumberController.text,
+        userId: widget.patientId,
+      );
+    }
+  }
+
   //select image function
   void selectImage() async {
     var res = await pickImage();
@@ -47,6 +68,7 @@ class _WatcherInputFormState extends State<WatcherInputForm> {
       image = res;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -64,11 +86,7 @@ class _WatcherInputFormState extends State<WatcherInputForm> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: buildTextField90Width(
-                  nameController,
-                  'name',
-                  'Name',
-                  'Name',
-                  TextInputType.text),
+                  nameController, 'name', 'Name', 'Name', TextInputType.text),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -85,12 +103,8 @@ class _WatcherInputFormState extends State<WatcherInputForm> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildTextField90Width(
-                  emailController,
-                  'email',
-                  'Email',
-                  'Email',
-                  TextInputType.text),
+              child: buildTextField90Width(emailController, 'email', 'Email',
+                  'Email', TextInputType.text),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -105,6 +119,7 @@ class _WatcherInputFormState extends State<WatcherInputForm> {
       ),
     );
   }
+
   Widget buildTextField90Width(TextEditingController controller, String hint,
       String label, String valid, TextInputType keyboard) {
     return SizedBox(
@@ -126,6 +141,7 @@ class _WatcherInputFormState extends State<WatcherInputForm> {
       ),
     );
   }
+
   Widget buildAvatar() {
     return CircleAvatar(
       radius: 80,
@@ -140,29 +156,30 @@ class _WatcherInputFormState extends State<WatcherInputForm> {
                 child: ClipOval(
                     child: image.isNotEmpty
                         ? Builder(
-                      builder: (BuildContext context) => Image.file(
-                        image[0],
-                        fit: BoxFit.cover,
-                      ),
-                    )
+                            builder: (BuildContext context) => Image.file(
+                              image[0],
+                              fit: BoxFit.cover,
+                            ),
+                          )
                         : Align(
-                      alignment: Alignment.center,
-                      child: IconButton(
-                        onPressed: () {
-                          selectImage();
-                        },
-                        icon: const Icon(
-                          Icons.camera_alt,
-                          size: 50,
-                        ),
-                        color: Colors.grey,
-                      ),
-                    ))),
+                            alignment: Alignment.center,
+                            child: IconButton(
+                              onPressed: () {
+                                selectImage();
+                              },
+                              icon: const Icon(
+                                Icons.camera_alt,
+                                size: 50,
+                              ),
+                              color: Colors.grey,
+                            ),
+                          ))),
           ],
         ),
       ),
     );
   }
+
   Widget buildDoB() {
     return TextFormField(
       controller: doBController,
@@ -185,11 +202,12 @@ class _WatcherInputFormState extends State<WatcherInputForm> {
       enabled: true,
     );
   }
+
   void _showDatePicker() {
     showDatePicker(
-        context: context,
-        firstDate: DateTime(1930),
-        lastDate: DateTime.now())
+            context: context,
+            firstDate: DateTime(1930),
+            lastDate: DateTime.now())
         .then((value) {
       setState(() {
         dateTime = value!;
@@ -198,7 +216,8 @@ class _WatcherInputFormState extends State<WatcherInputForm> {
       });
     });
   }
-  Widget buildGenderField(){
+
+  Widget buildGenderField() {
     return Align(
       alignment: Alignment.topLeft,
       child: SizedBox(
@@ -211,14 +230,14 @@ class _WatcherInputFormState extends State<WatcherInputForm> {
                 labelText: 'Gender'),
             value: selectedSex,
             items: sexItems
-                .map((item) => DropdownMenuItem<String>(
-                value: item, child: Text(item)))
+                .map((item) =>
+                    DropdownMenuItem<String>(value: item, child: Text(item)))
                 .toList(),
             onChanged: (item) => setState(() => selectedSex = item!)),
       ),
     );
-
   }
+
   Widget buildButton() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -259,6 +278,7 @@ class _WatcherInputFormState extends State<WatcherInputForm> {
                     const SnackBar(content: Text('Processing Data')),
                   );
                 }
+                addProfile();
               },
               child: const Text(
                 'Save',
@@ -268,5 +288,4 @@ class _WatcherInputFormState extends State<WatcherInputForm> {
       ],
     );
   }
-
 }

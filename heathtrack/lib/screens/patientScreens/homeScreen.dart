@@ -8,6 +8,7 @@ import '../../constants/utils.dart';
 import '../../services/patientServices.dart';
 import '../../widgets/HorizontalBar.dart';
 import '../../widgets/Summary.dart';
+import 'checkBMIScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -29,14 +30,12 @@ class _HomeScreenState extends State<HomeScreen> {
   fetchHealthData() async {
     try {
       healthDataList = await patientServices.fetchHeathData(context);
-      setState(() {});
-    } catch (err) {
-      if (this.mounted) {
-        setState(() {
-          print(err);
-          showSnackBar(context, err.toString());
-        });
+      if (mounted) {
+        setState(() {});
       }
+      (() {});
+    } catch (err) {
+      showSnackBar(context, err.toString());
     }
   }
 
@@ -98,18 +97,23 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         HorizontalBar(
                           const Icon(
-                            Icons.apple,
-                            color: Colors.greenAccent,
-                          ),
-                          'Nutritions',
-                          ontap: () {},
-                        ),
-                        HorizontalBar(
-                          const Icon(
                             Icons.spa_outlined,
                             color: Colors.blueAccent,
                           ),
                           'BMI',
+                          ontap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CheckBMIScreen()));
+                          },
+                        ),
+                        HorizontalBar(
+                          const Icon(
+                            Icons.apple,
+                            color: Colors.greenAccent,
+                          ),
+                          'Nutritions',
                           ontap: () {},
                         ),
                         const SizedBox(

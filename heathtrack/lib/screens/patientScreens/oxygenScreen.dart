@@ -38,8 +38,10 @@ class _OxygenScreenState extends State<OxygenScreen> {
       print(widget.patientId);
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patientId);
-      listData = getEachHealthData.getListHeartRate(healthDataList);
-      setState(() {});
+      listData = getEachHealthData.getListOxygen(healthDataList);
+      if (mounted) {
+        setState(() {});
+      }
     } catch (err) {
       print(err);
       showSnackBar(context, err.toString());
@@ -111,7 +113,11 @@ class _OxygenScreenState extends State<OxygenScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Chart(listData: listData),
+                      Chart(
+                        listData: listData,
+                        min: 70.0,
+                        max: 100.0,
+                      ),
                     ]),
                   ),
                   const SizedBox(

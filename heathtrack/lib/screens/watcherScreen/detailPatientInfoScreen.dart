@@ -19,19 +19,25 @@ class DetailPatientInfoScreen extends StatefulWidget {
 
 class _DetailPatientInfoScreenState extends State<DetailPatientInfoScreen> {
   final ProfileService profileService = ProfileService();
-  var profileDataList = [];
-
+  var profileData;
+  var bmi;
+  var diagnoseBmi;
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
     fetchProfileData();
   }
 
-  Future fetchProfileData() async {
+  fetchProfileData() async {
     try {
-      profileDataList = await profileService.fetchProfileData(
+      profileData = await profileService.fetchProfileData(
           context: context, userId: widget.patient.id);
-      setState(() {});
+      bmi = DiagnosisEngine.calculateBMI(
+          profileData.weight!, profileData.height!);
+      diagnoseBmi = DiagnosisEngine.diagnoseBMI(bmi);
+      if (mounted) {
+        setState(() {});
+      }
     } catch (err) {
       showSnackBar(context, err.toString());
     }
@@ -45,7 +51,7 @@ class _DetailPatientInfoScreenState extends State<DetailPatientInfoScreen> {
       return time;
     }
 
-    return profileDataList.isEmpty
+    return profileData == null
         ? Center(
             child: CircularProgressIndicator(),
           )
@@ -71,7 +77,7 @@ class _DetailPatientInfoScreenState extends State<DetailPatientInfoScreen> {
                               width: 150,
                               child: ClipOval(
                                 child: Image.network(
-                                  profileDataList[0].image,
+                                  profileData.image,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -99,15 +105,15 @@ class _DetailPatientInfoScreenState extends State<DetailPatientInfoScreen> {
                       ),
                       Infor(
                         'Gender',
-                        "${profileDataList[0].gender}",
+                        "${profileData.gender}",
                         canEdit: false,
                         onTouch: () {},
                       ),
                       Infor(
                         'Date of Birth',
-                        (profileDataList[0].dateOfBirth == null)
+                        (profileData.dateOfBirth == null)
                             ? 'No information'
-                            : "${formatDate(profileDataList[0].dateOfBirth)}",
+                            : "${formatDate(profileData.dateOfBirth)}",
                         onTouch: () {},
                         canEdit: false,
                       ),
@@ -115,7 +121,7 @@ class _DetailPatientInfoScreenState extends State<DetailPatientInfoScreen> {
                     InforBar('Communications', [
                       Infor(
                         'Phone number',
-                        "${profileDataList[0].phoneNumber}",
+                        "${profileData.phoneNumber}",
                         canEdit: false,
                         onTouch: () {},
                       ),
@@ -127,18 +133,15 @@ class _DetailPatientInfoScreenState extends State<DetailPatientInfoScreen> {
                       ),
                     ]),
                     InforBar('Body indicators', [
-                      Infor('Blood Type', '${profileDataList[0].bloodType}',
+                      Infor('Blood Type', '${profileData.bloodType}',
                           canEdit: false, onTouch: () {}),
-                      Infor('Height (cm)', '${profileDataList[0].height}',
+                      Infor('Height (cm)', '${profileData.height}',
                           canEdit: false, onTouch: () {}),
-                      Infor('Weight (kg)', '${profileDataList[0].weight}',
+                      Infor('Weight (kg)', '${profileData.weight}',
                           canEdit: false, onTouch: () {}),
                       Infor(
                         'BMI',
-                        (profileDataList[0].weight != null &&
-                                profileDataList[0].height != null)
-                            ? '${DiagnosisEngine.calculateBMI(profileDataList[0].weight!, profileDataList[0].height!)} (${DiagnosisEngine.diagnoseBMI(DiagnosisEngine.calculateBMI(profileDataList[0].weight!, profileDataList[0].height!))})'
-                            : 'no information',
+                        bmi != null ? '$bmi ($diagnoseBmi)' : 'no information',
                         canEdit: false,
                         onTouch: () {},
                       )

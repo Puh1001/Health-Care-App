@@ -19,7 +19,6 @@ class PatientMornitoringScreen extends StatefulWidget {
 }
 
 class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
-  //List<Data> listData = [];
   final WatcherService patientServices = WatcherService();
   var healthDataList = [];
 
@@ -33,9 +32,10 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
     try {
       healthDataList = await patientServices.fetchHeathDataInWatcher(
           context, widget.patient.id);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     } catch (err) {
-      print(err);
       showSnackBar(context, err.toString());
     }
   }

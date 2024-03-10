@@ -19,7 +19,7 @@ class BloodPressureScreen extends StatefulWidget {
 }
 
 class _BloodPressureScreenState extends State<BloodPressureScreen> {
-  List<Data> listData = [];
+  List<Data2> listData = [];
 
   GetEachHealthData getEachHealthData = GetEachHealthData();
 
@@ -35,129 +35,150 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
 
   fetchHealthData() async {
     try {
-      print(widget.patientId);
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patientId);
-      listData = getEachHealthData.getListHeartRate(healthDataList);
-      setState(() {});
+      listData = getEachHealthData.getListBloodPressure(healthDataList);
+      if (mounted) {
+        setState(() {});
+      }
     } catch (err) {
       print(err);
       showSnackBar(context, err.toString());
     }
   }
 
-  double? currentValue;
-  double? maxValue;
-  double? minValue;
-  double? average;
+  String? currentValue;
+  double maxSystolic = double.negativeInfinity;
+  double minSystolic = double.infinity;
+  double maxDiastolic = double.negativeInfinity;
+  double minDiastolic = double.infinity;
   @override
   Widget build(BuildContext context) {
-    currentValue = listData.isEmpty ? 0 : listData[listData.length - 1].value;
-    maxValue = listData.isEmpty
+    currentValue = listData.isEmpty
+        ? ""
+        : '${listData[listData.length - 1].val1.toInt()}/${listData[listData.length - 1].val2.toInt()}';
+    double maxSys = listData.isEmpty
         ? 0
         : listData
-            .reduce((curr, next) => curr.value > next.value ? curr : next)
-            .value;
-    minValue = listData.isEmpty
+            .reduce((curr, next) => curr.val1 > next.val1 ? curr : next)
+            .val1;
+    double minSys = listData.isEmpty
         ? 0
         : listData
-            .reduce((curr, next) => curr.value < next.value ? curr : next)
-            .value;
-    average = listData.isEmpty
+            .reduce((curr, next) => curr.val1 < next.val1 ? curr : next)
+            .val2;
+    double maxDia = listData.isEmpty
         ? 0
-        : (listData.map((data) => data.value).reduce((a, b) => a + b) /
-            listData.length);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blood pressure'),
-      ),
-      backgroundColor: const Color(0xffF0E6E0),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20))),
-              child: Column(children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Icon(
-                        FontAwesomeIcons.droplet,
-                        color: Colors.red,
-                        size: 60,
+        : listData
+            .reduce((curr, next) => curr.val2 > next.val2 ? curr : next)
+            .val1;
+    double minDia = listData.isEmpty
+        ? 0
+        : listData
+            .reduce((curr, next) => curr.val2 < next.val2 ? curr : next)
+            .val2;
+    return healthDataList == null
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              title: const Text('Blood pressure'),
+            ),
+            backgroundColor: const Color(0xffF0E6E0),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(20),
+                            bottomLeft: Radius.circular(20))),
+                    child: Column(children: [
+                      const SizedBox(
+                        height: 20,
                       ),
+                      Row(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Icon(
+                              FontAwesomeIcons.droplet,
+                              color: Colors.red,
+                              size: 55,
+                            ),
+                          ),
+                          Text(
+                            "$currentValue mmHg",
+                            style: const TextStyle(
+                                fontSize: 40,
+                                color: Colors.blueGrey,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Chart2(listData: listData),
+                    ]),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  DiagnoseBar(
+                    diagnose: DiagnosisEngine.diagnoseBloodPressureIssue(
+                        listData[listData.length - 1].val1.toInt(),
+                        listData[listData.length - 1].val2.toInt()),
+                  ),
+                  DataBar(
+                    name: 'Current Blood pressure',
+                    value: '$currentValue',
+                  ),
+                  DataBar(
+                    name: 'Max systolic',
+                    value: '$maxSys',
+                  ),
+                  DataBar(
+                    name: 'Min systolic',
+                    value: '$minSys',
+                  ),
+                  DataBar(
+                    name: 'Max diastolic',
+                    value: '$maxDia',
+                  ),
+                  DataBar(
+                    name: 'Min diastolic',
+                    value: '$minDia',
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const CheckBloodPressure()));
+                    },
+                    style: const ButtonStyle(
+                        foregroundColor: MaterialStatePropertyAll(Colors.white),
+                        backgroundColor: MaterialStatePropertyAll(Colors.red)),
+                    child: const Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                      child: Text('Check',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
                     ),
-                    Text(
-                      "$currentValue mmHg",
-                      style: const TextStyle(
-                          fontSize: 45,
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Chart(listData: listData),
-              ]),
-            ),
-
-            const SizedBox(
-              height: 20,
-            ),
-            DiagnoseBar(
-                diagnose: DiagnosisEngine.diagnoseBloodPressureIssue(80,
-                    50)), //<<<-------<<<-----------------------------------------
-            DataBar(
-              name: 'Current Blood pressure',
-              value: '$currentValue',
-            ),
-            DataBar(
-              name: 'Average Blood pressure',
-              value: '${(average! * pow(10, 1)).round() / pow(10, 1)}',
-            ),
-            DataBar(
-              name: 'Max Blood pressure',
-              value: '$maxValue',
-            ),
-            DataBar(
-              name: 'Min Blood pressure',
-              value: '$minValue',
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CheckBloodPressure()));
-              },
-              style: ButtonStyle(
-                  foregroundColor: MaterialStatePropertyAll(Colors.white),
-                  backgroundColor: MaterialStatePropertyAll(Colors.red)),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
-                child: Text('Check',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    )),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }
