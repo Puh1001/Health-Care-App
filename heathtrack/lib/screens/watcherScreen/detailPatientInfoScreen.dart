@@ -32,14 +32,12 @@ class _DetailPatientInfoScreenState extends State<DetailPatientInfoScreen> {
     try {
       profileData = await profileService.fetchProfileData(
           context: context, userId: widget.patient.id);
-      if (mounted) {
-        setState(() {});
-      }
-      // setState(() {});
       bmi = DiagnosisEngine.calculateBMI(
           profileData.weight!, profileData.height!);
       diagnoseBmi = DiagnosisEngine.diagnoseBMI(bmi);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     } catch (err) {
       showSnackBar(context, err.toString());
     }

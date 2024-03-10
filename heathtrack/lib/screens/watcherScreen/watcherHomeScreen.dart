@@ -32,7 +32,9 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
         context: context,
         watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
       );
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     } catch (err) {
       print(err);
       showSnackBar(context, err.toString());

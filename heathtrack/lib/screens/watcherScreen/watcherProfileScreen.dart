@@ -29,7 +29,9 @@ class _WatcherProfileScreenState extends State<WatcherProfileScreen> {
     try {
       profileDataList = await profileService.fetchWatcherProfileData(
           context: context, userId: Provider.of<UserProvider>(context).user.id);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     } catch (err) {
       showSnackBar(context, err.toString());
     }

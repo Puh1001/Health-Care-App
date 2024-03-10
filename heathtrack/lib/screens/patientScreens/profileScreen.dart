@@ -39,7 +39,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       bmi = DiagnosisEngine.calculateBMI(
           profileData.weight!, profileData.height!);
       diagnoseBmi = DiagnosisEngine.diagnoseBMI(bmi);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     } catch (err) {
       showSnackBar(context, err.toString());
     }

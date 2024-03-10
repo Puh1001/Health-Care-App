@@ -30,14 +30,12 @@ class _HomeScreenState extends State<HomeScreen> {
   fetchHealthData() async {
     try {
       healthDataList = await patientServices.fetchHeathData(context);
-      setState(() {});
-    } catch (err) {
-      if (this.mounted) {
-        setState(() {
-          print(err);
-          showSnackBar(context, err.toString());
-        });
+      if (mounted) {
+        setState(() {});
       }
+      (() {});
+    } catch (err) {
+      showSnackBar(context, err.toString());
     }
   }
 
@@ -103,7 +101,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.blueAccent,
                           ),
                           'BMI',
-                          ontap: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckBMIScreen()));},
+                          ontap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CheckBMIScreen()));
+                          },
                         ),
                         HorizontalBar(
                           const Icon(
