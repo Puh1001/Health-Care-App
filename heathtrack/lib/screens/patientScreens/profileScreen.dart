@@ -21,10 +21,12 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   List<File> image = [];
-  final ProfileService profileService = ProfileService();
+
   var profileData;
   var bmi;
   var diagnoseBmi;
+
+  final ProfileService profileService = ProfileService();
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
@@ -33,7 +35,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future fetchProfileData() async {
     try {
-      print("${Provider.of<UserProvider>(context).user.id}");
       profileData = await profileService.fetchProfileData(
           context: context, userId: Provider.of<UserProvider>(context).user.id);
       bmi = DiagnosisEngine.calculateBMI(

@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 class UpdateInfoView extends StatelessWidget {
   var patientId;
   UpdateInfoView({super.key, this.patientId});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,14 +39,14 @@ class InputForm extends StatefulWidget {
 
 class _InputFormState extends State<InputForm> {
   final _formKey = GlobalKey<FormState>();
+  final ProfileService profileService = ProfileService();
+
   String formatDate = '';
   TextEditingController doBController = TextEditingController();
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController sexController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  final ProfileService profileService = ProfileService();
-
   List<File> image = [];
   List<String> bloodItems = ['A', 'B', 'AB', 'O'];
   String selectedBlood = 'O';
