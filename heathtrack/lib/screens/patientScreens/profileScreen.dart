@@ -88,10 +88,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   height: 150,
                                   width: 150,
                                   child: ClipOval(
-                                    child: Image.network(
-                                      profileData.image,
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: image.isEmpty
+                                        ? Image.network(
+                                            profileData.image,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.file(
+                                            image[0],
+                                            fit: BoxFit.cover,
+                                          ),
                                   ),
                                 ),
                                 Align(
@@ -145,21 +150,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ? 'No information'
                                 : DateFormat('dd/MM/yyyy').format(
                                     DateTime.parse(profileData.dateOfBirth)!),
-                            onTouch: () async {
-                              final DateTime? dateTime = await showDatePicker(
-                                  context: context,
-                                  initialDate:
-                                      DateTime.parse(profileData.dateOfBirth) ??
-                                          DateTime.now(),
-                                  firstDate: DateTime(1900),
-                                  lastDate: DateTime(2025));
-
-                              if (dateTime != null) {
-                                setState(() {
-                                  patient.user.updateDateOfBirth(dateTime);
-                                });
-                              }
-                            },
+                            onTouch: () {},
+                            canEdit: false,
                           ),
                         ]),
                         InforBar('Communications', [
@@ -181,11 +173,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       content: TextField(
                                         keyboardType: TextInputType.number,
                                         controller: contentController,
+                                        decoration: InputDecoration(
+                                            hintText:
+                                                "${profileData.phoneNumber}"),
                                       ),
                                       actions: [
                                         TextButton(
                                             onPressed: () {
-                                              //patient.updatePhoneNumber(contentController.text);
                                               Navigator.of(context).pop();
                                             },
                                             child: const Text("OK")),

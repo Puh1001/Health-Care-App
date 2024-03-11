@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
       if (mounted) {
         setState(() {});
       }
-      (() {});
     } catch (err) {
       showSnackBar(context, err.toString());
     }

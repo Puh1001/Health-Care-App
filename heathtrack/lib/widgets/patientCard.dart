@@ -124,8 +124,10 @@ class _PatientCardState extends State<PatientCard> {
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => UpdatePatientInfoView(
-                              patientId: widget.patient.id
-                          )));
+                                patientId: widget.patient.id,
+                                patientName: widget.patient.name,
+                                patientPassword: widget.patient.password,
+                              )));
                     },
                     icon: const Icon(
                       Icons.published_with_changes,

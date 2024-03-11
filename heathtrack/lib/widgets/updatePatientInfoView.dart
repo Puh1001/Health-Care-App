@@ -2,6 +2,7 @@
 
 import 'dart:collection';
 import 'dart:ffi';
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/providers/userProvider.dart';
@@ -13,10 +14,13 @@ import 'package:provider/provider.dart';
 
 class UpdatePatientInfoView extends StatelessWidget {
   var patientId;
-  UpdatePatientInfoView({
-    super.key,
-    this.patientId
-  });
+  var patientName;
+  var patientPassword;
+  UpdatePatientInfoView(
+      {super.key,
+      this.patientId,
+      required this.patientName,
+      required this.patientPassword});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +31,8 @@ class UpdatePatientInfoView extends StatelessWidget {
       body: SingleChildScrollView(
         child: InputForm(
           patientId: patientId ?? Provider.of<UserProvider>(context).user.id,
+          patientName: patientName,
+          patientPassWord: patientPassword,
         ),
       ),
     );
@@ -35,7 +41,13 @@ class UpdatePatientInfoView extends StatelessWidget {
 
 class InputForm extends StatefulWidget {
   var patientId;
-  InputForm({super.key, required this.patientId});
+  var patientName;
+  var patientPassWord;
+  InputForm(
+      {super.key,
+      required this.patientId,
+      required this.patientName,
+      required this.patientPassWord});
 
   @override
   State<InputForm> createState() => _InputFormState();
@@ -44,36 +56,67 @@ class InputForm extends StatefulWidget {
 class _InputFormState extends State<InputForm> {
   final _formKey = GlobalKey<FormState>();
   final ProfileService profileService = ProfileService();
+  var profileData;
+
+  @override
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    fetchProfileData();
+  }
+
+  fetchProfileData() async {
+    try {
+      profileData = await profileService.fetchProfileData(
+          context: context, userId: widget.patientId);
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (err) {
+      showSnackBar(context, err.toString());
+    }
+  }
 
   String formatDate = '';
   TextEditingController doBController = TextEditingController();
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController sexController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  List<File> image = [];
+
   List<String> bloodItems = ['A', 'B', 'AB', 'O'];
-  String selectedBlood = 'O';
+  String selectedBlood = '';
   List<String> sexItems = ['Male', 'Female', 'Other'];
-  String selectedSex = 'Male';
+  String selectedSex = '';
   DateTime? dateTime;
   bool _passwordVisible = true;
+  List<File> image = [];
 
-  void addProfile() {
-    if (image != null) {
-      profileService.addProfile(
-          context: context,
-          gender: selectedSex,
-          image: image,
-          dateOfBirth: doBController.text,
-          phoneNumber: phoneNumberController.text,
-          weight: double.parse(weightController.text),
-          height: double.parse(heightController.text),
-          userId: widget.patientId,
-          bloodtype: selectedBlood);
-    }
+  void updateProfile() async {
+    final cloudinary = CloudinaryPublic('ddvpwwiaj', 'qjers8b8');
+    String imgUrl;
+    CloudinaryResponse res = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(image[0].path, folder: "FileToURL"));
+    imgUrl = res.secureUrl;
+    profileService.updateProfile(
+        context: context,
+        gender: selectedSex.isEmpty ? profileData.gender : selectedSex,
+        image: image.isEmpty ? profileData.image : imgUrl,
+        dateOfBirth: doBController.text.isEmpty
+            ? profileData.dateOfBirth
+            : doBController,
+        phoneNumber: phoneNumberController.text.isEmpty
+            ? profileData.phoneNumber
+            : phoneNumberController.text,
+        weight: weightController.text.isEmpty
+            ? profileData.weight
+            : double.parse(weightController.text),
+        height: heightController.text.isEmpty
+            ? profileData.height
+            : double.parse(heightController.text),
+        userId: widget.patientId,
+        bloodtype:
+            selectedBlood.isEmpty ? profileData.bloodType : selectedBlood);
   }
 
   void selectImage() async {
@@ -82,100 +125,69 @@ class _InputFormState extends State<InputForm> {
       image = res;
     });
   }
+
   @override
   void initState() {
     super.initState();
     _passwordVisible = false;
   }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildAvatar(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildTextField90Width(
-                  nameController,
-                  'name',
-                  'Name',
-                  'Name',
-                  TextInputType.number),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildDoB(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildTextField90Width(
-                  phoneNumberController,
-                  'phone number',
-                  'Phone number',
-                  'Phone number',
-                  TextInputType.number),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildTextField90Width(
-                  phoneNumberController,
-                  'phone number',
-                  'Phone number',
-                  'Phone number',
-                  TextInputType.number),
-            ),
-            TextFormField(
-              controller: passwordController,
-              obscureText: _passwordVisible,
-              // keyboardType: TextInputType.,
-              decoration: InputDecoration(
-
-                prefixIcon: const Icon(Icons.lock),
-                suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _passwordVisible = !_passwordVisible;
-                      });
-                    },
-                    icon: Icon(_passwordVisible
-                        ? Icons.visibility_off
-                        : Icons.visibility)),
-                hintText: 'Type your password',
-                labelText: 'Password',
-                border: const OutlineInputBorder(),
+    return profileData == null
+        ? Center(child: CircularProgressIndicator())
+        : Container(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildAvatar(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildTextField90Width(nameController,
+                        '${widget.patientName}', 'Name', TextInputType.number),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildDoB(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildTextField90Width(
+                        phoneNumberController,
+                        '${profileData.phoneNumber}',
+                        'Phone number',
+                        TextInputType.number),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildHeightAndWeight(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildBloodAndSex(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildButton(),
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildHeightAndWeight(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildBloodAndSex(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildButton(),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   void _showDatePicker() {
     showDatePicker(
-        context: context,
-        firstDate: DateTime(1930),
-        lastDate: DateTime.now())
+            context: context,
+            firstDate: DateTime(1930),
+            lastDate: DateTime.now())
         .then((value) {
       setState(() {
         dateTime = value!;
@@ -186,23 +198,18 @@ class _InputFormState extends State<InputForm> {
   }
 
   Widget buildTextField90Width(TextEditingController controller, String hint,
-      String label, String valid, TextInputType keyboard) {
+      String label, TextInputType keyboard) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       child: TextFormField(
+        enabled: true,
         controller: controller,
         decoration: InputDecoration(
           border: const OutlineInputBorder(),
-          hintText: "Type patient $hint here",
+          hintText: "$hint",
           labelText: label,
         ),
         keyboardType: keyboard,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return '$valid is required';
-          }
-          return null;
-        },
       ),
     );
   }
@@ -216,29 +223,33 @@ class _InputFormState extends State<InputForm> {
         child: Stack(
           children: [
             SizedBox(
-                height: 150,
-                width: 150,
-                child: ClipOval(
-                    child: image.isNotEmpty
-                        ? Builder(
-                      builder: (BuildContext context) => Image.file(
+              height: 150,
+              width: 150,
+              child: ClipOval(
+                child: image.isEmpty
+                    ? Image.network(
+                        profileData.image,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.file(
                         image[0],
                         fit: BoxFit.cover,
                       ),
-                    )
-                        : Align(
-                      alignment: Alignment.center,
-                      child: IconButton(
-                        onPressed: () {
-                          selectImage();
-                        },
-                        icon: const Icon(
-                          Icons.camera_alt,
-                          size: 50,
-                        ),
-                        color: Colors.grey,
-                      ),
-                    ))),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: IconButton(
+                onPressed: () async {
+                  selectImage();
+                },
+                icon: const Icon(
+                  Icons.camera_alt,
+                  size: 25,
+                ),
+                color: Colors.blueAccent,
+              ),
+            ),
           ],
         ),
       ),
@@ -251,7 +262,7 @@ class _InputFormState extends State<InputForm> {
       decoration: InputDecoration(
           border: const OutlineInputBorder(),
           labelText: 'Date of birth',
-          hintText: 'Tap the icon to choose',
+          hintText: '${profileData.dateOfBirth}',
           suffixIcon: IconButton(
               onPressed: () {
                 _showDatePicker();
@@ -301,18 +312,13 @@ class _InputFormState extends State<InputForm> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.25,
               child: TextFormField(
-                  controller: heightController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Height',
-                      labelText: 'Height'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Required';
-                    }
-                    return null;
-                  }),
+                controller: heightController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Height',
+                    labelText: 'Height'),
+                keyboardType: TextInputType.number,
+              ),
             ),
             const Padding(
               padding: EdgeInsets.only(left: 4.0),
@@ -336,10 +342,10 @@ class _InputFormState extends State<InputForm> {
                 ),
                 labelText: 'Blood type',
               ),
-              value: selectedBlood,
+              value: profileData.bloodType,
               items: bloodItems
                   .map((item) =>
-                  DropdownMenuItem<String>(value: item, child: Text(item)))
+                      DropdownMenuItem<String>(value: item, child: Text(item)))
                   .toList(),
               onChanged: (item) => setState(() => selectedBlood = item!)),
         ),
@@ -353,10 +359,10 @@ class _InputFormState extends State<InputForm> {
                       borderSide: BorderSide(color: Colors.black),
                     ),
                     labelText: 'Gender'),
-                value: selectedSex,
+                value: profileData.gender,
                 items: sexItems
                     .map((item) => DropdownMenuItem<String>(
-                    value: item, child: Text(item)))
+                        value: item, child: Text(item)))
                     .toList(),
                 onChanged: (item) => setState(() => selectedSex = item!)),
           ),
@@ -395,18 +401,7 @@ class _InputFormState extends State<InputForm> {
               color: Colors.lightBlueAccent),
           child: TextButton(
               onPressed: () {
-                // String doB = formatDate!;
-                String doB = doBController.text;
-                String phoneNumber = phoneNumberController.text;
-                String height = heightController.text;
-                String weight = weightController.text;
-                String sex = sexController.text;
-                if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processing Data')),
-                  );
-                }
-                addProfile();
+                updateProfile();
               },
               child: const Text(
                 'Save',

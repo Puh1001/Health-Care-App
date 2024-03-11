@@ -46,7 +46,7 @@ class ProfileService {
         bloodType: bloodtype,
       );
 
-      http.Response resp = await http.patch(Uri.parse('$uri/api/add-profile'),
+      http.Response resp = await http.post(Uri.parse('$uri/api/add-profile'),
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
             'x-auth-token': userProvider.user.token,
@@ -186,7 +186,7 @@ class ProfileService {
   void updateProfile({
     required BuildContext context,
     required String gender,
-    required List<File> image,
+    required String image,
     required String dateOfBirth,
     required String phoneNumber,
     required double weight,
@@ -196,17 +196,11 @@ class ProfileService {
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      final cloudinary = CloudinaryPublic('ddvpwwiaj', 'qjers8b8');
-      String imgUrl;
-      CloudinaryResponse res = await cloudinary
-          .uploadFile(CloudinaryFile.fromFile(image[0].path, folder: userId));
-      imgUrl = res.secureUrl;
-
       Proflie proflie = Proflie(
         dateOfBirth: dateOfBirth,
         gender: gender,
         phoneNumber: phoneNumber,
-        image: imgUrl,
+        image: image,
         height: height,
         weight: weight,
         userId: userId,
@@ -214,7 +208,7 @@ class ProfileService {
       );
 
       http.Response resp =
-          await http.post(Uri.parse('$uri/api/update-profile?userId=$userId'),
+          await http.patch(Uri.parse('$uri/api/update-profile?userId=$userId'),
               headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'x-auth-token': userProvider.user.token,
@@ -225,8 +219,36 @@ class ProfileService {
         response: resp,
         context: context,
         onSucess: () {
-          showSnackBar(context, 'Patient profile add sucessfully !!');
+          showSnackBar(context, 'Patient profile update sucessfully !!');
           Navigator.pop(context);
+        },
+      );
+    } catch (err) {
+      showSnackBar(context, err.toString());
+    }
+  }
+
+  // UPDATE IMAGE
+  void updatePhoneNumberProfile({
+    required BuildContext context,
+    required String phoneNumber,
+    required String userId,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      http.Response resp =
+          await http.patch(Uri.parse('$uri/api/update-profile?userId=$userId'),
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'x-auth-token': userProvider.user.token,
+              },
+              body: jsonEncode({"phoneNumber": phoneNumber}));
+
+      httpErrorHandle(
+        response: resp,
+        context: context,
+        onSucess: () {
+          showSnackBar(context, 'Your phone number update sucessfully !!');
         },
       );
     } catch (err) {
