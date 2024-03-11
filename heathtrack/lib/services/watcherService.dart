@@ -127,7 +127,7 @@ class WatcherService {
     BuildContext context,
     userId,
   ) async {
-    final userProvider = Provider.of<UserProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<HeathData> heathDataList = [];
     try {
       http.Response res = await http.get(

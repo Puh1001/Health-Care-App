@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,26 +27,70 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
 
   var healthDataList;
 
+  Timer? _pollingTimer;
+
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
     fetchHealthData();
   }
 
+  @override
+  void dispose() {
+    _pollingTimer?.cancel();
+    super.dispose();
+  }
+
   fetchHealthData() async {
     try {
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patientId);
-      listData = getEachHealthData.getListHeartRate(healthDataList);
-      if (mounted) {
-        setState(() {});
-      }
-      // setState(() {});
+      processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
+
+      // Bắt đầu bộ đếm thời gian long polling
+      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+        try {
+          final updatedHealthData = await watcherService
+              .fetchHeathDataInWatcher(context, widget.patientId);
+          if (updatedHealthData != healthDataList) {
+            // Cập nhật dữ liệu và giao diện nếu nhận được dữ liệu mới
+            healthDataList = updatedHealthData;
+            processHealthData();
+          }
+        } catch (err) {
+          showSnackBar(context, err.toString());
+        }
+      });
     } catch (err) {
-      print(err);
       showSnackBar(context, err.toString());
     }
   }
+
+  processHealthData() {
+    listData = getEachHealthData.getListHeartRate(healthDataList);
+    setState(() {});
+  }
+
+  // @override
+  // didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   fetchHealthData();
+  // }
+
+  // fetchHealthData() async {
+  //   try {
+  //     healthDataList = await watcherService.fetchHeathDataInWatcher(
+  //         context, widget.patientId);
+  //     listData = getEachHealthData.getListHeartRate(healthDataList);
+  //     if (mounted) {
+  //       setState(() {});
+  //     }
+  //     // setState(() {});
+  //   } catch (err) {
+  //     print(err);
+  //     showSnackBar(context, err.toString());
+  //   }
+  // }
 
   double? currentValue;
   double? maxValue;
@@ -140,7 +185,7 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
                   ),
                   DiagnoseBar(
                       diagnose: DiagnosisEngine.diagnoseHeartRateIssue(
-                          currentValue!.toInt() )),
+                          currentValue!.toInt())),
                   DataBar(
                     name: 'Current Heart rate',
                     value: '$currentValue',

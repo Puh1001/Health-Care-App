@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 class PatientServices {
   // GET ALL HEATH DATA
   Future<List<HeathData>> fetchHeathData(BuildContext context) async {
-    final userProvider = Provider.of<UserProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     final userId = userProvider.user.id;
     List<HeathData> heathDataList = [];
     try {

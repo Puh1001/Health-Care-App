@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/screens/watcherScreen/detailPatientInfoScreen.dart';
@@ -22,23 +24,66 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
   final WatcherService patientServices = WatcherService();
   var healthDataList = [];
 
+  Timer? _pollingTimer;
+
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
     fetchHealthData();
   }
 
+  @override
+  void dispose() {
+    _pollingTimer?.cancel();
+    super.dispose();
+  }
+
   fetchHealthData() async {
     try {
       healthDataList = await patientServices.fetchHeathDataInWatcher(
           context, widget.patient.id);
-      if (mounted) {
-        setState(() {});
-      }
+      processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
+
+      // Bắt đầu bộ đếm thời gian long polling
+      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+        try {
+          final updatedHealthData = await patientServices
+              .fetchHeathDataInWatcher(context, widget.patient.id);
+          if (updatedHealthData != healthDataList) {
+            // Cập nhật dữ liệu và giao diện nếu nhận được dữ liệu mới
+            healthDataList = updatedHealthData;
+            processHealthData();
+          }
+        } catch (err) {
+          showSnackBar(context, err.toString());
+        }
+      });
     } catch (err) {
       showSnackBar(context, err.toString());
     }
   }
+
+  processHealthData() {
+    setState(() {});
+  }
+
+  // @override
+  // didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   fetchHealthData();
+  // }
+
+  // fetchHealthData() async {
+  //   try {
+  // healthDataList = await patientServices.fetchHeathDataInWatcher(
+  //     context, widget.patient.id);
+  //     if (mounted) {
+  //       setState(() {});
+  //     }
+  //   } catch (err) {
+  //     showSnackBar(context, err.toString());
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

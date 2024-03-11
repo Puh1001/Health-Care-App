@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:heathtrack/k_services/diagnoseEngine.dart';
 import 'package:heathtrack/k_services/getEachHealthData.dart';
@@ -31,26 +33,73 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Data> listTempData = [];
   List<Data> listGlucoseData = [];
 
+  // @override
+  // didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   fetchHealthData();
+  // }
+
+  // fetchHealthData() async {
+  //   try {
+  //     healthDataList = await patientServices.fetchHeathData(context);
+  //     listHeartData = getEachHealthData.getListHeartRate(healthDataList);
+  //     listBloodData = getEachHealthData.getListBloodPressure(healthDataList);
+  //     listOxyData = getEachHealthData.getListOxygen(healthDataList);
+  //     listTempData = getEachHealthData.getListTemperature(healthDataList);
+  //     listGlucoseData = getEachHealthData.getListGlucose(healthDataList);
+  //     if (mounted) {
+  //       setState(() {});
+  //     }
+  //   } catch (err) {
+  //     showSnackBar(context, err.toString());
+  //   }
+  // }
+  Timer? _pollingTimer;
+
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
     fetchHealthData();
   }
 
+  @override
+  void dispose() {
+    _pollingTimer?.cancel();
+    super.dispose();
+  }
+
   fetchHealthData() async {
     try {
       healthDataList = await patientServices.fetchHeathData(context);
-      listHeartData = getEachHealthData.getListHeartRate(healthDataList);
-      listBloodData = getEachHealthData.getListBloodPressure(healthDataList);
-      listOxyData = getEachHealthData.getListOxygen(healthDataList);
-      listTempData = getEachHealthData.getListTemperature(healthDataList);
-      listGlucoseData = getEachHealthData.getListGlucose(healthDataList);
-      if (mounted) {
-        setState(() {});
-      }
+      processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
+
+      // Bắt đầu bộ đếm thời gian long polling
+      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+        try {
+          final updatedHealthData =
+              await patientServices.fetchHeathData(context);
+          if (updatedHealthData != healthDataList) {
+            // Cập nhật dữ liệu và giao diện nếu nhận được dữ liệu mới
+            healthDataList = updatedHealthData;
+            processHealthData();
+          }
+        } catch (err) {
+          showSnackBar(context, err.toString());
+        }
+      });
     } catch (err) {
       showSnackBar(context, err.toString());
     }
+  }
+
+  processHealthData() {
+    listHeartData = getEachHealthData.getListHeartRate(healthDataList);
+    listBloodData = getEachHealthData.getListBloodPressure(healthDataList);
+    listOxyData = getEachHealthData.getListOxygen(healthDataList);
+    listTempData = getEachHealthData.getListTemperature(healthDataList);
+    listGlucoseData = getEachHealthData.getListGlucose(healthDataList);
+
+    setState(() {}); // Cập nhật giao diện
   }
 
   String statusDiagnose() {
