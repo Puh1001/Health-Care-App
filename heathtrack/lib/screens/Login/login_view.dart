@@ -40,7 +40,7 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController familyCodeController = TextEditingController();
-  bool _passwordVisible = false;
+  bool _passwordVisible = true;
 
   void loginUser() {
     authService.loginUser(
@@ -54,7 +54,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   void initState() {
     super.initState();
-    _passwordVisible = false;
+    _passwordVisible = true;
   }
 
   @override

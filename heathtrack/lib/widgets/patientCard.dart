@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:heathtrack/objects/patient.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/services/watcherService.dart';
+import 'package:heathtrack/widgets/updatePatientInfoView.dart';
 import 'package:provider/provider.dart';
 import 'updateInfoView.dart';
 
@@ -115,6 +116,19 @@ class _PatientCardState extends State<PatientCard> {
                     },
                     icon: const Icon(
                       Icons.settings,
+                      size: 30,
+                    ),
+                    color: Colors.grey.shade600,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => UpdatePatientInfoView(
+                              patientId: widget.patient.id
+                          )));
+                    },
+                    icon: const Icon(
+                      Icons.published_with_changes,
                       size: 30,
                     ),
                     color: Colors.grey.shade600,

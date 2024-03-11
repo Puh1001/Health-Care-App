@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8529954-71b8-494c-b893-f2d442ac2252" name="Changes" comment="create notification service add firebase">
-      <change afterPath="$PROJECT_DIR$/heathtrack/lib/widgets/updatePatientInfoView.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/screens/Login/login_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/screens/Login/login_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/heathtrack/lib/screens/watcherScreen/watcherHomeScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/screens/watcherScreen/watcherHomeScreen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heathtrack/lib/server/.env" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/server/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heathtrack/lib/server/routers/postNotification.js" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/server/routers/postNotification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/widgets/patientCard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/widgets/patientCard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/widgets/updatePatientInfoView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/widgets/updatePatientInfoView.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,7 +169,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710091023399</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="create notification service add firebase">
+      <option name="closed" value="true" />
+      <created>1710136783122</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1710136783122</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

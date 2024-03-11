@@ -323,7 +323,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Notice!'),
+          title: const Text('Notice:'),
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -336,6 +336,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
             TextButton(
               child: const Text('Okay'),
               onPressed: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => UpdateInfoView(),
