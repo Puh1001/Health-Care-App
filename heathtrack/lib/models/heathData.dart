@@ -80,6 +80,7 @@ class HeathData {
       // //id: map['id'] != null ? map['id'] as String : null,
       // userId: map['userId'] as String ,
     );
+    // ignore: avoid_print
     print('step ${heathData.heartRate}');
     return heathData;
   }
@@ -87,6 +88,7 @@ class HeathData {
   String toJson() => json.encode(toMap());
 
   factory HeathData.fromJson(String source) {
+    // ignore: avoid_print
     print('jjjjjjjjjjjjjjjjj   ${HeathData.fromMap(json.decode(source))}');
     return HeathData.fromMap(json.decode(source) as Map<String, dynamic>);
   }
