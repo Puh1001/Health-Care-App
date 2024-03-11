@@ -98,8 +98,8 @@ class _LoginFormState extends State<LoginForm> {
                       });
                     },
                     icon: Icon(_passwordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off)),
+                        ? Icons.visibility_off
+                        : Icons.visibility)),
                 hintText: 'Type your password',
               ),
             ),

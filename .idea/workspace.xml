@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8529954-71b8-494c-b893-f2d442ac2252" name="Changes" comment="add updatePatientInfoView" />
+    <list default="true" id="e8529954-71b8-494c-b893-f2d442ac2252" name="Changes" comment="add updatePatientInfoView">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/screens/Login/login_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/screens/Login/login_view.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
