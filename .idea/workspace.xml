@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8529954-71b8-494c-b893-f2d442ac2252" name="Changes" comment="create notification service add firebase">
-      <change afterPath="$PROJECT_DIR$/heathtrack/lib/server/routers/postNotification.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/heathtrack/lib/widgets/updatePatientInfoView.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heathtrack/lib/services/authService.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/services/authService.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/screens/watcherScreen/watcherHomeScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/screens/watcherScreen/watcherHomeScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/server/.env" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/server/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/server/routers/postNotification.js" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/server/routers/postNotification.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
