@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:heathtrack/constants/errorHandling.dart';
 import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/models/profile.dart';
@@ -13,6 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class ProfileService {
+  // ADD PROFILE PATIENT
   void addProfile({
     required BuildContext context,
     required String gender,
@@ -82,16 +84,16 @@ class ProfileService {
           context: context,
           onSucess: () {
             dynamic data = jsonDecode(res.body);
-              profile = Proflie(
-                gender: data[0]['gender'],
-                image: data[0]['image'],
-                dateOfBirth: data[0]['dateOfBirth'],
-                bloodType: data[0]['bloodType'],
-                phoneNumber: data[0]['phoneNumber'],
-                weight: double.parse(data[0]['weight'].toString()),
-                height: double.parse(data[0]['height'].toString()),
-                userId: userId,
-              );
+            profile = Proflie(
+              gender: data[0]['gender'],
+              image: data[0]['image'],
+              dateOfBirth: data[0]['dateOfBirth'],
+              bloodType: data[0]['bloodType'],
+              phoneNumber: data[0]['phoneNumber'],
+              weight: double.parse(data[0]['weight'].toString()),
+              height: double.parse(data[0]['height'].toString()),
+              userId: userId,
+            );
           });
     } catch (err) {
       showSnackBar(context, err.toString());
@@ -99,6 +101,7 @@ class ProfileService {
     return profile;
   }
 
+  // ADD WATCHER PROFILE
   void addWatcherProfile({
     required BuildContext context,
     required String gender,
@@ -176,5 +179,12 @@ class ProfileService {
       showSnackBar(context, err.toString());
     }
     return watcherProfileList;
+  }
+
+  // UPDATE PROFILE
+  void updateProfile({
+    required BuildContext context,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context);
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:heathtrack/k_services/diagnoseEngine.dart';
 import 'package:heathtrack/models/heathData.dart';
 import 'package:heathtrack/models/patientInWatcher.dart';

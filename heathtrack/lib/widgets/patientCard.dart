@@ -1,7 +1,10 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:heathtrack/objects/patient.dart';
 import 'package:heathtrack/providers/userProvider.dart';
+import 'package:heathtrack/services/watcherService.dart';
 import 'package:provider/provider.dart';
 import 'updateInfoView.dart';
 
@@ -25,6 +28,8 @@ class PatientCard extends StatefulWidget {
   @override
   State<PatientCard> createState() => _PatientCardState();
 }
+
+final WatcherService watcherService = WatcherService();
 
 class _PatientCardState extends State<PatientCard> {
   @override
@@ -117,7 +122,10 @@ class _PatientCardState extends State<PatientCard> {
                     color: Colors.grey.shade600,
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        WatcherService().deletePatient(
+                            context: context, userId: widget.patient.id);
+                      },
                       child: const Text(
                         'Delete',
                         style: TextStyle(color: Color(0xffb93939)),

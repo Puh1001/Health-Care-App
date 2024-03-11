@@ -12,5 +12,13 @@ watcherRouter.get("/watcher/get-all-patient", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
+// DELETE PATIENT
+watcherRouter.post("/watcher/delete-patient", async (req, res) => {
+  try {
+    let user = await User.findOneAndDelete({ _id: req.query.userId });
+    res.json(user);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 module.exports = watcherRouter;
