@@ -61,7 +61,7 @@ class _PatientCardState extends State<PatientCard> {
       processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
 
       // Bắt đầu bộ đếm thời gian long polling
-      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+      _pollingTimer = Timer.periodic(const Duration(seconds: 60), (_) async {
         try {
           final updatedHealthData = await watcherService
               .fetchHeathDataInWatcher(context, widget.patient.id);
