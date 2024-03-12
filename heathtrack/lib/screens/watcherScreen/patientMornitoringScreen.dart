@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import '../../constants/utils.dart';
 import '../../models/heathData.dart';
 import '../../objects/patient.dart';
+import '../../services/profileService.dart';
 import '../../services/watcherService.dart';
 
 class PatientMornitoringScreen extends StatefulWidget {
@@ -26,17 +27,28 @@ class PatientMornitoringScreen extends StatefulWidget {
 
 class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
   final WatcherService watcherService = WatcherService();
-
+  final ProfileService profileService = ProfileService();
   List<HeathData> healthDataList = [];
   String diagnose = "";
-
+  var profileData ;
   Timer? _pollingTimer;
 
   bool _isFetchHealthDataCalled = false;
-
+  fetchProfileData() async {
+    try {
+      profileData = await profileService.fetchProfileData(
+          context: context, userId: widget.patient.id);
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (err) {
+      showSnackBar(context, err.toString());
+    }
+  }
   @override
   didChangeDependencies() {
     fetchHealthData();
+    fetchProfileData();
     super.didChangeDependencies();
   }
 
@@ -144,7 +156,8 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                               builder: (context) => DetailPatientInfoScreen(
                                   patient: widget.patient)));
                     },
-                    child: Container(
+                    child:
+                    Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         boxShadow: [
@@ -179,8 +192,8 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                                               BorderRadius.circular(15),
                                           image: DecorationImage(
                                               image: AssetImage(
-                                                widget.patient.gender ==
-                                                        'female'
+                                                profileData!=null && (profileData.gender ==
+                                                        'Female' ||profileData.gender == 'female')
                                                     ? 'images/womanAvatar.png'
                                                     : 'images/manAvatar.png',
                                               ),
@@ -192,7 +205,8 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                               ),
                               Expanded(
                                   flex: 3,
-                                  child: Column(
+                                  child: profileData==null?const Center(child: CircularProgressIndicator(),):
+                                  Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -209,15 +223,13 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                                             color: Colors.black54),
                                       ),
                                       Text(
-                                        (widget.patient.dateOfBirth == null)
-                                            ? '${user.lang.age}: ${user.lang.noInformation}'
-                                            : '${user.lang.age}:  ${DateTime.now().year - widget.patient.dateOfBirth!.year}',
+                                        '${user.lang.age}:${getAge(profileData.dateOfBirth)}',
                                         style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.black54),
                                       ),
                                       Text(
-                                        '${user.lang.phoneNumber}:${widget.patient.phoneNumber ?? user.lang.noInformation}',
+                                        '${user.lang.phoneNumber}:${profileData.phoneNumber ?? user.lang.noInformation}',
                                         style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.black54),
@@ -240,19 +252,17 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                               ),
                               Wrap(
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Diagnose:',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 18,
                                       color: Color.fromARGB(255, 255, 255, 255),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(
-                                      width:
-                                          5), // Khoảng trắng giữa "Diagnose:" và kết quả
+                                  const SizedBox(width: 5),
                                   Text(
-                                    '${statusDiagnose()}',
+                                    statusDiagnose(),
                                     style: const TextStyle(
                                       fontSize: 15,
                                       color: Colors.white,
@@ -295,4 +305,9 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
               )));
     });
   }
+}
+int getAge(String date) {
+  int now = DateTime.now().year;
+  int age = now - int.parse(date.substring(0, 4));
+  return age;
 }

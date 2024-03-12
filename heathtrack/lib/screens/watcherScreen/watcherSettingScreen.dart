@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:heathtrack/providers/userProvider.dart';
-import 'package:heathtrack/screens/Login/login_view.dart';
 import 'package:heathtrack/services/accountServices.dart';
 import 'package:provider/provider.dart';
 
