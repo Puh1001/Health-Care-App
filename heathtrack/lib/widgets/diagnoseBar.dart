@@ -21,7 +21,10 @@ class DiagnoseBar extends StatelessWidget {
               Text('Diagnosis:',style: TextStyle(fontSize: 18),),
             ],
           ),
-          Text(diagnose ,style:  TextStyle(fontSize: 18),),
+          Text(
+            diagnose ,
+            style:  TextStyle(fontSize: 18),
+          ),
         ],
       ),
     );
