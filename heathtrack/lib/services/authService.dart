@@ -12,11 +12,9 @@ import 'package:heathtrack/screens/watcherScreen/watcherControlScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//amazon server
-// String uri = 'http://172.20.10.3:8080';
-//local server
-String uri = 'http://192.168.1.244:8080';
-//String uri = 'http://3.26.98.234:8080';
+
+//String uri = 'http://172.20.10.3:8080';
+String uri = 'http://192.168.154.100:3000';
 
 // String uri = 'http://192.168.154.101:8080';
 class AuthService {
