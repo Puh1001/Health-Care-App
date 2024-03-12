@@ -72,7 +72,7 @@ class DiagnosisEngine {
     if (temperature == 0) return '';
     if (temperature < 36.1) {
       return 'Low body temperature';
-    } else if (temperature > 37.2) {
+    } else if (temperature > 37.8) {
       return 'High body temperature';
     } else {
       return 'Normal body temperature';
@@ -191,6 +191,60 @@ class DiagnosisEngine {
     // }
 
     return diagnosis;
+  }
+// Hàm chẩn đoán huyết áp
+  static int diagnoseBloodPressure(int systolic, int diastolic) {
+    if (systolic < 120 && diastolic < 80) {
+      return 0; // Tình trạng tốt
+    } else if ((systolic >= 120 && systolic <= 129) && diastolic < 80) {
+      return 1; // Tình trạng ở mức đáng chú ý
+    } else {
+      return 2; // Tình trạng nguy hiểm
+    }
+  }
+
+// Hàm chẩn đoán nhịp tim
+  static int diagnoseHeartRate(int heartRate) {
+    if (heartRate >= 60 && heartRate <= 100) {
+      return 0; // Tình trạng tốt
+    } else if ((heartRate >= 101 && heartRate <= 120) || (heartRate >= 40 && heartRate <= 59)) {
+      return 1; // Tình trạng ở mức đáng chú ý
+    } else {
+      return 2; // Tình trạng nguy hiểm
+    }
+  }
+
+// Hàm chẩn đoán nhiệt độ
+  static int diagnoseTemperature(double temperature) {
+    if (temperature >= 36.1 && temperature <= 37.2) {
+      return 0; // Tình trạng tốt
+    } else if ((temperature >= 37.3 && temperature <= 38) || (temperature >= 35 && temperature <= 36)) {
+      return 1; // Tình trạng ở mức đáng chú ý
+    } else {
+      return 2; // Tình trạng nguy hiểm
+    }
+  }
+
+// Hàm chẩn đoán đường huyết
+  static int diagnoseBloodSugar(double bloodSugar) {
+    if (bloodSugar >= 70 && bloodSugar <= 140) {
+      return 0; // Tình trạng tốt
+    } else if ((bloodSugar >= 141 && bloodSugar <= 180) || (bloodSugar >= 50 && bloodSugar <= 69)) {
+      return 1; // Tình trạng ở mức đáng chú ý
+    } else {
+      return 2; // Tình trạng nguy hiểm
+    }
+  }
+
+// Hàm chẩn đoán nồng độ O2
+  static int diagnoseOxygenLevel(double oxygenLevel) {
+    if (oxygenLevel >= 95) {
+      return 0; // Tình trạng tốt
+    } else if (oxygenLevel >= 91 && oxygenLevel <= 94) {
+      return 1; // Tình trạng ở mức đáng chú ý
+    } else {
+      return 2; // Tình trạng nguy hiểm
+    }
   }
 
   static double calculateBMI(double weight, double height) {

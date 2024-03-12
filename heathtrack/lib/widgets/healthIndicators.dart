@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:heathtrack/k_services/diagnoseEngine.dart';
 import 'package:heathtrack/models/heathData.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:provider/provider.dart';
@@ -22,18 +23,17 @@ class HealthIndicators extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // heathData.updateStatus();
-    // heartRateStatus = heathData.heartRateStatus;
-    // bloodPressureStatus = heathData.bloodPressureStatus;
-    // glucoseLevelStatus = heathData.bloodGlucoseLevelStatus;
-    // oxygenStatus = heathData.oxygenSaturationStatus;
-    // temperatureStatus = heathData.bodyTemperatureStatus;
+    heartRateStatus = DiagnosisEngine.diagnoseHeartRate(heathData.heartRate) ;
+     bloodPressureStatus = DiagnosisEngine.diagnoseBloodPressure(heathData.spb, heathData.dbp);
+     glucoseLevelStatus = DiagnosisEngine.diagnoseBloodSugar(double.parse(heathData.glucose.toString()));
+     oxygenStatus = DiagnosisEngine.diagnoseOxygenLevel(heathData.oxygen);
+     temperatureStatus = DiagnosisEngine.diagnoseTemperature(heathData.temperature);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           Provider.of<UserProvider>(context).lang.healthIndicator,
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.w500, color: Colors.grey, fontSize: 18),
         ),
         const SizedBox(
