@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/providers/userProvider.dart';
+import 'package:heathtrack/screens/watcherScreen/watcherHomeScreen.dart';
 import 'package:heathtrack/services/profileService.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
@@ -357,6 +358,12 @@ class _InputFormState extends State<InputForm> {
                   );
                 }
                 addProfile();
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const WatcherHomeScreen(),
+                  ),
+                );
               },
               child: const Text(
                 'Save',

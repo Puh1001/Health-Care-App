@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class SummaryWG extends StatefulWidget {
   final String diagnose;
   final String advice;
-  SummaryWG({
+  const SummaryWG({
     super.key,
     required this.diagnose,
     required this.advice,
@@ -35,6 +35,7 @@ class _SummaryWGState extends State<SummaryWG> {
         weatherImage = getImageForWeatherCondition();
       });
     } catch (e) {
+      // ignore: avoid_print
       print('Error fetching weather data: $e');
     }
   }
@@ -67,12 +68,12 @@ class _SummaryWGState extends State<SummaryWG> {
             style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
           ),
           Container(
-            height: 150,
+            height: 200,
             margin: const EdgeInsets.only(top: 10),
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color(0xFFDFEBEB),
+                color: const Color(0xFFDFEBEB),
                 //border: Border.all(color: Colors.white.withOpacity(0.5),width: 1),
                 boxShadow: [
                   BoxShadow(
@@ -104,9 +105,9 @@ class _SummaryWGState extends State<SummaryWG> {
                         child: Image.asset(weatherImage),
                       ),
                       Text(
-                        _des == null ? '-----' : '${_des}',
+                        _des == null ? '-----' : '$_des',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Colors.blueGrey,
                         ),
@@ -115,7 +116,7 @@ class _SummaryWGState extends State<SummaryWG> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   width: 2,
                   decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.6),
@@ -129,14 +130,14 @@ class _SummaryWGState extends State<SummaryWG> {
                     children: [
                       Text(
                         widget.diagnose,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 20,
                             color: Color(0xff5eca79),
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         widget.advice,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w500),
                       )
                     ],

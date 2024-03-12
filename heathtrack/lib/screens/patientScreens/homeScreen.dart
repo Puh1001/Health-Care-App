@@ -144,6 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return advice;
   }
 
+  @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(
       builder: (BuildContext context, patient, child) {
@@ -166,8 +167,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (contexxt) =>
-                                                PatientSettingScreen()));
+                                            builder: (context) =>
+                                                const PatientSettingScreen()));
                                   },
                                   icon: const Icon(
                                     Icons.settings,

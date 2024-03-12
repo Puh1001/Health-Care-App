@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8529954-71b8-494c-b893-f2d442ac2252" name="Changes" comment="add updatePatientInfoView">
+    <list default="true" id="e8529954-71b8-494c-b893-f2d442ac2252" name="Changes" comment="change visibility in login">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heathtrack/lib/screens/Login/login_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/screens/Login/login_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/screens/patientScreens/homeScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/screens/patientScreens/homeScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/screens/watcherScreen/watcherHomeScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/screens/watcherScreen/watcherHomeScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/server/routers/postNotification.js" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/server/routers/postNotification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/widgets/Summary.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/widgets/Summary.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/lib/widgets/updateInfoView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/lib/widgets/updateInfoView.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heathtrack/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/heathtrack/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +188,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710138505564</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="change visibility in login">
+      <option name="closed" value="true" />
+      <created>1710139286998</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1710139286998</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -210,6 +224,7 @@
     <MESSAGE value="Upload watcher input form in updateWatcherInfoView" />
     <MESSAGE value="create notification service add firebase" />
     <MESSAGE value="add updatePatientInfoView" />
-    <option name="LAST_COMMIT_MESSAGE" value="add updatePatientInfoView" />
+    <MESSAGE value="change visibility in login" />
+    <option name="LAST_COMMIT_MESSAGE" value="change visibility in login" />
   </component>
 </project>
