@@ -1,7 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:heathtrack/constants/utils.dart';
+import 'package:heathtrack/k_services/diagnoseEngine.dart';
+import 'package:heathtrack/k_services/getEachHealthData.dart';
 import 'package:heathtrack/objects/patient.dart';
 import 'package:heathtrack/providers/userProvider.dart';
+import 'package:heathtrack/services/localNotifications.dart';
 import 'package:heathtrack/services/watcherService.dart';
 import 'package:heathtrack/widgets/updatePatientInfoView.dart';
 import 'package:provider/provider.dart';
@@ -12,25 +18,152 @@ class PatientCard extends StatefulWidget {
       {super.key,
       required this.name,
       this.age,
-      required this.diagnose,
       required this.ontap,
       this.isWoman = false,
+      required this.diagnose,
       required this.patient});
 
   String name;
   int? age;
-  String diagnose;
   final Function ontap;
   var isWoman = false;
   Patient patient;
+  String diagnose;
 
   @override
   State<PatientCard> createState() => _PatientCardState();
 }
 
-final WatcherService watcherService = WatcherService();
-
 class _PatientCardState extends State<PatientCard> {
+//   String? diagnose = '';
+
+// //status: 0 :tốt, 1: cảnh báo, 2: nguy hiểm
+//   var heartRateStatus = 0;
+//   var bloodPressureStatus = 0;
+//   var bodyTemperatureStatus = 0;
+//   var oxygenSaturationStatus = 0;
+//   var bloodGlucoseLevelStatus = 0;
+//   var overviewStatus = 0;
+//   updateStatus() {
+//     String diagnoseBloodPressureIssue =
+//         (healthDataList[healthDataList.length - 1].spb != null &&
+//                 healthDataList[healthDataList.length - 1].dbp != null)
+//             ? DiagnosisEngine.diagnoseBloodPressureIssue(
+//                 healthDataList[healthDataList.length - 1].spb! as int,
+//                 healthDataList[healthDataList.length - 1].dbp! as int)
+//             : '';
+//     switch (diagnoseBloodPressureIssue) {
+//       case "Optimal blood pressure":
+//         heartRateStatus = 0;
+//         break;
+//       case "Normal blood pressure":
+//         heartRateStatus = 0;
+//         break;
+//       case "Prehypertension":
+//         heartRateStatus = 1;
+//         break;
+//       case "Hypertension stage 1":
+//         heartRateStatus = 1;
+//         break;
+//       case "Hypertension stage 2":
+//         heartRateStatus = 2;
+//         break;
+//       case "Hypertension stage 3":
+//         heartRateStatus = 2;
+//         break;
+//       case "Isolated systolic hypertension":
+//         heartRateStatus = 1;
+//         break;
+//       default:
+//         heartRateStatus = -1;
+//         break;
+//     }
+
+//     String diagnoseHeartRateIssue =
+//         healthDataList[healthDataList.length - 1].heartRate != null
+//             ? DiagnosisEngine.diagnoseHeartRateIssue(
+//                 healthDataList[healthDataList.length - 1].heartRate! as int)
+//             : '';
+//     switch (diagnoseHeartRateIssue) {
+//       case 'Low heart rate':
+//         heartRateStatus = 1;
+//         break;
+//       case 'Normal heart rate':
+//         heartRateStatus = 0;
+//         break;
+//       case 'High heart rate':
+//         heartRateStatus = 1;
+//         break;
+//       case 'Dangerous':
+//         heartRateStatus = 2;
+//         break;
+//       default:
+//         heartRateStatus = -1;
+//         break;
+//     }
+//     String diagnoseBloodGlucoseLevelIssue =
+//         healthDataList[healthDataList.length - 1].glucose != null
+//             ? DiagnosisEngine.diagnoseBloodGlucoseLevelIssue(
+//                 healthDataList[healthDataList.length - 1].glucose! as double)
+//             : '';
+//     switch (diagnoseBloodGlucoseLevelIssue) {
+//       case 'Low blood glucose level':
+//         bloodGlucoseLevelStatus = 1;
+//         break;
+//       case 'Normal blood glucose level':
+//         bloodGlucoseLevelStatus = 0;
+//         break;
+//       case 'High blood glucose level':
+//         bloodGlucoseLevelStatus = 1;
+//         break;
+//       default:
+//         bloodGlucoseLevelStatus = -1;
+//         break;
+//     }
+//     String diagnoseTemperatureIssue =
+//         healthDataList[healthDataList.length - 1].temperature != null
+//             ? DiagnosisEngine.diagnoseTemperatureIssue(
+//                 healthDataList[healthDataList.length - 1].temperature!)
+//             : '';
+//     switch (diagnoseTemperatureIssue) {
+//       case 'Low body temperature':
+//         bodyTemperatureStatus = 1;
+//         break;
+//       case 'Normal body temperature':
+//         bodyTemperatureStatus = 0;
+//         break;
+//       case 'High body temperature':
+//         bodyTemperatureStatus = 1;
+//         break;
+//       default:
+//         bodyTemperatureStatus = -1;
+//         break;
+//     }
+//     String diagnoseOxygenSaturationIssue =
+//         healthDataList[healthDataList.length - 1].oxygen != null
+//             ? DiagnosisEngine.diagnoseOxygenSaturationIssue(
+//                 healthDataList[healthDataList.length - 1].oxygen!)
+//             : '';
+//     switch (diagnoseOxygenSaturationIssue) {
+//       case 'Low oxygen saturation':
+//         oxygenSaturationStatus = 1;
+//         break;
+//       case 'Normal oxygen saturation':
+//         oxygenSaturationStatus = 0;
+//         break;
+//       case 'High oxygen saturation':
+//         oxygenSaturationStatus = 1;
+//         break;
+//       default:
+//         oxygenSaturationStatus = -1;
+//         break;
+//     }
+
+//     //overviewStatus = 0;
+
+//     print(heartRateStatus);
+//   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -97,7 +230,7 @@ class _PatientCardState extends State<PatientCard> {
                       style: const TextStyle(fontSize: 16),
                     ),
                     Text(
-                      'Diagnose: ${widget.diagnose}',
+                      'Diagnose: ${widget.name}',
                       style: const TextStyle(fontSize: 16),
                     )
                   ],

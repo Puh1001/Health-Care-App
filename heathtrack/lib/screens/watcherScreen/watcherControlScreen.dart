@@ -25,7 +25,7 @@ class _WatcherControlScreenState extends State<WatcherControlScreen> {
     super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        Provider.of<UserProvider>(context).setWatcher();
+        Provider.of<UserProvider>(context, listen: false).setWatcher();
       }
     });
   }

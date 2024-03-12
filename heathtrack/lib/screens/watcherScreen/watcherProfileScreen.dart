@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -19,22 +20,54 @@ class _WatcherProfileScreenState extends State<WatcherProfileScreen> {
   final ProfileService profileService = ProfileService();
   var profileDataList = [];
 
+  Timer? _pollingTimer;
+
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
-    fetchWatcherProfileData();
+    fetchProfileData();
   }
 
-  Future fetchWatcherProfileData() async {
+  @override
+  void dispose() {
+    _pollingTimer?.cancel();
+    super.dispose();
+  }
+
+  fetchProfileData() async {
     try {
       profileDataList = await profileService.fetchWatcherProfileData(
-          context: context, userId: Provider.of<UserProvider>(context).user.id);
-      if (mounted) {
-        setState(() {});
-      }
+          context: context,
+          userId: Provider.of<UserProvider>(context, listen: false).user.id);
+      processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
+
+      // Bắt đầu bộ đếm thời gian long polling
+      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+        try {
+          final updatedHealthData =
+              await profileService.fetchWatcherProfileData(
+                  context: context,
+                  userId: Provider.of<UserProvider>(context, listen: false)
+                      .user
+                      .id);
+          if (updatedHealthData != profileDataList) {
+            // Cập nhật dữ liệu và giao diện nếu nhận được dữ liệu mới
+            profileDataList = updatedHealthData;
+            processHealthData();
+          }
+        } catch (err) {
+          showSnackBar(context, err.toString());
+        }
+      });
     } catch (err) {
       showSnackBar(context, err.toString());
     }
+  }
+
+  processHealthData() {
+    if (mounted) {
+      setState(() {});
+    } // Cập nhật giao diện
   }
 
   @override
@@ -141,8 +174,47 @@ class _WatcherProfileScreenState extends State<WatcherProfileScreen> {
                         Infor(
                           'Phone number',
                           "${profileDataList[0].phoneNumber}",
-                          canEdit: false,
-                          onTouch: () {},
+                          onTouch: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext) {
+                                  TextEditingController contentController =
+                                      TextEditingController();
+                                  return AlertDialog(
+                                    title: const Text("Edit phone number"),
+                                    content: TextField(
+                                      keyboardType: TextInputType.number,
+                                      controller: contentController,
+                                      decoration: InputDecoration(
+                                          hintText:
+                                              "${profileDataList[0].phoneNumber}"),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            profileService
+                                                .updatePhoneNumberProfile(
+                                                    context: context,
+                                                    phoneNumber:
+                                                        contentController.text,
+                                                    userId: Provider.of<
+                                                                UserProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .user
+                                                        .id);
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text("OK")),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text("Cancel")),
+                                    ],
+                                  );
+                                });
+                          },
                         ),
                         Infor(
                           'Email',

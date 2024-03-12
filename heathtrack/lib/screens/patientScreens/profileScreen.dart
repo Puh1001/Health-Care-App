@@ -274,13 +274,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     return AlertDialog(
                                       title: const Text("Edit Blood Type"),
                                       content: TextField(
-                                        keyboardType: TextInputType.number,
-                                        controller: contentController,
-                                      ),
+                                          keyboardType: TextInputType.number,
+                                          controller: contentController,
+                                          decoration: InputDecoration(
+                                              hintText:
+                                                  "${profileData.bloodType}")),
                                       actions: [
                                         TextButton(
                                             onPressed: () {
-                                              //patient.updateHeight(double.parse(contentController.text));
+                                              profileService
+                                                  .updateBloodTypeProfile(
+                                                      context: context,
+                                                      bloodType:
+                                                          contentController
+                                                              .text,
+                                                      userId: Provider.of<
+                                                                  UserProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .user
+                                                          .id);
                                               Navigator.of(context).pop();
                                             },
                                             child: const Text("OK")),
@@ -316,7 +329,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       actions: [
                                         TextButton(
                                             onPressed: () {
-                                              //patient.updateHeight(double.parse(contentController.text));
+                                              profileService
+                                                  .updateHeightProfile(
+                                                      context: context,
+                                                      height: double.parse(
+                                                          contentController
+                                                              .text),
+                                                      userId: Provider.of<
+                                                                  UserProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .user
+                                                          .id);
                                               Navigator.of(context).pop();
                                             },
                                             child: const Text("OK")),
@@ -352,7 +376,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       actions: [
                                         TextButton(
                                             onPressed: () {
-                                              //patient.updateWeight(double.parse(contentController.text));
+                                              profileService
+                                                  .updateWeightProfile(
+                                                      context: context,
+                                                      weight: double.parse(
+                                                          contentController
+                                                              .text),
+                                                      userId: Provider.of<
+                                                                  UserProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .user
+                                                          .id);
                                               Navigator.of(context).pop();
                                             },
                                             child: Text("OK")),

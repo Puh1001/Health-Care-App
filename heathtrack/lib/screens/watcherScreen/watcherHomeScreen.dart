@@ -290,9 +290,6 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                                                         ? null
                                                         : DateTime.now().year -
                                                             e.dateOfBirth!.year,
-                                                    diagnose: e.diagnose ??
-                                                        watcher
-                                                            .lang.noInformation,
                                                     ontap: () {
                                                       Navigator.push(
                                                           context,
@@ -303,6 +300,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                                                                           e)));
                                                     },
                                                     patient: e,
+                                                    diagnose: 'Click to see!',
                                                   ))
                                               .toList(),
                                         ),
@@ -317,6 +315,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
             );
     });
   }
+
   Future _dialogAddInfo() async {
     return showDialog<void>(
       context: context,

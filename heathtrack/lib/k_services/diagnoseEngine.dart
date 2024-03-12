@@ -103,66 +103,71 @@ class DiagnosisEngine {
     String glucoseStatus = diagnoseBloodGlucoseLevelIssue(bloodGlucoseLevel);
     switch (heartStatus) {
       case "Dangerous":
-        diagnosis += "Dangerous Heart Rate\n";
+        diagnosis += "➡️Dangerous Heart Rate\n";
         break;
       case "Low heart rate":
-        diagnosis += "Low Heart Rate\n";
+        diagnosis += "➡️Low Heart Rate\n";
         break;
       case "High heart rate":
-        diagnosis += "High Heart Rate\n";
+        diagnosis += "➡️High Heart Rate\n";
         break;
       default:
+        diagnosis += '';
     }
     switch (bloodStatus) {
       case "Optimal blood pressure":
-        diagnosis += "Optimal blood pressure\n";
+        diagnosis += "➡️Optimal blood pressure\n";
         break;
       case "Prehypertension":
-        diagnosis += "Optimal blood pressure\n";
+        diagnosis += "➡️Optimal blood pressure\n";
         break;
       case "Hypertension stage 1":
-        diagnosis += "Optimal blood pressure\n";
+        diagnosis += "➡️Optimal blood pressure\n";
         break;
       case "Hypertension stage 2":
-        diagnosis += "Optimal blood pressure\n";
+        diagnosis += "➡️Optimal blood pressure\n";
         break;
       case "Hypertension stage 3":
-        diagnosis += "Optimal blood pressure\n";
+        diagnosis += "➡️Optimal blood pressure\n";
         break;
       case "Isolated systolic hypertension":
-        diagnosis += "Isolated systolic hypertension\n";
+        diagnosis += "➡️Isolated systolic hypertension\n";
         break;
       case "Optimal blood pressure":
-        diagnosis += "Unable to diagnose blood pressure\n";
+        diagnosis += "➡️Unable to diagnose blood pressure\n";
         break;
       default:
+        diagnosis += '';
     }
     switch (oxyStatus) {
       case "Low oxygen saturation":
-        diagnosis += "Low oxygen saturation\n";
+        diagnosis += "➡️Low oxygen saturation\n";
         break;
       case "High oxygen saturation":
-        diagnosis += "Low oxygen saturation\n";
+        diagnosis += "➡️Low oxygen saturation\n";
         break;
       default:
+        diagnosis += '';
     }
     switch (tempStatus) {
       case 'Low body temperature':
-        diagnosis += 'Low body temperature\n';
+        diagnosis += '➡️Low body temperature\n';
         break;
       case 'High body temperature':
-        diagnosis += 'High body temperature\n';
+        diagnosis += '➡️High body temperature\n';
         break;
       default:
+        diagnosis += '';
     }
     switch (tempStatus) {
       case 'Low blood glucose level':
-        diagnosis += 'Low blood glucose level\n';
+        diagnosis += '➡️Low blood glucose level\n';
         break;
       case 'High blood glucose level':
-        diagnosis += 'High blood glucose level\n';
+        diagnosis += '➡️High blood glucose level\n';
         break;
       default:
+        diagnosis += '';
     }
     // if (temperature >= 37.0 &&
     //     bloodPressure[0] >= 140 &&

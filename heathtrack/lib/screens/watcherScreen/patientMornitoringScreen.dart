@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:heathtrack/k_services/diagnoseEngine.dart';
+import 'package:heathtrack/k_services/getEachHealthData.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/screens/watcherScreen/detailPatientInfoScreen.dart';
+import 'package:heathtrack/services/localNotifications.dart';
 import 'package:heathtrack/widgets/healthIndicators.dart';
 import 'package:provider/provider.dart';
 
@@ -21,8 +24,9 @@ class PatientMornitoringScreen extends StatefulWidget {
 }
 
 class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
-  final WatcherService patientServices = WatcherService();
-  var healthDataList = [];
+  final WatcherService watcherService = WatcherService();
+
+  var healthDataList;
 
   Timer? _pollingTimer;
 
@@ -40,14 +44,14 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
 
   fetchHealthData() async {
     try {
-      healthDataList = await patientServices.fetchHeathDataInWatcher(
+      healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patient.id);
       processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
 
       // Bắt đầu bộ đếm thời gian long polling
       _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
         try {
-          final updatedHealthData = await patientServices
+          final updatedHealthData = await watcherService
               .fetchHeathDataInWatcher(context, widget.patient.id);
           if (updatedHealthData != healthDataList) {
             // Cập nhật dữ liệu và giao diện nếu nhận được dữ liệu mới
@@ -65,27 +69,56 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
 
   processHealthData() {
     if (mounted) {
+      listHeartData = getEachHealthData.getListHeartRate(healthDataList);
+      listBloodData = getEachHealthData.getListBloodPressure(healthDataList);
+      listOxyData = getEachHealthData.getListOxygen(healthDataList);
+      listTempData = getEachHealthData.getListTemperature(healthDataList);
+      listGlucoseData = getEachHealthData.getListGlucose(healthDataList);
+
       setState(() {});
     }
   }
 
-  // @override
-  // didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   fetchHealthData();
-  // }
+  GetEachHealthData getEachHealthData = GetEachHealthData();
 
-  // fetchHealthData() async {
-  //   try {
-  // healthDataList = await patientServices.fetchHeathDataInWatcher(
-  //     context, widget.patient.id);
-  //     if (mounted) {
-  //       setState(() {});
-  //     }
-  //   } catch (err) {
-  //     showSnackBar(context, err.toString());
-  //   }
-  // }
+  List<Data> listHeartData = [];
+  List<Data2> listBloodData = [];
+  List<Data> listOxyData = [];
+  List<Data> listTempData = [];
+  List<Data> listGlucoseData = [];
+
+  String statusDiagnose() {
+    String diagnose;
+    int heartRate = (listHeartData.isEmpty
+            ? 0
+            : listHeartData[listHeartData.length - 1].value)!
+        .toInt();
+    List<int> bloodStatus = listBloodData.isEmpty
+        ? [0, 0]
+        : [
+            listBloodData[listBloodData.length - 1].val1.toInt(),
+            listBloodData[listBloodData.length - 1].val2.toInt(),
+          ];
+    double oxyStatus =
+        (listOxyData.isEmpty ? 0 : listOxyData[listOxyData.length - 1].value)!;
+    double tempStatus = (listTempData.isEmpty
+        ? 0
+        : listTempData[listTempData.length - 1].value)!;
+    double glucoseStatus = (listGlucoseData.isEmpty
+        ? 0
+        : listGlucoseData[listGlucoseData.length - 1].value)!;
+    diagnose = DiagnosisEngine.diagnoseHealth(
+        tempStatus, bloodStatus, heartRate, glucoseStatus, oxyStatus);
+    if (diagnose.isNotEmpty) {
+      localNotifications.showNotification(
+          title: "Dangerous !!",
+          body: diagnose,
+          payload: "Something is not right 😔🤔");
+    } else {
+      diagnose += "Everything Good !!";
+    }
+    return diagnose;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +238,7 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                                 width: 5,
                               ),
                               Text(
-                                '${user.lang.diagnose}: ${widget.patient.diagnose}',
+                                'Diagnose: ${statusDiagnose()}',
                                 style: const TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,
@@ -220,7 +253,7 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  healthDataList.isEmpty
+                  healthDataList == null
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )

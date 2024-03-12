@@ -33,27 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Data> listTempData = [];
   List<Data> listGlucoseData = [];
 
-  // @override
-  // didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   fetchHealthData();
-  // }
-
-  // fetchHealthData() async {
-  //   try {
-  //     healthDataList = await patientServices.fetchHeathData(context);
-  //     listHeartData = getEachHealthData.getListHeartRate(healthDataList);
-  //     listBloodData = getEachHealthData.getListBloodPressure(healthDataList);
-  //     listOxyData = getEachHealthData.getListOxygen(healthDataList);
-  //     listTempData = getEachHealthData.getListTemperature(healthDataList);
-  //     listGlucoseData = getEachHealthData.getListGlucose(healthDataList);
-  //     if (mounted) {
-  //       setState(() {});
-  //     }
-  //   } catch (err) {
-  //     showSnackBar(context, err.toString());
-  //   }
-  // }
   Timer? _pollingTimer;
 
   @override
@@ -124,21 +103,23 @@ class _HomeScreenState extends State<HomeScreen> {
         : listGlucoseData[listGlucoseData.length - 1].value)!;
     diagnose = DiagnosisEngine.diagnoseHealth(
         tempStatus, bloodStatus, heartRate, glucoseStatus, oxyStatus);
-    localNotifications.showNotification(
-        title: "Dangerous !!",
-        body: diagnose,
-        payload: "Something is not right 😔🤔");
+    if (diagnose.isNotEmpty) {
+      localNotifications.showNotification(
+          title: "Dangerous !!",
+          body: diagnose,
+          payload: "Something is not right 😔🤔");
+    } else {
+      diagnose += "Everything Good !!";
+    }
     return diagnose;
   }
 
   String statusAdvice(String diagnose) {
     String advice;
-    switch (diagnose) {
-      case "Good health 🌟🌿" || "Normal health 🌟":
-        advice = "Everything well 🌟🌿";
-        break;
-      default:
-        advice = "Please take care 🌿🌟";
+    if (diagnose.isEmpty) {
+      advice = "Everything well 🌟🌿";
+    } else {
+      advice = "Please take care 🌿🌟";
     }
     return advice;
   }

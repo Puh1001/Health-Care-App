@@ -151,7 +151,7 @@ class ProfileService {
     required BuildContext context,
     required userId,
   }) async {
-    final userProvider = Provider.of<UserProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<WatcherProflie> watcherProfileList = [];
     try {
       http.Response res = await http.get(
@@ -249,6 +249,90 @@ class ProfileService {
         context: context,
         onSucess: () {
           showSnackBar(context, 'Your phone number update sucessfully !!');
+        },
+      );
+    } catch (err) {
+      showSnackBar(context, err.toString());
+    }
+  }
+
+  // UPDATE BLOOD TYPE
+  void updateBloodTypeProfile({
+    required BuildContext context,
+    required String bloodType,
+    required String userId,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      http.Response resp =
+          await http.patch(Uri.parse('$uri/api/update-profile?userId=$userId'),
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'x-auth-token': userProvider.user.token,
+              },
+              body: jsonEncode({"bloodType": bloodType}));
+
+      httpErrorHandle(
+        response: resp,
+        context: context,
+        onSucess: () {
+          showSnackBar(context, 'Your blood type update sucessfully !!');
+        },
+      );
+    } catch (err) {
+      showSnackBar(context, err.toString());
+    }
+  }
+
+  // UPDATE HEIGHT
+  void updateHeightProfile({
+    required BuildContext context,
+    required double height,
+    required String userId,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      http.Response resp =
+          await http.patch(Uri.parse('$uri/api/update-profile?userId=$userId'),
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'x-auth-token': userProvider.user.token,
+              },
+              body: jsonEncode({"height": height}));
+
+      httpErrorHandle(
+        response: resp,
+        context: context,
+        onSucess: () {
+          showSnackBar(context, 'Your blood type update sucessfully !!');
+        },
+      );
+    } catch (err) {
+      showSnackBar(context, err.toString());
+    }
+  }
+
+  // UPDATE WEIGHT
+  void updateWeightProfile({
+    required BuildContext context,
+    required double weight,
+    required String userId,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      http.Response resp =
+          await http.patch(Uri.parse('$uri/api/update-profile?userId=$userId'),
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'x-auth-token': userProvider.user.token,
+              },
+              body: jsonEncode({"weight": weight}));
+
+      httpErrorHandle(
+        response: resp,
+        context: context,
+        onSucess: () {
+          showSnackBar(context, 'Your blood type update sucessfully !!');
         },
       );
     } catch (err) {
