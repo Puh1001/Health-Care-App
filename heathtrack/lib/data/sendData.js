@@ -3,7 +3,7 @@ const data = require("./data.json");
 
 function sendObjectToServer(objectToSend) {
   objectToSend.timestamp = Date.now();
-  fetch("http://localhost:8080/api/heath-data", {
+  fetch("http://localhost:3000/api/heath-data", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -24,7 +24,7 @@ function sendObjectToServer(objectToSend) {
 
 function sendObjectsPeriodically() {
   let index = 0;
-  const interval = 10 * 1000; // 30 phút
+  const interval = 15 * 1000; // 30 phút
 
   const sendNextObject = () => {
     if (index < data.length) {

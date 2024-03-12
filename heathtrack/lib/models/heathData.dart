@@ -41,17 +41,6 @@ class HeathData {
   }
 
   factory HeathData.fromMap(Map<String, dynamic> map) {
-    print('${map['heartRate'].runtimeType}');
-    print('${map['spb'].runtimeType}');
-    print('${map['dpb'].runtimeType}');
-    print('${map['oxygen'].runtimeType}');
-    print('${map['temperature'].runtimeType}');
-    print('${map['glucose'].runtimeType}');
-    print('${map['step'].runtimeType}');
-    print('${map['timestamp'].runtimeType}');
-    print('${map['id'].runtimeType}');
-    print('${map['userId'].runtimeType}');
-
     int heartRate = map['heartRate'] as int;
     // print(heartRate);
     int spb = map['spb'] as int;

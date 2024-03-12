@@ -35,7 +35,7 @@ class _PatientControlScreenState extends State<PatientControlScreen> {
             final healthDataList =
                 await patientServices.fetchHeathData(context);
             if (healthDataList != null) {
-              print(healthDataList);
+              // print(healthDataList);
               setState(() {});
             } else {
               print("No health data found");

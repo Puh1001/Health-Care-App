@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../../constants/utils.dart';
 import '../../objects/patient.dart';
 import '../../widgets/deviceCard.dart';
-import '../../widgets/updateInfoView.dart';
+
 
 class WatcherHomeScreen extends StatefulWidget {
   const WatcherHomeScreen({super.key});
@@ -43,7 +43,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
         watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
       );
       processHealthData();
-      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+      _pollingTimer = Timer.periodic(const Duration(seconds: 3), (_) async {
         try {
           final updatedHealthData = await watcherService.fetchAddressPatient(
             context: context,
@@ -188,7 +188,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                                           addPatient();
                                         });
                                         Navigator.pop(context);
-                                        _dialogAddInfo();
+                                        // _dialogAddInfo();
                                       }
                                     },
                                     style: const ButtonStyle(
@@ -339,38 +339,38 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
     });
   }
 
-  Future _dialogAddInfo() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Notice:'),
-          content: const SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Create new patient !'),
-                Text('Add information to new patient ?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Okay'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => UpdateInfoView(),
-                  ),
-                );
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+//   Future _dialogAddInfo() async {
+//     return showDialog<void>(
+//       context: context,
+//       barrierDismissible: false,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           title: const Text('Notice:'),
+//           content: const SingleChildScrollView(
+//             child: ListBody(
+//               children: <Widget>[
+//                 Text('Create new patient !'),
+//                 Text('Add information to new patient ?'),
+//               ],
+//             ),
+//           ),
+//           actions: <Widget>[
+//             TextButton(
+//               child: const Text('Okay'),
+//               onPressed: () {
+//                 Navigator.of(context).pop();
+//                 Navigator.of(context).push(
+//                   MaterialPageRoute(
+//                     builder: (context) => UpdateInfoView(),
+//                   ),
+//                 );
+//               },
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
 }
 int getAge(String date) {
   int now = DateTime.now().year;
