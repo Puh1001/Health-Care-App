@@ -1,9 +1,11 @@
 const express = require("express");
 const profileRouter = express.Router();
-const patient = require("../middlewares/patientProfile");
+const auth = require("../middlewares/auth");
+const watcher = require("../middlewares/watcher");
 const Profile = require("../models/Profile");
 // ADD PATIENT PROFILE
-profileRouter.post("/api/add-profile", async (req, res) => {
+// ADD PATIENT PROFILE
+profileRouter.post("/api/add-profile", auth, async (req, res) => {
   try {
     const {
       dateOfBirth,

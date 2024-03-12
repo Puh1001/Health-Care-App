@@ -44,7 +44,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
         watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
       );
       processHealthData();
-      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+      _pollingTimer = Timer.periodic(const Duration(seconds: 3), (_) async {
         try {
           final updatedHealthData = await watcherService.fetchAddressPatient(
             context: context,

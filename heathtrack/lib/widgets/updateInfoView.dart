@@ -56,7 +56,7 @@ class _InputFormState extends State<InputForm> {
   DateTime? dateTime;
 
   void addProfile() {
-    if (image != null) {
+    if (image.isNotEmpty) {
       profileService.addProfile(
           context: context,
           gender: selectedSex,
@@ -359,11 +359,6 @@ class _InputFormState extends State<InputForm> {
                 }
                 addProfile();
                 Navigator.of(context).pop();
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const WatcherHomeScreen(),
-                  ),
-                );
               },
               child: const Text(
                 'Save',
