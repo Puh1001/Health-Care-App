@@ -328,7 +328,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
             child: ListBody(
               children: <Widget>[
                 Text('Create new patient !'),
-                Text('Would you like to add information to new patient ?'),
+                Text('Add information to new patient ?'),
               ],
             ),
           ),
@@ -344,12 +344,6 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                 );
               },
             ),
-            TextButton(
-              child: const Text('Maybe later'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
           ],
         );
       },
