@@ -1,23 +1,20 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/k_services/diagnoseEngine.dart';
 import 'package:heathtrack/k_services/getEachHealthData.dart';
 import 'package:heathtrack/objects/patient.dart';
-import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/services/localNotifications.dart';
 import 'package:heathtrack/services/watcherService.dart';
 import 'package:heathtrack/widgets/updatePatientInfoView.dart';
-import 'package:provider/provider.dart';
 import 'updateInfoView.dart';
 
 class PatientCard extends StatefulWidget {
   PatientCard(
       {super.key,
       required this.name,
-      this.age,
+      this.email,
       required this.ontap,
       this.isWoman = false,
       required this.diagnose,
@@ -25,7 +22,7 @@ class PatientCard extends StatefulWidget {
       required this.userId});
 
   String name;
-  int? age;
+  String? email;
   final Function ontap;
   var isWoman = false;
   Patient patient;
@@ -103,7 +100,7 @@ class _PatientCardState extends State<PatientCard> {
     String diagnose;
     int heartRate = (listHeartData.isEmpty
             ? 0
-            : listHeartData[listHeartData.length - 1].value)!
+            : listHeartData[listHeartData.length - 1].value)
         .toInt();
     List<int> bloodStatus = listBloodData.isEmpty
         ? [0, 0]
@@ -112,13 +109,13 @@ class _PatientCardState extends State<PatientCard> {
             listBloodData[listBloodData.length - 1].val2.toInt(),
           ];
     double oxyStatus =
-        (listOxyData.isEmpty ? 0 : listOxyData[listOxyData.length - 1].value)!;
+        (listOxyData.isEmpty ? 0 : listOxyData[listOxyData.length - 1].value);
     double tempStatus = (listTempData.isEmpty
         ? 0
-        : listTempData[listTempData.length - 1].value)!;
+        : listTempData[listTempData.length - 1].value);
     double glucoseStatus = (listGlucoseData.isEmpty
         ? 0
-        : listGlucoseData[listGlucoseData.length - 1].value)!;
+        : listGlucoseData[listGlucoseData.length - 1].value);
     diagnose = DiagnosisEngine.diagnoseHealth(
         tempStatus, bloodStatus, heartRate, glucoseStatus, oxyStatus);
     return diagnose;
@@ -190,9 +187,9 @@ class _PatientCardState extends State<PatientCard> {
                           fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      (widget.age == null)
-                          ? 'Age: No information'
-                          : 'Age: ${widget.age}',
+                      (widget.email == null)
+                          ? 'Email: No information'
+                          : 'Email: ${widget.email}',
                       style: const TextStyle(fontSize: 16),
                     ),
                     Column(

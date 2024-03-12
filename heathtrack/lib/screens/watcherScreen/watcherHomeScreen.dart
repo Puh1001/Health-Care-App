@@ -61,6 +61,21 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
     } catch (err) {
       showSnackBar(context, err.toString());
     }
+    listPatient.clear();
+    for (var i in listPatientInW) {
+      Patient patient = Patient(
+          id: '',
+          name: '',
+          email: '',
+          password: '',
+          familyCode: '',
+          address: '',
+          type: '',
+          token: '',
+          watcherId: '');
+      patient.getDataFromPatientInWatcher(i);
+      listPatient.add(patient);
+    }
   }
 
   processHealthData() {
@@ -93,23 +108,9 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    listPatient.clear();
-    for (var i in listPatientInW) {
-      Patient patient = Patient(
-          id: '',
-          name: '',
-          email: '',
-          password: '',
-          familyCode: '',
-          address: '',
-          type: '',
-          token: '',
-          watcherId: '');
-      patient.getDataFromPatientInWatcher(i);
-      listPatient.add(patient);
-    }
+
     return Consumer<UserProvider>(builder: (context, watcher, child) {
-      return listPatientInW.isEmpty
+      return listPatientInW.isEmpty || listPatient.isEmpty
           ? const Center(
               child: CircularProgressIndicator(),
             )
@@ -306,17 +307,11 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                                   child: listPatient.isEmpty
                                       ? Text('No patients yet')
                                       : Column(
-                                          children: listPatient!
+                                          children: listPatient
                                               .map((e) => PatientCard(
-                                                    isWoman:
-                                                        e.gender == 'female'
-                                                            ? true
-                                                            : false,
+                                                    isWoman: false,
                                                     name: e.name,
-                                                    age: (e.dateOfBirth == null)
-                                                        ? null
-                                                        : DateTime.now().year -
-                                                            e.dateOfBirth!.year,
+                                                    email:e.email,
                                                     ontap: () {
                                                       Navigator.push(
                                                           context,
@@ -376,4 +371,9 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
 //       },
 //     );
 //   }
+}
+int getAge(String date) {
+  int now = DateTime.now().year;
+  int age = now - int.parse(date.substring(0, 4));
+  return age;
 }

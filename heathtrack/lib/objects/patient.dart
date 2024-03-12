@@ -1,18 +1,11 @@
-import 'package:heathtrack/k_services/diagnoseEngine.dart';
-import 'package:heathtrack/models/heathData.dart';
-import 'package:heathtrack/models/patientInWatcher.dart';
 
+import 'package:heathtrack/models/patientInWatcher.dart';
 import '../models/user.dart';
 
 class Patient extends User {
   String watcherId;
   String? phoneNumber;
   DateTime? dateOfBirth;
-  String? gender;
-  double? height;
-  double? weight;
-  List<HeathData> healthDataList = [];
-
   Patient(
       {required String id,
       required String name,
@@ -25,10 +18,7 @@ class Patient extends User {
       required this.watcherId,
       this.phoneNumber,
       this.dateOfBirth,
-      this.gender,
-      this.height,
-      this.weight,
-      this.healthDataList = const []})
+    })
       : super(
           id: id,
           name: name,
@@ -39,6 +29,7 @@ class Patient extends User {
           type: type,
           token: token,
         );
+
   getDataFromPatientInWatcher(PatientInWatcher p) {
     name = p.name;
     email = p.email;
