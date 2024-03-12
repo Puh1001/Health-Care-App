@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:heathtrack/k_services/diagnoseEngine.dart';
 import 'package:heathtrack/k_services/getEachHealthData.dart';
 import 'package:heathtrack/providers/userProvider.dart';
@@ -225,10 +226,9 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                             ],
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 20,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          Wrap(
                             children: [
                               const Icon(
                                 Icons.check_circle_outline,
@@ -237,12 +237,28 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                               const SizedBox(
                                 width: 5,
                               ),
-                              Text(
-                                'Diagnose: ${statusDiagnose()}',
-                                style: const TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+                              Wrap(
+                                children: [
+                                  Text(
+                                    'Diagnose:',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      width:
+                                          5), // Khoảng trắng giữa "Diagnose:" và kết quả
+                                  Text(
+                                    '${statusDiagnose()}',
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           )
