@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../k_services/getEachHealthData.dart';
 
@@ -39,8 +40,8 @@ class Chart extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 15),
         child: LineChart(
           LineChartData(
-            minX: double.parse(minTime.toStringAsFixed(1)),
-            maxX: double.parse(maxTime.toStringAsFixed(1)),
+            minX: minTime,
+            maxX: maxTime,
             minY: min==-1? minVal: min ,
             maxY: max==-1? maxVal: max ,
             backgroundColor: Colors.white,
@@ -52,12 +53,16 @@ class Chart extends StatelessWidget {
                 color: Colors.pink,
                 dotData: const FlDotData(show: true),
               ),
+
             ],
+
             titlesData: const FlTitlesData(
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: true,
-                  //getTitlesWidget: bottomTitleWidgets
+                    interval: 0.05,
+                    reservedSize: 30,
+                    getTitlesWidget:bottomTitleWidgets
                 ),
               ),
               topTitles: AxisTitles(
@@ -68,6 +73,7 @@ class Chart extends StatelessWidget {
             ),
             gridData: const FlGridData(show: false),
             borderData: FlBorderData(show: false),
+
           ),
         ),
       ),
@@ -83,6 +89,7 @@ class Chart2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     List<Data> sysList =[];
     List<Data> diaList = [];
     for (var data in listData) {
@@ -111,47 +118,46 @@ class Chart2 extends StatelessWidget {
         .val2;
     return AspectRatio(
       aspectRatio: 2,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        child: LineChart(
-          LineChartData(
-            minX: double.parse(minTime.toStringAsFixed(1)),
-            maxX: double.parse(maxTime.toStringAsFixed(1)),
-            minY: min==-1? minVal: min ,
-            maxY: max==-1? maxVal: max ,
-            backgroundColor: Colors.white,
-            lineBarsData: [
-              LineChartBarData(
-                //spots: listData.map((e) => FlSpot(DateTime.now().hour.toDouble() +  DateTime.now().minute.toDouble()/60,e)).toList(),
-                spots: sysList.map((e) => FlSpot(e.time, e.value)).toList(),
-                isCurved: false,
-                color: Colors.pink,
-                dotData: const FlDotData(show: true),
-              ),
-              LineChartBarData(
-                //spots: listData.map((e) => FlSpot(DateTime.now().hour.toDouble() +  DateTime.now().minute.toDouble()/60,e)).toList(),
-                spots: diaList.map((e) => FlSpot(e.time, e.value)).toList(),
-                isCurved: false,
-                color: Colors.blue,
-                dotData: const FlDotData(show: true),
-              ),
-            ],
-            titlesData: const FlTitlesData(
-              bottomTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  //getTitlesWidget: bottomTitleWidgets
-                ),
-              ),
-              topTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: false,
-                ),
+      child: LineChart(
+        LineChartData(
+          minX: minTime,
+          maxX: maxTime,
+          minY: min==-1? minVal: min ,
+          maxY: max==-1? maxVal: max ,
+          backgroundColor: Colors.white,
+          lineBarsData: [
+            LineChartBarData(
+              //spots: listData.map((e) => FlSpot(DateTime.now().hour.toDouble() +  DateTime.now().minute.toDouble()/60,e)).toList(),
+              spots: sysList.map((e) => FlSpot(e.time, e.value)).toList(),
+              isCurved: false,
+              color: Colors.pink,
+              dotData: const FlDotData(show: true),
+            ),
+            LineChartBarData(
+              //spots: listData.map((e) => FlSpot(DateTime.now().hour.toDouble() +  DateTime.now().minute.toDouble()/60,e)).toList(),
+              spots: diaList.map((e) => FlSpot(e.time, e.value)).toList(),
+              isCurved: false,
+              color: Colors.blue,
+              dotData: const FlDotData(show: true),
+            ),
+          ],
+          titlesData:  const FlTitlesData(
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 40,
+                interval: 0.05,
+                getTitlesWidget:bottomTitleWidgets
               ),
             ),
-            gridData: const FlGridData(show: false),
-            borderData: FlBorderData(show: false),
+            topTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: false,
+              ),
+            ),
           ),
+          gridData: const FlGridData(show: false),
+          borderData: FlBorderData(show: false),
         ),
       ),
     );
@@ -190,20 +196,11 @@ Widget bottomTitleWidgets(double value, TitleMeta meta) {
     fontWeight: FontWeight.bold,
     fontSize: 16,
   );
-  Widget text;
-  switch (value.toInt()) {
-    case 2:
-      text = const Text('SEPT', style: style);
-      break;
-    case 7:
-      text = const Text('OCT', style: style);
-      break;
-    case 12:
-      text = const Text('DEC', style: style);
-      break;
-    default:
-      text = const Text('');
-      break;
+  Widget text = Text('');
+  for(int i=0;i<=24;i++){
+    if (value.toInt() == i){
+      text = Text('${i}h:${(60*double.parse((value - value.toInt()).toStringAsFixed(2))).toInt()}');
+    }
   }
 
   return SideTitleWidget(

@@ -13,19 +13,21 @@ class DiagnoseBar extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 20),
       padding: EdgeInsets.symmetric(vertical: 10,horizontal: 15),
       //margin: EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
+      child: Container(
+        width: MediaQuery.sizeOf(context).width,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Diagnosis:',style: TextStyle(fontSize: 18),),
+              Text('Diagnosis: ',style: TextStyle(fontSize: 18),),
+              Text(
+                diagnose ,
+                style:  TextStyle(fontSize: 18),
+              ),
             ],
           ),
-          Text(
-            diagnose ,
-            style:  TextStyle(fontSize: 18),
-          ),
-        ],
+        ),
       ),
     );
   }
