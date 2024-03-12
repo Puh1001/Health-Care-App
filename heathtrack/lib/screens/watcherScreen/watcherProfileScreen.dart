@@ -174,51 +174,8 @@ class _WatcherProfileScreenState extends State<WatcherProfileScreen> {
                         Infor(
                           'Phone number',
                           "${profileDataList[0].phoneNumber}",
-                          onTouch: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext) {
-                                  TextEditingController contentController =
-                                      TextEditingController();
-                                  contentController.text =
-                                      watcher.user.phoneNumber == null
-                                          ? ''
-                                          : '${profileDataList[0].phoneNumber}';
-                                  return AlertDialog(
-                                    title: const Text("Edit phone number"),
-                                    content: TextField(
-                                      keyboardType: TextInputType.number,
-                                      controller: contentController,
-                                      decoration: InputDecoration(
-                                          hintText:
-                                              "${profileDataList[0].phoneNumber}"),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () {
-                                            profileService
-                                                .updatePhoneNumberProfile(
-                                                    context: context,
-                                                    phoneNumber:
-                                                        contentController.text,
-                                                    userId: Provider.of<
-                                                                UserProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .user
-                                                        .id);
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text("OK")),
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text("Cancel")),
-                                    ],
-                                  );
-                                });
-                          },
+                          onTouch: () {},
+                          canEdit: false,
                         ),
                         Infor(
                           'Email',

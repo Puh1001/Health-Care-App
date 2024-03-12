@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/screens/watcherScreen/patientMornitoringScreen.dart';
@@ -56,7 +55,6 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
             processHealthData();
           }
         } catch (err) {
-          print(err);
           showSnackBar(context, err.toString());
         }
       });
@@ -112,7 +110,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
     }
     return Consumer<UserProvider>(builder: (context, watcher, child) {
       return listPatientInW.isEmpty
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : Scaffold(
