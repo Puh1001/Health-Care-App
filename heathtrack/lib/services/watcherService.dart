@@ -62,7 +62,7 @@ class WatcherService {
     required BuildContext context,
     required watcherId,
   }) async {
-    final userProvider = Provider.of<UserProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     final watcherId = userProvider.user.id;
     List<PatientInWatcher> patientList = [];
     try {
@@ -134,7 +134,7 @@ class WatcherService {
         Uri.parse('$uri/api/get-heath-data?userId=$userId'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
-          //'x-auth-token': userProvider.user.token,
+          'x-auth-token': userProvider.user.token,
         },
       );
       httpErrorHandle(

@@ -39,6 +39,8 @@ class _PatientCardState extends State<PatientCard> {
   final WatcherService watcherService = WatcherService();
 
   var healthDataList;
+  var updatedHealthData;
+  String diagnose = "";
 
   Timer? _pollingTimer;
 
@@ -48,27 +50,28 @@ class _PatientCardState extends State<PatientCard> {
     fetchHealthData();
   }
 
-  @override
-  void dispose() {
-    _pollingTimer?.cancel();
-    super.dispose();
-  }
-
   fetchHealthData() async {
     try {
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patient.id);
       processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
-
       // Bắt đầu bộ đếm thời gian long polling
-      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+      _pollingTimer = Timer.periodic(const Duration(seconds: 30), (_) async {
         try {
-          final updatedHealthData = await watcherService
-              .fetchHeathDataInWatcher(context, widget.patient.id);
+          updatedHealthData = await watcherService.fetchHeathDataInWatcher(
+              context, widget.patient.id);
           if (updatedHealthData != healthDataList) {
-            // Cập nhật dữ liệu và giao diện nếu nhận được dữ liệu mới
             healthDataList = updatedHealthData;
             processHealthData();
+            diagnose = statusDiagnose();
+            if (diagnose.isNotEmpty) {
+              localNotifications.showNotification(
+                  title: "Dangerous!! ${widget.patient.name} have",
+                  body: diagnose,
+                  payload: "Something is not right 😔🤔");
+            } else {
+              diagnose += "Everything Good !!";
+            }
           }
         } catch (err) {
           showSnackBar(context, err.toString());
@@ -98,7 +101,6 @@ class _PatientCardState extends State<PatientCard> {
   List<Data> listOxyData = [];
   List<Data> listTempData = [];
   List<Data> listGlucoseData = [];
-
   String statusDiagnose() {
     String diagnose;
     int heartRate = (listHeartData.isEmpty
@@ -121,15 +123,13 @@ class _PatientCardState extends State<PatientCard> {
         : listGlucoseData[listGlucoseData.length - 1].value)!;
     diagnose = DiagnosisEngine.diagnoseHealth(
         tempStatus, bloodStatus, heartRate, glucoseStatus, oxyStatus);
-    if (diagnose.isNotEmpty) {
-      localNotifications.showNotification(
-          title: "Dangerous!! ${widget.patient.name} have",
-          body: diagnose,
-          payload: "Something is not right 😔🤔");
-    } else {
-      diagnose += "Everything Good !!";
-    }
     return diagnose;
+  }
+
+  @override
+  void dispose() {
+    _pollingTimer?.cancel();
+    super.dispose();
   }
 
   @override

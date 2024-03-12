@@ -28,13 +28,17 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
   final WatcherService watcherService = WatcherService();
 
   var healthDataList;
+  var updatedHealthData;
+  String diagnose = "";
 
   Timer? _pollingTimer;
 
   @override
   didChangeDependencies() {
-    super.didChangeDependencies();
     fetchHealthData();
+    super.didChangeDependencies();
+    print(
+        "After didChangeDependencies: ${healthDataList == updatedHealthData}");
   }
 
   @override
@@ -47,17 +51,28 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
     try {
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patient.id);
+      print(healthDataList);
       processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
-
       // Bắt đầu bộ đếm thời gian long polling
-      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+      _pollingTimer = Timer.periodic(const Duration(seconds: 30), (_) async {
         try {
-          final updatedHealthData = await watcherService
-              .fetchHeathDataInWatcher(context, widget.patient.id);
+          updatedHealthData = await watcherService.fetchHeathDataInWatcher(
+              context, widget.patient.id);
+          print(updatedHealthData);
+          print("Before setState: ${healthDataList == updatedHealthData}");
           if (updatedHealthData != healthDataList) {
-            // Cập nhật dữ liệu và giao diện nếu nhận được dữ liệu mới
             healthDataList = updatedHealthData;
+            print("After update: ${healthDataList == updatedHealthData}");
             processHealthData();
+            diagnose = statusDiagnose();
+            if (diagnose.isNotEmpty) {
+              localNotifications.showNotification(
+                  title: "Dangerous!! ${widget.patient.name} have",
+                  body: diagnose,
+                  payload: "Something is not right 😔🤔");
+            } else {
+              diagnose += "Everything Good !!";
+            }
           }
         } catch (err) {
           showSnackBar(context, err.toString());
@@ -75,7 +90,6 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
       listOxyData = getEachHealthData.getListOxygen(healthDataList);
       listTempData = getEachHealthData.getListTemperature(healthDataList);
       listGlucoseData = getEachHealthData.getListGlucose(healthDataList);
-
       setState(() {});
     }
   }
@@ -110,14 +124,6 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
         : listGlucoseData[listGlucoseData.length - 1].value)!;
     diagnose = DiagnosisEngine.diagnoseHealth(
         tempStatus, bloodStatus, heartRate, glucoseStatus, oxyStatus);
-    if (diagnose.isNotEmpty) {
-      localNotifications.showNotification(
-          title: "Dangerous !!",
-          body: diagnose,
-          payload: "Something is not right 😔🤔");
-    } else {
-      diagnose += "Everything Good !!";
-    }
     return diagnose;
   }
 
@@ -275,7 +281,7 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                         )
                       : HealthIndicators(
                           patientId: widget.patient.id,
-                          heathData: healthDataList.isEmpty
+                          heathData: healthDataList == null
                               ? HeathData(
                                   heartRate: 0,
                                   spb: 0,
