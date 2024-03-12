@@ -3,8 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const app = express();
-const DB =
-  "mongodb+srv://hoangvn2phu:Puh1001@cluster0.crhav37.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
 require("dotenv").config();
 
 //import from another files
@@ -14,7 +13,7 @@ const heathDataRouter = require("./routers/heathData");
 const profileRouter = require("./routers/Profile");
 const port = process.env.PORT || 8080;
 const hostname = process.env.HOST_NAME;
-
+const DB = process.env.DATABASE_URL;
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
