@@ -24,7 +24,7 @@ function sendObjectToServer(objectToSend) {
 
 function sendObjectsPeriodically() {
   let index = 0;
-  const interval = 15 * 1000; // 30 phút
+  const interval = 20 * 1000; // 30 phút
 
   const sendNextObject = () => {
     if (index < data.length) {

@@ -36,7 +36,7 @@ heathDataRouter.post("/api/heath-data", async (req, res) => {
 });
 
 // GET ALL DATA (modified)
-heathDataRouter.get("/api/get-heath-data", async (req, res) => {
+heathDataRouter.get("/api/get-heath-data", auth, async (req, res) => {
   try {
     const heathData = await HeathData.find({ userId: req.query.userId });
     res.json(heathData);

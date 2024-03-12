@@ -66,7 +66,7 @@ profileRouter.patch("/api/update-profile", async (req, res) => {
 });
 
 // ADD WATCHER PROFILE
-profileRouter.post("/api/add-watcher-profile", async (req, res) => {
+profileRouter.post("/api/add-watcher-profile", auth, async (req, res) => {
   try {
     const { dateOfBirth, gender, phoneNumber, image, userId } = req.body;
     let watcherProfile = new WatcherProfile({
@@ -84,7 +84,7 @@ profileRouter.post("/api/add-watcher-profile", async (req, res) => {
 });
 
 // GET PROFILE USER( WATCHER)
-profileRouter.get("/api/get-watcher-profile", async (req, res) => {
+profileRouter.get("/api/get-watcher-profile", auth, async (req, res) => {
   try {
     const WatcherProfile = await WatcherProfile.find({
       userId: req.query.userId,

@@ -37,7 +37,7 @@ class DiagnosisEngine {
     } else if (systolic >= 140 && diastolic < 90) {
       return "Isolated systolic hypertension";
     } else {
-      return "Unable to diagnose blood pressure.";
+      return "Undiagnosable";
     }
   }
 

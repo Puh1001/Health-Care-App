@@ -9,7 +9,6 @@ import '../../constants/utils.dart';
 import '../../objects/patient.dart';
 import '../../widgets/deviceCard.dart';
 
-
 class WatcherHomeScreen extends StatefulWidget {
   const WatcherHomeScreen({super.key});
 
@@ -55,7 +54,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
             processHealthData();
           }
         } catch (err) {
-          showSnackBar(context, err.toString());
+          print(err.toString());
         }
       });
     } catch (err) {
@@ -108,7 +107,6 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer<UserProvider>(builder: (context, watcher, child) {
       return listPatientInW.isEmpty || listPatient.isEmpty
           ? const Center(
@@ -311,7 +309,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                                               .map((e) => PatientCard(
                                                     isWoman: false,
                                                     name: e.name,
-                                                    email:e.email,
+                                                    email: e.email,
                                                     ontap: () {
                                                       Navigator.push(
                                                           context,
@@ -372,6 +370,7 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
 //     );
 //   }
 }
+
 int getAge(String date) {
   int now = DateTime.now().year;
   int age = now - int.parse(date.substring(0, 4));

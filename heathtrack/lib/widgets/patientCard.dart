@@ -50,21 +50,13 @@ class _PatientCardState extends State<PatientCard> {
     try {
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patient.id);
-      // print("123+ ${healthDataList}");
-      // for (var n in healthDataList) {
-      //   print(n);
-      // }
-      processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
-      // Bắt đầu bộ đếm thời gian long polling
+      processHealthData();
       _pollingTimer = Timer.periodic(const Duration(seconds: 30), (_) async {
         try {
           final updatedHealthData = await watcherService
               .fetchHeathDataInWatcher(context, widget.patient.id);
-          // print("33333 +${updatedHealthData.length}");
-          // print("Before setState: ${healthDataList == updatedHealthData}");
           if (updatedHealthData != healthDataList) {
             healthDataList = updatedHealthData;
-            // print("After update: ${healthDataList == updatedHealthData}");
             processHealthData();
             diagnose = statusDiagnose();
             if (diagnose.isNotEmpty) {

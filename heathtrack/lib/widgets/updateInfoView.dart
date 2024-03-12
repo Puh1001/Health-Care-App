@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:heathtrack/constants/utils.dart';
 import 'package:heathtrack/providers/userProvider.dart';
+import 'package:heathtrack/screens/watcherScreen/watcherControlScreen.dart';
 import 'package:heathtrack/screens/watcherScreen/watcherHomeScreen.dart';
 import 'package:heathtrack/services/profileService.dart';
 import 'package:intl/intl.dart';
@@ -13,7 +14,7 @@ import 'package:provider/provider.dart';
 
 class UpdateInfoView extends StatelessWidget {
   var patientId;
-  UpdateInfoView({super.key, this.patientId});
+  UpdateInfoView({super.key, required this.patientId});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -356,9 +357,13 @@ class _InputFormState extends State<InputForm> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Processing Data')),
                   );
+                  addProfile();
                 }
-                addProfile();
                 Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WatcherControlScreen()));
               },
               child: const Text(
                 'Save',
