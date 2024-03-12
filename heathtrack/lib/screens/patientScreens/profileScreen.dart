@@ -76,21 +76,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } // Cập nhật giao diện
   }
 
-  // fetchProfileData() async {
-  //   try {
-  // profileData = await profileService.fetchProfileData(
-  //     context: context, userId: Provider.of<UserProvider>(context).user.id);
-  // bmi = DiagnosisEngine.calculateBMI(
-  //     profileData.weight!, profileData.height!);
-  // diagnoseBmi = DiagnosisEngine.diagnoseBMI(bmi);
-  //     if (mounted) {
-  //       setState(() {});
-  //     }
-  //   } catch (err) {
-  //     showSnackBar(context, err.toString());
-  //   }
-  // }
-
   void selectImage() async {
     var res = await pickImage();
     setState(() {

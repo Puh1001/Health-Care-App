@@ -180,6 +180,10 @@ class _WatcherProfileScreenState extends State<WatcherProfileScreen> {
                                 builder: (BuildContext) {
                                   TextEditingController contentController =
                                       TextEditingController();
+                                  contentController.text =
+                                      watcher.user.phoneNumber == null
+                                          ? ''
+                                          : '${profileDataList[0].phoneNumber}';
                                   return AlertDialog(
                                     title: const Text("Edit phone number"),
                                     content: TextField(

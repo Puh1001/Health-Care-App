@@ -300,7 +300,8 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
                                                                           e)));
                                                     },
                                                     patient: e,
-                                                    diagnose: 'Click to see!',
+                                                    diagnose: '',
+                                                    userId: e.id,
                                                   ))
                                               .toList(),
                                         ),

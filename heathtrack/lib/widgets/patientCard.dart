@@ -21,7 +21,8 @@ class PatientCard extends StatefulWidget {
       required this.ontap,
       this.isWoman = false,
       required this.diagnose,
-      required this.patient});
+      required this.patient,
+      required this.userId});
 
   String name;
   int? age;
@@ -29,140 +30,107 @@ class PatientCard extends StatefulWidget {
   var isWoman = false;
   Patient patient;
   String diagnose;
-
+  String userId;
   @override
   State<PatientCard> createState() => _PatientCardState();
 }
 
 class _PatientCardState extends State<PatientCard> {
-//   String? diagnose = '';
+  final WatcherService watcherService = WatcherService();
 
-// //status: 0 :tốt, 1: cảnh báo, 2: nguy hiểm
-//   var heartRateStatus = 0;
-//   var bloodPressureStatus = 0;
-//   var bodyTemperatureStatus = 0;
-//   var oxygenSaturationStatus = 0;
-//   var bloodGlucoseLevelStatus = 0;
-//   var overviewStatus = 0;
-//   updateStatus() {
-//     String diagnoseBloodPressureIssue =
-//         (healthDataList[healthDataList.length - 1].spb != null &&
-//                 healthDataList[healthDataList.length - 1].dbp != null)
-//             ? DiagnosisEngine.diagnoseBloodPressureIssue(
-//                 healthDataList[healthDataList.length - 1].spb! as int,
-//                 healthDataList[healthDataList.length - 1].dbp! as int)
-//             : '';
-//     switch (diagnoseBloodPressureIssue) {
-//       case "Optimal blood pressure":
-//         heartRateStatus = 0;
-//         break;
-//       case "Normal blood pressure":
-//         heartRateStatus = 0;
-//         break;
-//       case "Prehypertension":
-//         heartRateStatus = 1;
-//         break;
-//       case "Hypertension stage 1":
-//         heartRateStatus = 1;
-//         break;
-//       case "Hypertension stage 2":
-//         heartRateStatus = 2;
-//         break;
-//       case "Hypertension stage 3":
-//         heartRateStatus = 2;
-//         break;
-//       case "Isolated systolic hypertension":
-//         heartRateStatus = 1;
-//         break;
-//       default:
-//         heartRateStatus = -1;
-//         break;
-//     }
+  var healthDataList;
 
-//     String diagnoseHeartRateIssue =
-//         healthDataList[healthDataList.length - 1].heartRate != null
-//             ? DiagnosisEngine.diagnoseHeartRateIssue(
-//                 healthDataList[healthDataList.length - 1].heartRate! as int)
-//             : '';
-//     switch (diagnoseHeartRateIssue) {
-//       case 'Low heart rate':
-//         heartRateStatus = 1;
-//         break;
-//       case 'Normal heart rate':
-//         heartRateStatus = 0;
-//         break;
-//       case 'High heart rate':
-//         heartRateStatus = 1;
-//         break;
-//       case 'Dangerous':
-//         heartRateStatus = 2;
-//         break;
-//       default:
-//         heartRateStatus = -1;
-//         break;
-//     }
-//     String diagnoseBloodGlucoseLevelIssue =
-//         healthDataList[healthDataList.length - 1].glucose != null
-//             ? DiagnosisEngine.diagnoseBloodGlucoseLevelIssue(
-//                 healthDataList[healthDataList.length - 1].glucose! as double)
-//             : '';
-//     switch (diagnoseBloodGlucoseLevelIssue) {
-//       case 'Low blood glucose level':
-//         bloodGlucoseLevelStatus = 1;
-//         break;
-//       case 'Normal blood glucose level':
-//         bloodGlucoseLevelStatus = 0;
-//         break;
-//       case 'High blood glucose level':
-//         bloodGlucoseLevelStatus = 1;
-//         break;
-//       default:
-//         bloodGlucoseLevelStatus = -1;
-//         break;
-//     }
-//     String diagnoseTemperatureIssue =
-//         healthDataList[healthDataList.length - 1].temperature != null
-//             ? DiagnosisEngine.diagnoseTemperatureIssue(
-//                 healthDataList[healthDataList.length - 1].temperature!)
-//             : '';
-//     switch (diagnoseTemperatureIssue) {
-//       case 'Low body temperature':
-//         bodyTemperatureStatus = 1;
-//         break;
-//       case 'Normal body temperature':
-//         bodyTemperatureStatus = 0;
-//         break;
-//       case 'High body temperature':
-//         bodyTemperatureStatus = 1;
-//         break;
-//       default:
-//         bodyTemperatureStatus = -1;
-//         break;
-//     }
-//     String diagnoseOxygenSaturationIssue =
-//         healthDataList[healthDataList.length - 1].oxygen != null
-//             ? DiagnosisEngine.diagnoseOxygenSaturationIssue(
-//                 healthDataList[healthDataList.length - 1].oxygen!)
-//             : '';
-//     switch (diagnoseOxygenSaturationIssue) {
-//       case 'Low oxygen saturation':
-//         oxygenSaturationStatus = 1;
-//         break;
-//       case 'Normal oxygen saturation':
-//         oxygenSaturationStatus = 0;
-//         break;
-//       case 'High oxygen saturation':
-//         oxygenSaturationStatus = 1;
-//         break;
-//       default:
-//         oxygenSaturationStatus = -1;
-//         break;
-//     }
+  Timer? _pollingTimer;
 
-//     //overviewStatus = 0;
+  @override
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    fetchHealthData();
+  }
 
-//     print(heartRateStatus);
-//   }
+  @override
+  void dispose() {
+    _pollingTimer?.cancel();
+    super.dispose();
+  }
+
+  fetchHealthData() async {
+    try {
+      healthDataList = await watcherService.fetchHeathDataInWatcher(
+          context, widget.patient.id);
+      processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
+
+      // Bắt đầu bộ đếm thời gian long polling
+      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+        try {
+          final updatedHealthData = await watcherService
+              .fetchHeathDataInWatcher(context, widget.patient.id);
+          if (updatedHealthData != healthDataList) {
+            // Cập nhật dữ liệu và giao diện nếu nhận được dữ liệu mới
+            healthDataList = updatedHealthData;
+            processHealthData();
+          }
+        } catch (err) {
+          showSnackBar(context, err.toString());
+        }
+      });
+    } catch (err) {
+      showSnackBar(context, err.toString());
+    }
+  }
+
+  processHealthData() {
+    if (mounted) {
+      listHeartData = getEachHealthData.getListHeartRate(healthDataList);
+      listBloodData = getEachHealthData.getListBloodPressure(healthDataList);
+      listOxyData = getEachHealthData.getListOxygen(healthDataList);
+      listTempData = getEachHealthData.getListTemperature(healthDataList);
+      listGlucoseData = getEachHealthData.getListGlucose(healthDataList);
+
+      setState(() {});
+    }
+  }
+
+  GetEachHealthData getEachHealthData = GetEachHealthData();
+
+  List<Data> listHeartData = [];
+  List<Data2> listBloodData = [];
+  List<Data> listOxyData = [];
+  List<Data> listTempData = [];
+  List<Data> listGlucoseData = [];
+
+  String statusDiagnose() {
+    String diagnose;
+    int heartRate = (listHeartData.isEmpty
+            ? 0
+            : listHeartData[listHeartData.length - 1].value)!
+        .toInt();
+    List<int> bloodStatus = listBloodData.isEmpty
+        ? [0, 0]
+        : [
+            listBloodData[listBloodData.length - 1].val1.toInt(),
+            listBloodData[listBloodData.length - 1].val2.toInt(),
+          ];
+    double oxyStatus =
+        (listOxyData.isEmpty ? 0 : listOxyData[listOxyData.length - 1].value)!;
+    double tempStatus = (listTempData.isEmpty
+        ? 0
+        : listTempData[listTempData.length - 1].value)!;
+    double glucoseStatus = (listGlucoseData.isEmpty
+        ? 0
+        : listGlucoseData[listGlucoseData.length - 1].value)!;
+    diagnose = DiagnosisEngine.diagnoseHealth(
+        tempStatus, bloodStatus, heartRate, glucoseStatus, oxyStatus);
+    if (diagnose.isNotEmpty) {
+      localNotifications.showNotification(
+          title: "Dangerous!! ${widget.patient.name} have",
+          body: diagnose,
+          payload: "Something is not right 😔🤔");
+    } else {
+      diagnose += "Everything Good !!";
+    }
+    return diagnose;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -229,9 +197,18 @@ class _PatientCardState extends State<PatientCard> {
                           : 'Age: ${widget.age}',
                       style: const TextStyle(fontSize: 16),
                     ),
-                    Text(
-                      'Diagnose: ${widget.name}',
-                      style: const TextStyle(fontSize: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Diagnose:',
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        Text(
+                          '${statusDiagnose()}',
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      ],
                     )
                   ],
                 )),
