@@ -99,7 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
     listTempData = getEachHealthData.getListTemperature(healthDataList);
     listGlucoseData = getEachHealthData.getListGlucose(healthDataList);
 
-    setState(() {}); // Cập nhật giao diện
+    if (mounted) {
+      setState(() {});
+    } // Cập nhật giao diện
   }
 
   String statusDiagnose() {
@@ -126,11 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
         title: "Dangerous !!",
         body: diagnose,
         payload: "Something is not right 😔🤔");
-
     return diagnose;
   }
-
-  void notifications() {}
 
   String statusAdvice(String diagnose) {
     String advice;

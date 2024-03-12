@@ -64,7 +64,9 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
   }
 
   processHealthData() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   // @override

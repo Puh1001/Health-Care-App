@@ -68,7 +68,9 @@ class _HeartRateScreenState extends State<HeartRateScreen> {
 
   processHealthData() {
     listData = getEachHealthData.getListHeartRate(healthDataList);
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   // @override

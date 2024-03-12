@@ -70,7 +70,7 @@ class ProfileService {
     required BuildContext context,
     required userId,
   }) async {
-    final userProvider = Provider.of<UserProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     Proflie? profile;
     try {
       http.Response res = await http.get(
@@ -228,7 +228,7 @@ class ProfileService {
     }
   }
 
-  // UPDATE IMAGE
+  // UPDATE PHONENUMBER
   void updatePhoneNumberProfile({
     required BuildContext context,
     required String phoneNumber,

@@ -1,11 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:heathtrack/constants/utils.dart';
-import 'package:heathtrack/objects/patient.dart';
 import 'package:heathtrack/providers/userProvider.dart';
-import 'package:heathtrack/screens/patientScreens/editProfileScreen.dart';
 import 'package:heathtrack/services/profileService.dart';
-import 'package:heathtrack/services/watcherService.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +24,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var bmi;
   var diagnoseBmi;
 
+  Timer? _pollingTimer;
+
   final ProfileService profileService = ProfileService();
   @override
   didChangeDependencies() {
@@ -33,20 +33,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
     fetchProfileData();
   }
 
-  Future fetchProfileData() async {
+  @override
+  void dispose() {
+    _pollingTimer?.cancel();
+    super.dispose();
+  }
+
+  fetchProfileData() async {
     try {
       profileData = await profileService.fetchProfileData(
-          context: context, userId: Provider.of<UserProvider>(context).user.id);
+          context: context,
+          userId: Provider.of<UserProvider>(context, listen: false).user.id);
       bmi = DiagnosisEngine.calculateBMI(
           profileData.weight!, profileData.height!);
       diagnoseBmi = DiagnosisEngine.diagnoseBMI(bmi);
-      if (mounted) {
-        setState(() {});
-      }
+      processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
+
+      // Bắt đầu bộ đếm thời gian long polling
+      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+        try {
+          final updatedHealthData = await profileService.fetchProfileData(
+              context: context,
+              userId:
+                  Provider.of<UserProvider>(context, listen: false).user.id);
+          if (updatedHealthData != profileData) {
+            // Cập nhật dữ liệu và giao diện nếu nhận được dữ liệu mới
+            profileData = updatedHealthData;
+            processHealthData();
+          }
+        } catch (err) {
+          showSnackBar(context, err.toString());
+        }
+      });
     } catch (err) {
       showSnackBar(context, err.toString());
     }
   }
+
+  processHealthData() {
+    if (mounted) {
+      setState(() {});
+    } // Cập nhật giao diện
+  }
+
+  // fetchProfileData() async {
+  //   try {
+  // profileData = await profileService.fetchProfileData(
+  //     context: context, userId: Provider.of<UserProvider>(context).user.id);
+  // bmi = DiagnosisEngine.calculateBMI(
+  //     profileData.weight!, profileData.height!);
+  // diagnoseBmi = DiagnosisEngine.diagnoseBMI(bmi);
+  //     if (mounted) {
+  //       setState(() {});
+  //     }
+  //   } catch (err) {
+  //     showSnackBar(context, err.toString());
+  //   }
+  // }
 
   void selectImage() async {
     var res = await pickImage();
@@ -180,6 +223,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       actions: [
                                         TextButton(
                                             onPressed: () {
+                                              profileService
+                                                  .updatePhoneNumberProfile(
+                                                      context: context,
+                                                      phoneNumber:
+                                                          contentController
+                                                              .text,
+                                                      userId: Provider.of<
+                                                                  UserProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .user
+                                                          .id);
                                               Navigator.of(context).pop();
                                             },
                                             child: const Text("OK")),

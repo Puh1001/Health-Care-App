@@ -3,9 +3,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import '../firebase_options.dart';
-class SendNotification{
 
-}
+class SendNotification {}
+
 class PushNotifications {
   static final _firebaseMessaging = FirebaseMessaging.instance;
   // hàm gửi thông báo ra màn hình ngoài
@@ -24,13 +24,15 @@ class PushNotifications {
     print('device token: $token');
   }
 }
+
 //hàm gửi thông báo ra màn hình ngoài, nhận được thì in ra
-Future firebaseBackgroundMessage(RemoteMessage message) async{
-  if(message.notification != null){
+Future firebaseBackgroundMessage(RemoteMessage message) async {
+  if (message.notification != null) {
     // ignore: avoid_print
     print('receive notification');
   }
 }
+
 void callInitialize() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

@@ -69,7 +69,9 @@ class _GlucoseLevelScreenState extends State<GlucoseLevelScreen> {
 
   processHealthData() {
     listData = getEachHealthData.getListGlucose(healthDataList);
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   // @override

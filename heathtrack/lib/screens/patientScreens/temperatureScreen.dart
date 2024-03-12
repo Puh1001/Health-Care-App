@@ -69,7 +69,9 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
 
   processHealthData() {
     listData = getEachHealthData.getListTemperature(healthDataList);
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   // @override

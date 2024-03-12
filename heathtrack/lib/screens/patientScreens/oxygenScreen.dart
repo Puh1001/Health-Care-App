@@ -69,7 +69,9 @@ class _OxygenScreenState extends State<OxygenScreen> {
 
   processHealthData() {
     listData = getEachHealthData.getListOxygen(healthDataList);
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   // @override

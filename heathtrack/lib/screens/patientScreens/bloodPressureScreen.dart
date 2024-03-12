@@ -68,7 +68,9 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
 
   processHealthData() {
     listData = getEachHealthData.getListBloodPressure(healthDataList);
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
   // @override
   // didChangeDependencies() {
