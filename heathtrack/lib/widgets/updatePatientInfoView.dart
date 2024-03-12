@@ -18,9 +18,9 @@ class UpdatePatientInfoView extends StatelessWidget {
   var patientPassword;
   UpdatePatientInfoView(
       {super.key,
-        this.patientId,
-        required this.patientName,
-        required this.patientPassword});
+      this.patientId,
+      required this.patientName,
+      required this.patientPassword});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,9 +45,9 @@ class InputForm extends StatefulWidget {
   var patientPassWord;
   InputForm(
       {super.key,
-        required this.patientId,
-        required this.patientName,
-        required this.patientPassWord});
+      required this.patientId,
+      required this.patientName,
+      required this.patientPassWord});
 
   @override
   State<InputForm> createState() => _InputFormState();
@@ -116,7 +116,7 @@ class _InputFormState extends State<InputForm> {
             : double.parse(heightController.text),
         userId: widget.patientId,
         bloodtype:
-        selectedBlood.isEmpty ? profileData.bloodType : selectedBlood);
+            selectedBlood.isEmpty ? profileData.bloodType : selectedBlood);
   }
 
   void selectImage() async {
@@ -137,57 +137,57 @@ class _InputFormState extends State<InputForm> {
     return profileData == null
         ? Center(child: errorView())
         : Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildAvatar(),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildAvatar(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildTextField90Width(nameController,
+                        '${widget.patientName}', 'Name', TextInputType.number),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildDoB(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildTextField90Width(
+                        phoneNumberController,
+                        '${profileData.phoneNumber}',
+                        'Phone number',
+                        TextInputType.number),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildHeightAndWeight(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildBloodAndSex(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: buildButton(),
+                  ),
+                ],
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildTextField90Width(nameController,
-                  '${widget.patientName}', 'Name', TextInputType.number),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildDoB(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildTextField90Width(
-                  phoneNumberController,
-                  '${profileData.phoneNumber}',
-                  'Phone number',
-                  TextInputType.number),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildHeightAndWeight(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildBloodAndSex(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: buildButton(),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   void _showDatePicker() {
     showDatePicker(
-        context: context,
-        firstDate: DateTime(1930),
-        lastDate: DateTime.now())
+            context: context,
+            firstDate: DateTime(1930),
+            lastDate: DateTime.now())
         .then((value) {
       setState(() {
         dateTime = value!;
@@ -196,14 +196,15 @@ class _InputFormState extends State<InputForm> {
       });
     });
   }
-  Widget errorView(){
+
+  Widget errorView() {
     return Container(
       padding: EdgeInsets.only(bottom: 200),
-      height: MediaQuery.of(context).size.height*1,
+      height: MediaQuery.of(context).size.height * 1,
       // decoration: BoxDecoration(
       //   color: Colors.black
       // ),
-      child:  Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -217,10 +218,7 @@ class _InputFormState extends State<InputForm> {
           ),
           Text(
             'This patient does not has any information !',
-            style: TextStyle(
-                fontSize: 16,
-                color: Colors.red
-            ),
+            style: TextStyle(fontSize: 16, color: Colors.red),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20.0),
@@ -259,7 +257,10 @@ class _InputFormState extends State<InputForm> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => UpdateInfoView()),
+                          MaterialPageRoute(
+                              builder: (context) => UpdateInfoView(
+                                    patientId: widget.patientId,
+                                  )),
                         );
                       },
                       child: const Text(
@@ -274,6 +275,7 @@ class _InputFormState extends State<InputForm> {
       ),
     );
   }
+
   Widget buildTextField90Width(TextEditingController controller, String hint,
       String label, TextInputType keyboard) {
     return SizedBox(
@@ -305,13 +307,13 @@ class _InputFormState extends State<InputForm> {
               child: ClipOval(
                 child: image.isEmpty
                     ? Image.network(
-                  profileData.image,
-                  fit: BoxFit.cover,
-                )
+                        profileData.image,
+                        fit: BoxFit.cover,
+                      )
                     : Image.file(
-                  image[0],
-                  fit: BoxFit.cover,
-                ),
+                        image[0],
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
             Align(
@@ -422,7 +424,7 @@ class _InputFormState extends State<InputForm> {
               value: profileData.bloodType,
               items: bloodItems
                   .map((item) =>
-                  DropdownMenuItem<String>(value: item, child: Text(item)))
+                      DropdownMenuItem<String>(value: item, child: Text(item)))
                   .toList(),
               onChanged: (item) => setState(() => selectedBlood = item!)),
         ),
@@ -439,7 +441,7 @@ class _InputFormState extends State<InputForm> {
                 value: profileData.gender,
                 items: sexItems
                     .map((item) => DropdownMenuItem<String>(
-                    value: item, child: Text(item)))
+                        value: item, child: Text(item)))
                     .toList(),
                 onChanged: (item) => setState(() => selectedSex = item!)),
           ),

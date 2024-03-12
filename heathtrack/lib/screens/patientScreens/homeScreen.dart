@@ -33,6 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Data> listTempData = [];
   List<Data> listGlucoseData = [];
 
+  String diagnose = "";
+
   Timer? _pollingTimer;
 
   @override
@@ -53,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
       processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
 
       // Bắt đầu bộ đếm thời gian long polling
-      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+      _pollingTimer = Timer.periodic(const Duration(seconds: 30), (_) async {
         try {
           final updatedHealthData =
               await patientServices.fetchHeathData(context);
@@ -61,6 +63,15 @@ class _HomeScreenState extends State<HomeScreen> {
             // Cập nhật dữ liệu và giao diện nếu nhận được dữ liệu mới
             healthDataList = updatedHealthData;
             processHealthData();
+            diagnose = statusDiagnose();
+            if (diagnose.isNotEmpty) {
+              localNotifications.showNotification(
+                  title: "Dangerous !!",
+                  body: diagnose,
+                  payload: "Something is not right 😔🤔");
+            } else {
+              diagnose += "Everything Good !!";
+            }
           }
         } catch (err) {
           showSnackBar(context, err.toString());
@@ -103,14 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
         : listGlucoseData[listGlucoseData.length - 1].value)!;
     diagnose = DiagnosisEngine.diagnoseHealth(
         tempStatus, bloodStatus, heartRate, glucoseStatus, oxyStatus);
-    if (diagnose.isNotEmpty) {
-      localNotifications.showNotification(
-          title: "Dangerous !!",
-          body: diagnose,
-          payload: "Something is not right 😔🤔");
-    } else {
-      diagnose += "Everything Good !!";
-    }
     return diagnose;
   }
 

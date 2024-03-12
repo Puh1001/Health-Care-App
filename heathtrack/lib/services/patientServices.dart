@@ -20,7 +20,7 @@ class PatientServices {
         Uri.parse('$uri/api/get-heath-data?userId=$userId'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
-          //'x-auth-token': userProvider.user.token,
+          'x-auth-token': userProvider.user.token,
         },
       );
       httpErrorHandle(
