@@ -27,18 +27,17 @@ class PatientMornitoringScreen extends StatefulWidget {
 class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
   final WatcherService watcherService = WatcherService();
 
-  var healthDataList;
-  var updatedHealthData;
+  List<HeathData> healthDataList = [];
   String diagnose = "";
 
   Timer? _pollingTimer;
+
+  bool _isFetchHealthDataCalled = false;
 
   @override
   didChangeDependencies() {
     fetchHealthData();
     super.didChangeDependencies();
-    print(
-        "After didChangeDependencies: ${healthDataList == updatedHealthData}");
   }
 
   @override
@@ -51,27 +50,23 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
     try {
       healthDataList = await watcherService.fetchHeathDataInWatcher(
           context, widget.patient.id);
-      print(healthDataList);
-      processHealthData(); // Cập nhật giao diện với dữ liệu ban đầu
+      processHealthData();
       // Bắt đầu bộ đếm thời gian long polling
-      _pollingTimer = Timer.periodic(const Duration(seconds: 30), (_) async {
+      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
         try {
-          updatedHealthData = await watcherService.fetchHeathDataInWatcher(
-              context, widget.patient.id);
-          print(updatedHealthData);
-          print("Before setState: ${healthDataList == updatedHealthData}");
+          final updatedHealthData = await watcherService
+              .fetchHeathDataInWatcher(context, widget.patient.id);
           if (updatedHealthData != healthDataList) {
             healthDataList = updatedHealthData;
-            print("After update: ${healthDataList == updatedHealthData}");
             processHealthData();
             diagnose = statusDiagnose();
             if (diagnose.isNotEmpty) {
               localNotifications.showNotification(
-                  title: "Dangerous!! ${widget.patient.name} have",
+                  title: "Dangerous!!",
                   body: diagnose,
                   payload: "Something is not right 😔🤔");
             } else {
-              diagnose += "Everything Good !!";
+              diagnose = "Everything Good !!";
             }
           }
         } catch (err) {
@@ -275,13 +270,13 @@ class _PatientMornitoringScreenState extends State<PatientMornitoringScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  healthDataList == null
+                  healthDataList.isEmpty
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
                       : HealthIndicators(
                           patientId: widget.patient.id,
-                          heathData: healthDataList == null
+                          heathData: healthDataList.isEmpty
                               ? HeathData(
                                   heartRate: 0,
                                   spb: 0,

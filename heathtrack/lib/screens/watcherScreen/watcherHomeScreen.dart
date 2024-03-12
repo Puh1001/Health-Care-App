@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:heathtrack/models/patientInWatcher.dart';
 import 'package:heathtrack/providers/userProvider.dart';
 import 'package:heathtrack/screens/watcherScreen/patientMornitoringScreen.dart';
 import 'package:heathtrack/services/watcherService.dart';
@@ -21,10 +22,19 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
   List<Patient> listPatient = [];
   final WatcherService watcherService = WatcherService();
   var listPatientInW = [];
+
+  Timer? _pollingTimer;
+
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
     fetchAddressPatient();
+  }
+
+  @override
+  void dispose() {
+    _pollingTimer?.cancel();
+    super.dispose();
   }
 
   fetchAddressPatient() async {
@@ -33,12 +43,31 @@ class _WatcherHomeScreenState extends State<WatcherHomeScreen> {
         context: context,
         watcherId: Provider.of<UserProvider>(context, listen: false).user.id,
       );
-      if (mounted) {
-        setState(() {});
-      }
+      processHealthData();
+      _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+        try {
+          final updatedHealthData = await watcherService.fetchAddressPatient(
+            context: context,
+            watcherId:
+                Provider.of<UserProvider>(context, listen: false).user.id,
+          );
+          if (updatedHealthData != listPatientInW) {
+            listPatientInW = updatedHealthData;
+            processHealthData();
+          }
+        } catch (err) {
+          print(err);
+          showSnackBar(context, err.toString());
+        }
+      });
     } catch (err) {
-      print(err);
       showSnackBar(context, err.toString());
+    }
+  }
+
+  processHealthData() {
+    if (mounted) {
+      setState(() {});
     }
   }
 

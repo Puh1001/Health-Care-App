@@ -158,6 +158,9 @@ class WatcherService {
     } catch (err) {
       showSnackBar(context, err.toString());
     }
+    for (var i in heathDataList) {
+      print(i.runtimeType);
+    }
     return heathDataList;
   }
 }
