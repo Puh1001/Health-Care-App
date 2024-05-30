@@ -78,7 +78,6 @@ class HeathData {
 
   factory HeathData.fromJson(String source) {
     // ignore: avoid_print
-    print('jjjjjjjjjjjjjjjjj   ${HeathData.fromMap(json.decode(source))}');
     return HeathData.fromMap(json.decode(source) as Map<String, dynamic>);
   }
 }

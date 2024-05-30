@@ -72,6 +72,7 @@ class _LoginFormState extends State<LoginForm> {
               child: Text('Username'),
             ),
             TextFormField(
+              key: Key("emailTextFormField"),
               controller: emailController,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(
@@ -86,6 +87,7 @@ class _LoginFormState extends State<LoginForm> {
               child: Text('Password'),
             ),
             TextFormField(
+              key: Key("passwordTextFormField"),
               controller: passwordController,
               obscureText: _passwordVisible,
               // keyboardType: TextInputType.,
@@ -108,6 +110,7 @@ class _LoginFormState extends State<LoginForm> {
               child: Text('Family Code'),
             ),
             TextFormField(
+              key: Key("familyCodeTextFormField"),
               controller: familyCodeController,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(

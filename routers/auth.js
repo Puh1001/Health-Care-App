@@ -11,7 +11,12 @@ authRouter.post("/api/register", async (req, res) => {
   try {
     const { name, email, password, familyCode, type, watcherId, age } =
       req.body;
-
+    if (type !== "patient") {
+      typeWatcher = "watcher";
+    }
+    if (name === "" || email === "" || password === "" || familyCode == "") {
+      return res.status(400).json({ msg: "Do not empty text field!!" });
+    }
     const existingUser = await User.findOne({
       email,
     });
@@ -22,11 +27,9 @@ authRouter.post("/api/register", async (req, res) => {
     }
     const existingFamilyCode = await User.findOne({
       familyCode,
+      type: "watcher",
     });
-    const existingType = await User.findOne({
-      type,
-    });
-    if (existingFamilyCode && existingType == "watcher") {
+    if (existingFamilyCode) {
       return res
         .status(400)
         .json({ msg: "User with same family code already exists!" });
@@ -39,7 +42,7 @@ authRouter.post("/api/register", async (req, res) => {
       password: hashedPassword,
       name,
       familyCode,
-      type,
+      type: typeWatcher,
       watcherId,
       age,
     });
@@ -47,7 +50,7 @@ authRouter.post("/api/register", async (req, res) => {
     user = await user.save();
     res.json(user);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.json({ msg: "Internal server error" });
   }
 });
 
@@ -57,21 +60,24 @@ authRouter.post("/api/login", async (req, res) => {
   try {
     const { email, password, familyCode } = req.body;
 
+    if (email === "" || password === "" || familyCode === "") {
+      return res.status(400).json({ msg: "Do not empty text field!!" });
+    }
     const user = await User.findOne({ email });
     if (!user) {
       return res
         .status(400)
         .json({ msg: "User with this email does not exist!!" });
     }
+    const isMatch = await bcryptjs.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ msg: "Incorrect password!!" });
+    }
     const fCode = await User.findOne({ familyCode });
     if (!fCode) {
       return res
         .status(400)
         .json({ msg: "Family code with this email wrong!!" });
-    }
-    const isMatch = await bcryptjs.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ msg: "Incorrect password!!" });
     }
 
     const token = jwt.sign({ id: user._id }, "passwordKey");
@@ -82,19 +88,32 @@ authRouter.post("/api/login", async (req, res) => {
 });
 
 // TOKEN IS VALID
-
 authRouter.post("/tokenIsValid", async (req, res) => {
   try {
     const token = req.header("x-auth-token");
-    if (!token) return res.json(false);
-    const verified = jwt.verify(token, "passwordKey");
-    if (!verified) return res.json(false);
+    if (!token) {
+      return res.status(200).json(false);
+    }
+
+    let verified;
+    try {
+      verified = jwt.verify(token, "passwordKey");
+    } catch (e) {
+      return res.status(200).json(false);
+    }
+
+    if (!verified) {
+      return res.status(200).json(false);
+    }
 
     const user = await User.findById(verified.id);
-    if (!user) return res.json(false);
-    res.json(true);
+    if (!user) {
+      return res.status(200).json(false);
+    }
+
+    return res.status(200).json(true);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ msg: "Internal server error" });
   }
 });
 

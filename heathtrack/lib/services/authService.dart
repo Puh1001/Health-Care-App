@@ -13,9 +13,10 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String uri = 'http://13.211.61.1:3000';
+// String uri = 'http://192.168.154.102:3000';
 
-//String uri = 'http://192.168.154.100:3000';
+String uri = 'http://192.168.11.125:3000';
+
 // String uri = 'http://192.168.154.101:8080';
 class AuthService {
 // REGISTER

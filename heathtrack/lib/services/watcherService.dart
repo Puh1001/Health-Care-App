@@ -31,7 +31,6 @@ class WatcherService {
         name: name,
         email: email,
         password: password,
-        //age: age,
         type: type,
         familyCode: familyCode,
         watcherId: watcherId,

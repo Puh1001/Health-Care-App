@@ -169,29 +169,10 @@ class DiagnosisEngine {
       default:
         diagnosis += '';
     }
-    // if (temperature >= 37.0 &&
-    //     bloodPressure[0] >= 140 &&
-    //     bloodPressure[1] >= 90 &&
-    //     heartRate >= 100 &&
-    //     bloodGlucoseLevel >= 200 &&
-    //     bloodOxygenLevel < 95) {
-    //   diagnosis = 'Good health 🌟🌿';
-    // } else if (temperature >= 38.0 &&
-    //     bloodPressure[0] >= 140 &&
-    //     bloodPressure[1] >= 90) {
-    //   diagnosis = 'High fever and high blood pressure 🌡️💉';
-    // } else if (bloodPressure[0] >= 140 &&
-    //     bloodPressure[1] >= 90 &&
-    //     bloodOxygenLevel < 95) {
-    //   diagnosis = 'High blood pressure and oxygen deficiency 💉🩸';
-    // } else if (temperature >= 38.0 && bloodOxygenLevel < 95) {
-    //   diagnosis = 'High fever and oxygen deficiency 😷🩺';
-    // } else {
-    //   diagnosis = 'Normal health 🌟';
-    // }
 
     return diagnosis;
   }
+
 // Hàm chẩn đoán huyết áp
   static int diagnoseBloodPressure(int systolic, int diastolic) {
     if (systolic < 120 && diastolic < 80) {
@@ -207,7 +188,8 @@ class DiagnosisEngine {
   static int diagnoseHeartRate(int heartRate) {
     if (heartRate >= 60 && heartRate <= 100) {
       return 0; // Tình trạng tốt
-    } else if ((heartRate >= 101 && heartRate <= 120) || (heartRate >= 40 && heartRate <= 59)) {
+    } else if ((heartRate >= 101 && heartRate <= 120) ||
+        (heartRate >= 40 && heartRate <= 59)) {
       return 1; // Tình trạng ở mức đáng chú ý
     } else {
       return 2; // Tình trạng nguy hiểm
@@ -218,7 +200,8 @@ class DiagnosisEngine {
   static int diagnoseTemperature(double temperature) {
     if (temperature >= 36.1 && temperature <= 37.2) {
       return 0; // Tình trạng tốt
-    } else if ((temperature >= 37.3 && temperature <= 38) || (temperature >= 35 && temperature <= 36)) {
+    } else if ((temperature >= 37.3 && temperature <= 38) ||
+        (temperature >= 35 && temperature <= 36)) {
       return 1; // Tình trạng ở mức đáng chú ý
     } else {
       return 2; // Tình trạng nguy hiểm
@@ -229,7 +212,8 @@ class DiagnosisEngine {
   static int diagnoseBloodSugar(double bloodSugar) {
     if (bloodSugar >= 70 && bloodSugar <= 140) {
       return 0; // Tình trạng tốt
-    } else if ((bloodSugar >= 141 && bloodSugar <= 180) || (bloodSugar >= 50 && bloodSugar <= 69)) {
+    } else if ((bloodSugar >= 141 && bloodSugar <= 180) ||
+        (bloodSugar >= 50 && bloodSugar <= 69)) {
       return 1; // Tình trạng ở mức đáng chú ý
     } else {
       return 2; // Tình trạng nguy hiểm

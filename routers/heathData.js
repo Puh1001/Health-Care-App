@@ -45,4 +45,13 @@ heathDataRouter.get("/api/get-heath-data", auth, async (req, res) => {
   }
 });
 
+heathDataRouter.post("/delete-health-data", auth, async (req, res) => {
+  try {
+    let heathData = await HeathData.deleteMany({ userId: req.query.userId });
+
+    res.json(heathData);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 module.exports = heathDataRouter;

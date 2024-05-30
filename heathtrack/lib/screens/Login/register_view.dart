@@ -65,6 +65,7 @@ class _RegisterFormState extends State<RegisterForm> {
               child: Text('Username'),
             ),
             TextFormField(
+              key: Key('registerTextFieldUsername'),
               controller: userNameController,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(
@@ -79,6 +80,7 @@ class _RegisterFormState extends State<RegisterForm> {
               child: Text('Password'),
             ),
             TextFormField(
+              key: Key('registerTextFieldPassword'),
               controller: passwordController,
               obscureText: _passwordVisible,
               // keyboardType: TextInputType.,
@@ -103,6 +105,7 @@ class _RegisterFormState extends State<RegisterForm> {
               child: Text('Repeat your password'),
             ),
             TextFormField(
+              key: Key('registerTextFieldRepeatPassword'),
               controller: passwordCheckController,
               keyboardType: TextInputType.name,
               obscureText: _repeatPasswordVisible,
@@ -125,6 +128,7 @@ class _RegisterFormState extends State<RegisterForm> {
               child: Text('Family name'),
             ),
             TextFormField(
+              key: Key('registerTextFieldFamilyCode'),
               controller: familyCodeController,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(
@@ -139,6 +143,7 @@ class _RegisterFormState extends State<RegisterForm> {
               child: Text('Email'),
             ),
             TextFormField(
+              key: Key('registerTextFieldEmail'),
               controller: emailController,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(

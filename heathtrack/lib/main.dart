@@ -41,15 +41,24 @@ class _HeathTrackAppState extends State<HeathTrackApp> {
     authService.getUserData(context);
   }
 
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//         debugShowCheckedModeBanner: false,
+//         onGenerateRoute: (settings) => generateRoute(settings),
+//         home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+//             ? Provider.of<UserProvider>(context).user.type == 'patient'
+//                 ? const PatientControlScreen()
+//                 : const WatcherControlScreen()
+//             : const LoginView());
+//   }
+// }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: (settings) => generateRoute(settings),
-        home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-            ? Provider.of<UserProvider>(context).user.type == 'patient'
-                ? const PatientControlScreen()
-                : const WatcherControlScreen()
-            : const LoginView());
+        home: const PatientControlScreen());
   }
 }
