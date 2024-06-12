@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // String uri = 'http://192.168.154.102:3000';
 
-String uri = 'http://192.168.11.125:3000';
+String uri = 'http://20.6.128.100:3000';
 
 // String uri = 'http://192.168.154.101:8080';
 class AuthService {
